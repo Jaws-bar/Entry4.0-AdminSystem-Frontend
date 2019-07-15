@@ -1,8 +1,9 @@
 import * as React from "react";
-import * as S from "./style";
-import axios from "axios";
 import { Redirect } from "react-router-dom";
+
+import * as S from "./style";
 import EntryLogo from "../../assets/EntryDSM_LOGO.png";
+import { getUserToken } from "../../lib/api";
 
 export interface State {
   inputID: string;
@@ -19,7 +20,7 @@ class AdminCetify extends React.Component<State> {
 
   componentDidMount = () => {
     this.setState(() => {
-      if (localStorage.accessToken) {
+      if (sessionStorage.accessToken) {
         return { isLogin: true };
       } else {
         return { isLogin: false };
@@ -27,23 +28,16 @@ class AdminCetify extends React.Component<State> {
     });
   };
 
-  private inputAuthInfo = (e): void => {
+  private inputAuthInfo = (e: React.ChangeEvent<HTMLInputElement>): void => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   private authInfoSubmit = (): void => {
     if (this.state.inputID !== "" && this.state.inputPW !== "") {
-      axios
-        .post("https://api.entrydsm.hs.kr/api/v1/admin/login", {
-          email: this.state.inputID,
-          password: this.state.inputPW
-        })
-        .then(res => {
-          localStorage.setItem("accessToken", res.data.access);
-          localStorage.setItem("refreshToken", res.data.refresh);
-          this.setState(() => ({ isLogin: true }));
-        })
-        .catch(error => console.log(error));
+      getUserToken({
+        email: this.state.inputID,
+        password: this.state.inputPW
+      });
     }
   };
 
