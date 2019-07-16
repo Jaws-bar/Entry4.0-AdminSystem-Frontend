@@ -20,7 +20,7 @@ class AdminCetify extends React.Component<State> {
 
   componentDidMount = () => {
     this.setState(() => {
-      if (sessionStorage.accessToken) {
+      if (sessionStorage.getItem("accessTooken")) {
         return { isLogin: true };
       } else {
         return { isLogin: false };
@@ -37,7 +37,13 @@ class AdminCetify extends React.Component<State> {
       getUserToken({
         email: this.state.inputID,
         password: this.state.inputPW
-      });
+      })
+        .then(response => {
+          localStorage.setItem("refreshToken", response.data.refreshToken);
+          sessionStorage.setItem("accessToken", response.data.accessToken);
+          this.setState({ isLogin: true });
+        })
+        .catch(error => console.log(error));
     }
   };
 
