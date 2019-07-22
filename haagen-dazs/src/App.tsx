@@ -11,7 +11,7 @@ const App = () => {
       <GlobalStyle />
       <Switch>
         <Route path="/" exact />
-        <Route path="/login" exact component={() => LoginPage()} />
+        <Route path="/login" exact component={LoginPage} />
         <Route path="/administration" exact />
       </Switch>
     </BrowserRouter>
