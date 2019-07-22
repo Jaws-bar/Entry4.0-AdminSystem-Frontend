@@ -12,7 +12,10 @@ interface tokenType {
   refreshToken: string;
 }
 
-export async function getUserToken(body: payloadType) {
-  const response = await axios.post(`${connectionUrl}/admin/login`, body);
+export const getUserToken = async (body: payloadType) => {
+  const response = await axios.post<tokenType>(
+    `${connectionUrl}/admin/login`,
+    body
+  );
   return response.data;
-}
+};

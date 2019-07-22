@@ -38,25 +38,24 @@ class AdminCetify extends React.Component<any, State> {
   private handleInputPw = (e: React.ChangeEvent<HTMLInputElement>): void =>
     this.setState({ inputPW: e.target.value });
 
-  private authInfoSubmit = (): void => {
-    if (this.state.inputID && this.state.inputPW) {
-      getUserToken({
-        email: this.state.inputID,
-        password: this.state.inputPW
-      })
-        .then(response => {
-          localStorage.setItem("refreshToken", response.data.refreshToken);
-          // sessionStorage.setItem("accessToken", response.data.accessToken);
-          sessionStorage.setItem("accessToken", response.data.access_token);
-          this.setState({ isLogin: true });
-        })
-        .catch(error => {
-          if (error.response.status === 403) {
-            this.setState({ isFail: true });
-          } else {
-            console.log(error.response);
-          }
+  private authInfoSubmit = async () => {
+    try {
+      if (this.state.inputID && this.state.inputPW) {
+        const response = await getUserToken({
+          email: this.state.inputID,
+          password: this.state.inputPW
         });
+        localStorage.setItem("refreshToken", response.refreshToken);
+        sessionStorage.setItem("accessToken", response.access_token);
+        // sessionStorage.setItem("accessToken", response.data.accessToken);
+        this.setState({ isLogin: true });
+      }
+    } catch (error) {
+      if (error.response.status === 403) {
+        this.setState({ isFail: true });
+      } else {
+        console.log(error.response);
+      }
     }
   };
 
