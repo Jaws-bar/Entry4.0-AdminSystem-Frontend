@@ -2,7 +2,7 @@ import * as React from "react";
 import { Redirect } from "react-router-dom";
 
 import * as S from "./style";
-import EntryLogo from "../../assets/EntryDSM_LOGO.png";
+import EntryLogo from "../../assets/login-page/EntryDSM_LOGO.png";
 import { getUserToken } from "../../lib/api";
 
 export interface State {
