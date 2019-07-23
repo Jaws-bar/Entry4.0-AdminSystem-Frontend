@@ -11,7 +11,7 @@ const LoginPage = () => (
         This is the admin page of <br /> Daedeok Software Meister High School.
       </S.BackgroundDescription>
     </S.Background>
-    <AdminCertify inputID="" inputPW="" isLogin={false} />
+    <AdminCertify />
   </S.LoginContainer>
 );
 

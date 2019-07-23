@@ -4,6 +4,10 @@ interface Button {
   isActivation: boolean;
 }
 
+interface ErrorCheck {
+  isFail: boolean;
+}
+
 export const Container = styled.div`
   width: calc(100% - 750px);
   display: inline-flex;
@@ -39,11 +43,20 @@ export const CertifyDescription = styled.p`
   margin-bottom: 20px;
 `;
 
-export const CertifyInput = styled.input`
+export const CertifyInputWrapper = styled.div`
+  display: flex;
+  align-items: center;
   width: 100%;
   height: 80px;
   border-radius: 5px;
   background-color: #eaf7f7;
+  margin-bottom: 30px;
+`;
+
+export const CertifyInput = styled.input`
+  flex: 6;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
   opacity: 0.6;
   font-size: 18px;
   font-weight: 300;
@@ -51,8 +64,16 @@ export const CertifyInput = styled.input`
   letter-spacing: 0.45px;
   color: #000000;
   padding-left: 40px;
-  border: none;
-  margin-bottom: 30px;
+`;
+
+export const ErrorMessage = styled.span<ErrorCheck>`
+  flex: 4;
+  opacity: 0.6;
+  font-size: 14px;
+  font-weight: 300;
+  color: #7e0000;
+  cursor: default;
+  ${props => (props.isFail ? "display: inline" : "visibility: hidden")};
 `;
 
 export const CertifyBtn = styled.button<Button>`
@@ -70,5 +91,5 @@ export const CertifyBtn = styled.button<Button>`
   color: #ffffff;
   border: none;
   margin-top: 48px;
-  cursor: pointer;
+  cursor: ${props => (props.isActivation ? "pointer" : "default")};
 `;

@@ -7,10 +7,15 @@ interface payloadType {
 }
 
 interface tokenType {
-  accessToken: string;
+  // accessToken: string;
+  access_token: string;
   refreshToken: string;
 }
 
-export function getUserToken(body: payloadType) {
-  return axios.post<tokenType>(`${connectionUrl}/admin/login`, body);
-}
+export const getUserToken = async (body: payloadType) => {
+  const response = await axios.post<tokenType>(
+    `${connectionUrl}/admin/login`,
+    body
+  );
+  return response.data;
+};
