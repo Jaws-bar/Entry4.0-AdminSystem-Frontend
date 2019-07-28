@@ -14,10 +14,10 @@ const Header: React.FC = () => {
     <S.HeaderWrapper>
       <S.ContentWrapper>
         <Link to="/">
-          <S.EntryLogo src={Logo} alt="" />
+          <S.EntryLogo src={Logo} alt="Entry Logo" />
         </Link>
         <S.SearchInputWrapper isActivation={true}>
-          <S.SearchIcon src={SearchIconImg} alt="" />
+          <S.SearchIcon src={SearchIconImg} alt="Search Icon" />
           <S.SearchInput placeholder="검색어를 입력해주세요." />
         </S.SearchInputWrapper>
         <S.MenuList>
