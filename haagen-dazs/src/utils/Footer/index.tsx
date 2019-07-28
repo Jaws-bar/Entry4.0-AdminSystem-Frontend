@@ -6,11 +6,11 @@ import FooterLogo from "../../assets/footer-component/logo.png";
 import FacebookLogo from "../../assets/footer-component/facebook-logo.png";
 import GithubLogo from "../../assets/footer-component/github-logo.png";
 
-const Footer = () => (
+const Footer: React.FC = () => (
   <S.FooterWrapper>
     <S.ContentWrapper>
       <S.InfoWrapper>
-        <S.FooterLogo src={FooterLogo} alt="" />
+        <S.FooterLogo src={FooterLogo} alt="Entry Logo" />
         <S.Copyright>{C.COPYLIGHT}</S.Copyright>
         <S.Description>
           {C.TERMS} <br />
@@ -25,8 +25,8 @@ const Footer = () => (
         <S.IntroListItem isTitle={false}>시스템 소개</S.IntroListItem>
         <S.IntroListItem isTitle={false}>개발자 소개</S.IntroListItem>
         <li>
-          <S.SnsIcon src={FacebookLogo} alt="" />
-          <S.SnsIcon src={GithubLogo} alt="" />
+          <S.SnsIcon src={FacebookLogo} alt="Facebook Icon" />
+          <S.SnsIcon src={GithubLogo} alt="Github Icon" />
         </li>
       </S.IntroList>
     </S.ContentWrapper>
