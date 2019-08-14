@@ -28,7 +28,9 @@ export const GlobalStyle: GlobalStyleComponent<
     border: 0;
   }
 
-  html, body{
+  html, body, #root{
+    width:100%;
+    height: 100%;
     font-size: 0;
     font-family: 'NanumBarunGothic';
   }
@@ -61,6 +63,11 @@ export const GlobalStyle: GlobalStyleComponent<
       color: #000;
       text-decoration: none;
     }
+  }
+
+  button {
+    all: unset;
+    cursor: pointer;
   }
 
   input:focus,
