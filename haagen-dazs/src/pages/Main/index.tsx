@@ -18,32 +18,48 @@ class Main extends React.Component<null, State> {
     selectedItem: "대전"
   };
 
-  private regionList: Array<string> = ["대전", "전체", "전국"];
+  private regionList: Array<{ region: string; className: string }> = [
+    { region: "대전", className: "daejeon" },
+    { region: "전체", className: "all" },
+    { region: "전국", className: "nationwide" }
+  ];
 
   private handleExtend = (): void => {
     this.setState({ isExtend: !this.state.isExtend });
   };
 
-  private handleSelectRegion = (e): void => {
+  private handleSelectRegion = (className: string): void => {
     this.regionList.map(r => {
-      if (e.target.innerText === r)
-        this.setState({ selectedItem: e.target.innerText });
+      if (className.includes(r.className)) {
+        this.setState({ selectedItem: r.region });
+      }
     });
   };
 
   private handleCreateSelectBox = () => {
-    let sortedRegionList: Array<string> = this.regionList;
+    let sortedRegionList: Array<string> = ["대전", "전체", "전국"];
+    let classNameList: Array<string> = [];
     sortedRegionList.splice(
       sortedRegionList.indexOf(this.state.selectedItem),
       1
     );
     sortedRegionList.splice(0, 0, this.state.selectedItem);
 
-    return this.regionList.map((region, i) => (
+    sortedRegionList.map((r, index) => {
+      for (let i in this.regionList) {
+        if (this.regionList[i].region === r)
+          classNameList[index] = this.regionList[i].className;
+      }
+    });
+
+    return sortedRegionList.map((region, i) => (
       <S.RegionSelectItem
         key={region}
-        region={sortedRegionList[region]}
-        onClick={this.handleSelectRegion}
+        region={region}
+        onClick={({ currentTarget: { className } }) =>
+          this.handleSelectRegion(className)
+        }
+        className={classNameList[i]}
       >
         {region}
         {i === 0 && <S.SelectExtendIcon src={ReduceIcon} alt="Reduce Icon" />}
@@ -60,10 +76,7 @@ class Main extends React.Component<null, State> {
             <S.Title>입학원서 접수 현황</S.Title>
             <S.Underline />
           </S.TitleWrapper>
-          <span
-            style={{ width: "97px", height: "130px", marginTop: "36px" }}
-            onClick={this.handleExtend}
-          >
+          <S.SelectBoxWrapper onClick={this.handleExtend}>
             {this.state.isExtend ? (
               <S.SelectBox>{this.handleCreateSelectBox()}</S.SelectBox>
             ) : (
@@ -72,7 +85,7 @@ class Main extends React.Component<null, State> {
                 <S.SelectExtendIcon src={ExtendIcon} alt="Extend Icon" />
               </S.RegionSelectItem>
             )}
-          </span>
+          </S.SelectBoxWrapper>
         </S.SelectWrapper>
         <CompetitionView selectedItem={this.state.selectedItem} />
       </S.StatisticContainer>
