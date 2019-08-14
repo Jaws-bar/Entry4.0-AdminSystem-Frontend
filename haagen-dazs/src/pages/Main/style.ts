@@ -77,6 +77,12 @@ export const SelectExtendIcon = styled.img`
   margin-left: 7px;
 `;
 
+export const SelectBoxWrapper = styled.span`
+  width: 97px;
+  height: 130px;
+  margin-top: 36px;
+`;
+
 export const SelectBox = styled.div`
   display: flex;
   flex-direction: column;
