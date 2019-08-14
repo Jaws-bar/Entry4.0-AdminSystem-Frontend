@@ -5,11 +5,12 @@ import * as S from "./style";
 import Logo from "../../assets/header-component/EntryDSM_LOGO.png";
 import SearchIconImg from "../../assets/header-component/ic_search.png";
 
+const clearStorage = (): void => {
+  sessionStorage.clear();
+  localStorage.clear();
+};
+
 const Header: React.FC = () => {
-  const clearStorage = (): void => {
-    sessionStorage.clear();
-    localStorage.clear();
-  };
   return (
     <S.HeaderWrapper>
       <S.ContentWrapper>

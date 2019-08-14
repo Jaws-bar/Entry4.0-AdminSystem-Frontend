@@ -1,6 +1,6 @@
 import React from "react";
-import * as S from "./style";
 
+import * as S from "./style";
 import AdminCertify from "../../components/AdminCertify";
 
 const LoginPage = () => (

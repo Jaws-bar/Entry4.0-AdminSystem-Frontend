@@ -41,7 +41,7 @@ export const SearchInputWrapper = styled.div<ISearchInput>`
   margin-right: 147px;
   display: flex;
   align-items: center;
-  ${props => (props.isActivation ? "" : "visibility: hidden")};
+  ${props => !props.isActivation && "visibility: hidden"};
 `;
 
 export const SearchIcon = styled.img`
@@ -75,7 +75,7 @@ export const UnderLine = styled.div<IMenuListItem>`
   position: absolute;
   bottom: 15px;
   z-index: -1000;
-  ${props => (props.isActivation ? "" : "visibility: hidden")};
+  ${props => !props.isActivation && "visibility: hidden"};
 
   &:hover {
     visibility: visible;
