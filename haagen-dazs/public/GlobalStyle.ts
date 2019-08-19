@@ -76,4 +76,29 @@ export const GlobalStyle: GlobalStyleComponent<
   button:focus {
     outline: none;
   }
+
+  .contact-table tr:first-child td{
+    border-right: 0;
+  }
+
+  .contact-table tr td:first-child {
+  border-left: 0;
+}
+.contact-table tr:last-child td {
+  border-bottom: 0;
+}
+.contact-table tr td:last-child {
+  border-right: 0;
+}
+
+.attendance-table tr:first-child td{
+    border-right: 0;
+  }
+
+  .attendance-table tr td:first-child {
+  border-left: 0;
+}
+.attendance-table tr td:last-child {
+  border-right: 0;
+}
 `;
