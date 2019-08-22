@@ -3,7 +3,9 @@ import styled from "styled-components";
 export const IdPhoto = styled.img`
   width: 150px;
   height: 100%;
-  border: solid 0.5px #707070;
+  object-fit: contain;
+  border-radius: 3px;
+  border: solid 2px rgba(101, 187, 183, 0.3);
   margin-right: 54px;
 `;
 
