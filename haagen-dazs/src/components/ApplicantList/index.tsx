@@ -2,7 +2,7 @@ import * as React from "react";
 
 import * as S from "./style";
 
-const ApplicantList = () => (
+const ApplicantList: React.FC = () => (
   <S.ApplicantListWrapper>
     <table style={{ width: "100%" }}>
       <S.ApplicantListHeader>
