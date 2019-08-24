@@ -1,7 +1,6 @@
 import * as React from "react";
 
-// import { Footer } from "../../utils";
-// import Header from "../../utils/Header";
+import { Header, Footer } from "../../utils";
 import * as S from "./style";
 import CompetitionView from "../../components/CompetitonView";
 import ExtendIcon from "../../assets/Main-page/ic_down.png";
@@ -69,26 +68,30 @@ class Main extends React.Component<null, State> {
 
   render() {
     return (
-      <S.StatisticContainer>
-        <S.SelectWrapper>
-          <S.SubTitle>Entry DSM 2019 Admin page</S.SubTitle>
-          <S.TitleWrapper>
-            <S.Title>입학원서 접수 현황</S.Title>
-            <S.Underline />
-          </S.TitleWrapper>
-          <S.SelectBoxWrapper onClick={this.handleExtend}>
-            {this.state.isExtend ? (
-              <S.SelectBox>{this.handleCreateSelectBox()}</S.SelectBox>
-            ) : (
-              <S.RegionSelectItem region={this.state.selectedItem}>
-                {this.state.selectedItem}
-                <S.SelectExtendIcon src={ExtendIcon} alt="Extend Icon" />
-              </S.RegionSelectItem>
-            )}
-          </S.SelectBoxWrapper>
-        </S.SelectWrapper>
-        <CompetitionView selectedItem={this.state.selectedItem} />
-      </S.StatisticContainer>
+      <>
+        <Header />
+        <S.StatisticContainer>
+          <S.SelectWrapper>
+            <S.SubTitle>Entry DSM 2019 Admin page</S.SubTitle>
+            <S.TitleWrapper>
+              <S.Title>입학원서 접수 현황</S.Title>
+              <S.Underline />
+            </S.TitleWrapper>
+            <S.SelectBoxWrapper onClick={this.handleExtend}>
+              {this.state.isExtend ? (
+                <S.SelectBox>{this.handleCreateSelectBox()}</S.SelectBox>
+              ) : (
+                <S.RegionSelectItem region={this.state.selectedItem}>
+                  {this.state.selectedItem}
+                  <S.SelectExtendIcon src={ExtendIcon} alt="Extend Icon" />
+                </S.RegionSelectItem>
+              )}
+            </S.SelectBoxWrapper>
+          </S.SelectWrapper>
+          <CompetitionView selectedItem={this.state.selectedItem} />
+        </S.StatisticContainer>
+        <Footer />
+      </>
     );
   }
 }
