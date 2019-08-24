@@ -25,7 +25,7 @@ class EditButtonContainer extends React.Component<any, State> {
           id="application-arrival-status"
         />
         <label htmlFor="application-arrival-status">
-          <S.FirstCheckBox style={{ marginRight: "24px" }}></S.FirstCheckBox>
+          <S.ApplicationArrivalCheckBox />
         </label>
         <S.CheckboxTitle>결제여부</S.CheckboxTitle>
         <S.StatusCheckbox
@@ -34,7 +34,7 @@ class EditButtonContainer extends React.Component<any, State> {
           id="payment-status"
         />
         <label htmlFor="payment-status">
-          <S.SecondCheckBox style={{ marginRight: "127px" }} />
+          <S.PaymentCheckBox />
         </label>
         <S.SubmissionCancelBtn>최종제출 취소</S.SubmissionCancelBtn>
       </S.EditButtonWrapper>

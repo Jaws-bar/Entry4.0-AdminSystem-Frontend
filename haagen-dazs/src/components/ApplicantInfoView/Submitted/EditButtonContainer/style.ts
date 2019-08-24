@@ -34,11 +34,11 @@ const CheckBox = styled.span`
   cursor: pointer;
 `;
 
-export const FirstCheckBox = styled(CheckBox)`
+export const ApplicationArrivalCheckBox = styled(CheckBox)`
   margin-right: 24px;
 `;
 
-export const SecondCheckBox = styled(CheckBox)`
+export const PaymentCheckBox = styled(CheckBox)`
   margin-right: 127px;
 `;
 
