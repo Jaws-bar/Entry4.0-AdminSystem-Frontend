@@ -5,14 +5,14 @@ import * as S from "./style";
 import Checked from "../../../../assets/admin-page/checked.png";
 
 interface State {
-  applicationArrivalStatus: boolean;
-  paymentStatus: boolean;
+  isApplicationArrived: boolean;
+  isPaymentCompleted: boolean;
 }
 
 class EditButtonContainer extends React.Component<any, State> {
   state: State = {
-    applicationArrivalStatus: false,
-    paymentStatus: false
+    isApplicationArrived: false,
+    isPaymentCompleted: false
   };
 
   render() {
@@ -25,7 +25,7 @@ class EditButtonContainer extends React.Component<any, State> {
           id="application-arrival-status"
         />
         <label htmlFor="application-arrival-status">
-          <S.CheckBox style={{ marginRight: "24px" }}></S.CheckBox>
+          <S.FirstCheckBox style={{ marginRight: "24px" }}></S.FirstCheckBox>
         </label>
         <S.CheckboxTitle>결제여부</S.CheckboxTitle>
         <S.StatusCheckbox
@@ -34,7 +34,7 @@ class EditButtonContainer extends React.Component<any, State> {
           id="payment-status"
         />
         <label htmlFor="payment-status">
-          <S.CheckBox style={{ marginRight: "127px" }} />
+          <S.SecondCheckBox style={{ marginRight: "127px" }} />
         </label>
         <S.SubmissionCancelBtn>최종제출 취소</S.SubmissionCancelBtn>
       </S.EditButtonWrapper>

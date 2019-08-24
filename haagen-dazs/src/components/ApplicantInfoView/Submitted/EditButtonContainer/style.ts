@@ -26,12 +26,20 @@ export const SubmissionCancelBtn = styled.button`
   text-align: center;
 `;
 
-export const CheckBox = styled.span`
+const CheckBox = styled.span`
   display: inline-block;
   width: 20px;
   height: 20px;
   background-image: url(${Checkbox});
   cursor: pointer;
+`;
+
+export const FirstCheckBox = styled(CheckBox)`
+  margin-right: 24px;
+`;
+
+export const SecondCheckBox = styled(CheckBox)`
+  margin-right: 127px;
 `;
 
 export const StatusCheckbox = styled.input`
