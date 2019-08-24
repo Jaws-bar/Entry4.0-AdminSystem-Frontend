@@ -28,9 +28,9 @@ export const SelectUnderline = styled.div`
   z-index: 1;
 `;
 
-export const DocumentContainer = styled.div`
+export const DocumentContent = styled.div`
   width: 100%;
-  min-height: 100px;
+  min-height: 50px;
   font-size: 16px;
   font-weight: 300;
   line-height: 2.25;

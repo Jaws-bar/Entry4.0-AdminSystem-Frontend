@@ -14,6 +14,8 @@ export const HeaderWrapper = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  z-index: 1;
 `;
 
 export const ContentWrapper = styled.div`
