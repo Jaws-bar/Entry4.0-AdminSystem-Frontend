@@ -14,7 +14,7 @@ export const BaseInfoContainer = styled.div`
   display: flex;
 `;
 
-export const BaseInfoIine = styled.div`
+export const BaseInfoLine = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
@@ -28,7 +28,8 @@ export const BaseInfoName = styled.p`
   margin-right: 18px;
 `;
 
-export const BaseInfo = styled.span`
+export const BaseInfo = styled.p`
+  display: inline;
   font-size: 16px;
   color: #000000;
   margin-right: 12px;
@@ -40,4 +41,16 @@ export const BaseTextInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding-bottom: 15px;
+`;
+
+export const AddressInfoLine = styled(BaseInfoLine)`
+  flex-direction: column;
+  align-items: normal;
+  justify-content: center;
+
+  > p {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
 `;
