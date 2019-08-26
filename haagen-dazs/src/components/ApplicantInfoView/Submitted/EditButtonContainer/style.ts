@@ -26,7 +26,7 @@ export const SubmissionCancelBtn = styled.button`
   text-align: center;
 `;
 
-const CheckBox = styled.span`
+const CheckBoxIcon = styled.span`
   display: inline-block;
   width: 20px;
   height: 20px;
@@ -34,11 +34,11 @@ const CheckBox = styled.span`
   cursor: pointer;
 `;
 
-export const ApplicationArrivalCheckBox = styled(CheckBox)`
+export const ApplicationArrivalCheckBox = styled(CheckBoxIcon)`
   margin-right: 24px;
 `;
 
-export const PaymentCheckBox = styled(CheckBox)`
+export const PaymentCheckBox = styled(CheckBoxIcon)`
   margin-right: 127px;
 `;
 
