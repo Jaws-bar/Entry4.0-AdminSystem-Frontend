@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-import CheckBoxImg from "../../assets/admin-page/checkbox.png";
-
 export const CreteriaSelectWrapper = styled.div`
   width: 100%;
   height: 97px;
@@ -21,28 +19,6 @@ export const CheckBoxFirstLineWrapper = styled.div`
 
 export const CheckBoxSecondLineWrapper = styled(CheckBoxFirstLineWrapper)`
   margin-top: 18px;
-`;
-
-export const CheckBox = styled.div`
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  background-image: url(${CheckBoxImg});
-  margin-right: 12px;
-  vertical-align: top;
-  cursor: pointer;
-`;
-
-export const UnseenRealCheckBox = styled.input`
-  display: none;
-`;
-
-export const CreteriaTitle = styled.p`
-  display: inline-block;
-  font-size: 12px;
-  color: #3f3f3f;
-  margin-right: 24px;
-  cursor: pointer;
 `;
 
 export const ExcelOutputBtn = styled.button`
