@@ -9,13 +9,13 @@ export const AdminContentContainer = styled.div`
 `;
 
 export const ApplicantListContainer = styled.div`
-  width: 1100px;
-  height: calc(100vh - 80px);
+  width: 57.3%;
+  height: 100%;
   border-right: 1px solid rgba(0, 0, 0, 0.3);
   background-color: #fdfdfd;
 `;
 
 export const ApplicantInfoView = styled.div`
-  width: calc(100% - 1100px);
+  width: 42.7%;
   background-color: #fdfdfd;
 `;

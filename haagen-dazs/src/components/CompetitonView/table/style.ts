@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const TableContainer = styled.div`
-  width: 592px;
+  width: 100%;
   height: 589px;
   background-color: #ffffff;
 `;

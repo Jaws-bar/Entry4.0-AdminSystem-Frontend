@@ -33,6 +33,7 @@ export const GlobalStyle: GlobalStyleComponent<
     height: 100%;
     font-size: 0;
     font-family: 'NanumBarunGothic';
+    min-width: 1360px;
   }
 
   article, aside, details, figcaption, figure,

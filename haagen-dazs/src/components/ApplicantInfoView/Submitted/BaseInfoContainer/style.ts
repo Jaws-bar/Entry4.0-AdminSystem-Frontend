@@ -6,7 +6,7 @@ export const IdPhoto = styled.img`
   object-fit: contain;
   border-radius: 3px;
   border: solid 2px rgba(101, 187, 183, 0.3);
-  margin-right: 54px;
+  margin-right: 6.4%;
 `;
 
 export const BaseInfoContainer = styled.div`
@@ -33,6 +33,7 @@ export const BaseInfo = styled.p`
   font-size: 16px;
   color: #000000;
   margin-right: 12px;
+  word-break: keep-all;
 `;
 
 export const BaseTextInfoContainer = styled.div`
@@ -43,12 +44,14 @@ export const BaseTextInfoContainer = styled.div`
   padding-bottom: 15px;
 `;
 
-export const AddressInfoLine = styled(BaseInfoLine)`
+export const TwoItemsInfoLine = styled(BaseInfoLine)`
   flex-direction: column;
   align-items: normal;
   justify-content: center;
+  margin-top: 10px;
 
-  > p {
+  > p,
+  div {
     flex: 1;
     display: flex;
     align-items: center;

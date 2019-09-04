@@ -9,13 +9,12 @@ interface ISelectItem {
 export const StatisticContainer = styled.div`
   width: 100%;
   height: calc(100% - 80px);
-  /* background: url(${BackgroundImg}); */
   background-color: #fdfdfd;
   background-image: url(${BackgroundImg});
   background-repeat: no-repeat;
   font-size: 10px;
   display: flex;
-  padding: 0 320px;
+  padding: 0 16.7%;
 `;
 
 export const SelectWrapper = styled.div`

@@ -18,47 +18,17 @@ export interface State {
 }
 
 class AdminPage extends React.Component<null, State> {
-  state: State = {
+  public state: State = {
     isDaejeonSelected: false,
-    isNationwideSelected: false,
-    isUnpaidSelected: false,
-    isNotArrivedSelected: false,
     isGeneralSelected: false,
+    isMeisterSelected: false,
+    isNationwideSelected: false,
+    isNotArrivedSelected: false,
     isSocialIntegrationSelected: false,
-    isMeisterSelected: false
+    isUnpaidSelected: false
   };
 
-  private handleChangeDaejeonCheckbox = (): void => {
-    this.setState({ isDaejeonSelected: !this.state.isDaejeonSelected });
-  };
-
-  private handleChangeNationwideCheckbox = (): void => {
-    this.setState({ isNationwideSelected: !this.state.isNationwideSelected });
-  };
-
-  private handleChangeUnpaidCheckbox = (): void => {
-    this.setState({ isUnpaidSelected: !this.state.isUnpaidSelected });
-  };
-
-  private handleChangeNotArrivedCheckbox = (): void => {
-    this.setState({ isNotArrivedSelected: !this.state.isNotArrivedSelected });
-  };
-
-  private handleChangeGeneralCheckbox = (): void => {
-    this.setState({ isGeneralSelected: !this.state.isGeneralSelected });
-  };
-
-  private handleChangeSocialIntegrationCheckbox = (): void => {
-    this.setState({
-      isSocialIntegrationSelected: !this.state.isSocialIntegrationSelected
-    });
-  };
-
-  private handleChangeMeisterCheckbox = (): void => {
-    this.setState({ isMeisterSelected: !this.state.isMeisterSelected });
-  };
-
-  render() {
+  public render() {
     const {
       isDaejeonSelected,
       isNationwideSelected,
@@ -105,6 +75,36 @@ class AdminPage extends React.Component<null, State> {
       </>
     );
   }
+
+  private handleChangeDaejeonCheckbox = (): void => {
+    this.setState({ isDaejeonSelected: !this.state.isDaejeonSelected });
+  };
+
+  private handleChangeNationwideCheckbox = (): void => {
+    this.setState({ isNationwideSelected: !this.state.isNationwideSelected });
+  };
+
+  private handleChangeUnpaidCheckbox = (): void => {
+    this.setState({ isUnpaidSelected: !this.state.isUnpaidSelected });
+  };
+
+  private handleChangeNotArrivedCheckbox = (): void => {
+    this.setState({ isNotArrivedSelected: !this.state.isNotArrivedSelected });
+  };
+
+  private handleChangeGeneralCheckbox = (): void => {
+    this.setState({ isGeneralSelected: !this.state.isGeneralSelected });
+  };
+
+  private handleChangeSocialIntegrationCheckbox = (): void => {
+    this.setState({
+      isSocialIntegrationSelected: !this.state.isSocialIntegrationSelected
+    });
+  };
+
+  private handleChangeMeisterCheckbox = (): void => {
+    this.setState({ isMeisterSelected: !this.state.isMeisterSelected });
+  };
 }
 
 export default AdminPage;

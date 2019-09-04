@@ -88,7 +88,7 @@ export const CertifyBtn = styled.button<Button>`
   line-height: 3.57;
   letter-spacing: 1.4px;
   text-align: center;
-  color: #ffffff;
+  color: white;
   border: none;
   margin-top: 48px;
   cursor: ${props => (props.isActivation ? "pointer" : "default")};

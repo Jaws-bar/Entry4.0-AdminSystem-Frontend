@@ -10,15 +10,17 @@ const BaseInfoContainer = () => (
         <S.BaseInfoName>홍길동</S.BaseInfoName>
         <S.BaseInfo>2004.10.01</S.BaseInfo>
       </S.BaseInfoLine>
-      <S.BaseInfoLine>
-        <S.BaseInfo>대덕소프트웨어마이스터고등학교</S.BaseInfo>
-        <S.BaseInfo>졸업예정자</S.BaseInfo>
+      <S.TwoItemsInfoLine>
+        <div>
+          <S.BaseInfo>대덕소프트웨어마이스터고등학교</S.BaseInfo>
+          <S.BaseInfo>졸업예정자</S.BaseInfo>
+        </div>
         <S.BaseInfo>마이스터 특별전형</S.BaseInfo>
-      </S.BaseInfoLine>
-      <S.AddressInfoLine>
+      </S.TwoItemsInfoLine>
+      <S.TwoItemsInfoLine>
         <S.BaseInfo>대전광역시 유성구 장동 76</S.BaseInfo>
         <S.BaseInfo>대덕소프트웨어마이스터고등학교 312호</S.BaseInfo>
-      </S.AddressInfoLine>
+      </S.TwoItemsInfoLine>
     </S.BaseTextInfoContainer>
   </S.BaseInfoContainer>
 );
