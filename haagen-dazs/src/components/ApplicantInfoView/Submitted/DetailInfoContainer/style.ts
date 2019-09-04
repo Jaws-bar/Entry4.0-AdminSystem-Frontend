@@ -14,6 +14,7 @@ export const UpperDetailInfoTable = styled(DetailInfoTable)`
 export const DetailInfo = styled.p`
   height: 20px;
   text-align: center;
+  font-weight: 400;
 `;
 
 export const UpperDetailInfo = styled(DetailInfo)`
@@ -21,6 +22,7 @@ export const UpperDetailInfo = styled(DetailInfo)`
 `;
 
 export const LowerContactInfo = styled(DetailInfo)`
+  font-weight: normal;
   text-align: left;
 `;
 
@@ -37,7 +39,7 @@ export const TD = styled.td`
 `;
 
 export const VolunteerTimeTD = styled(TD)`
-  width: 90px;
+  width: 98px;
 `;
 
 export const SubtitleTD = styled.td`
@@ -64,24 +66,31 @@ export const SecondContactTitleTD = styled(FirstContactTD)`
 `;
 
 export const VolunteerTimeTitleTD = styled(SubtitleTD)`
-  width: 81px;
+  width: 87px;
 `;
 
 export const AttendanceDateTD = styled.td`
-  width: 196px;
+  width: 172px;
   font-size: 12px;
   border: 0.5px solid rgba(101, 187, 183, 0.3);
-  text-align: left;
   font-weight: 300;
-  padding: 4px 16px;
   position: relative;
+
+  & > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+  }
 `;
 
 export const AttendanceDate = styled.p`
-  display: inline-block;
-  width: 35px;
   text-align: right;
-  margin-left: 25px;
+`;
+
+export const AttendanceDateTitleTD = styled(SubtitleTD)`
+  width: 83px;
 `;
 
 export const FirstContactTR = styled.tr`

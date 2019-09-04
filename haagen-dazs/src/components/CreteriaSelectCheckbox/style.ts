@@ -7,8 +7,8 @@ export const CheckBox = styled.div`
   width: 15px;
   height: 15px;
   background-image: url(${CheckBoxImg});
-  margin-right: 12px;
-  vertical-align: top;
+  margin-right: 3%;
+  vertical-align: middle;
   cursor: pointer;
   justify-content: center;
   align-items: center;
@@ -26,6 +26,7 @@ export const CreteriaTitle = styled.p`
   display: inline-block;
   font-size: 12px;
   color: #3f3f3f;
-  margin-right: 24px;
+  margin-right: 5%;
   cursor: pointer;
+  vertical-align: middle;
 `;
