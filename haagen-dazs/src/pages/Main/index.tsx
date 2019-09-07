@@ -12,7 +12,7 @@ export interface State {
 }
 
 class Main extends React.Component<null, State> {
-  state: State = {
+  public state: State = {
     isExtend: false,
     selectedItem: "대전"
   };
@@ -23,53 +23,26 @@ class Main extends React.Component<null, State> {
     { region: "전국", className: "nationwide" }
   ];
 
-  private handleExtend = (): void => {
-    this.setState({ isExtend: !this.state.isExtend });
-  };
-
-  private handleSelectRegion = (className: string): void => {
-    this.regionList.map(r => {
-      if (className.includes(r.className)) {
-        this.setState({ selectedItem: r.region });
-      }
-    });
-  };
-
-  private handleCreateSelectBox = () => {
-    let sortedRegionList: Array<string> = ["대전", "전체", "전국"];
-    let classNameList: Array<string> = [];
-    sortedRegionList.splice(
-      sortedRegionList.indexOf(this.state.selectedItem),
-      1
-    );
-    sortedRegionList.splice(0, 0, this.state.selectedItem);
-
-    sortedRegionList.map((r, index) => {
-      for (let i in this.regionList) {
-        if (this.regionList[i].region === r)
-          classNameList[index] = this.regionList[i].className;
-      }
-    });
-
-    return sortedRegionList.map((region, i) => (
-      <S.RegionSelectItem
-        key={region}
-        region={region}
-        onClick={({ currentTarget: { className } }) =>
-          this.handleSelectRegion(className)
-        }
-        className={classNameList[i]}
-      >
-        {region}
-        {i === 0 && <S.SelectExtendIcon src={ReduceIcon} alt="Reduce Icon" />}
-      </S.RegionSelectItem>
-    ));
-  };
-
-  render() {
+  public render() {
     return (
       <>
-        <Header />
+        <Header
+          isActivation={false}
+          isDaejeonSelected={false}
+          isNationwideSelected={false}
+          isUnpaidSelected={false}
+          isNotArrivedSelected={false}
+          isGeneralSelected={false}
+          isSocialIntegrationSelected={false}
+          isMeisterSelected={false}
+          handleChangeNationwideCheckbox={null}
+          handleChangeDaejeonCheckbox={null}
+          handleChangeUnpaidCheckbox={null}
+          handleChangeNotArrivedCheckbox={null}
+          handleChangeGeneralCheckbox={null}
+          handleChangeSocialIntegrationCheckbox={null}
+          handleChangeMeisterCheckbox={null}
+        />
         <S.StatisticContainer>
           <S.SelectWrapper>
             <S.SubTitle>Entry DSM 2019 Admin page</S.SubTitle>
@@ -94,6 +67,50 @@ class Main extends React.Component<null, State> {
       </>
     );
   }
+
+  private handleExtend = (): void => {
+    this.setState({ isExtend: !this.state.isExtend });
+  };
+
+  private handleSelectRegion = (className: string): void => {
+    this.regionList.map(r => {
+      if (className.includes(r.className)) {
+        this.setState({ selectedItem: r.region });
+      }
+    });
+  };
+
+  private handleCreateSelectBox = () => {
+    const sortedRegionList: string[] = ["대전", "전체", "전국"];
+    const classNameList: string[] = [];
+    sortedRegionList.splice(
+      sortedRegionList.indexOf(this.state.selectedItem),
+      1
+    );
+    sortedRegionList.splice(0, 0, this.state.selectedItem);
+
+    sortedRegionList.map((r, index) => {
+      for (const i in this.regionList) {
+        if (this.regionList[i].region === r) {
+          classNameList[index] = this.regionList[i].className;
+        }
+      }
+    });
+
+    return sortedRegionList.map((region, i) => (
+      <S.RegionSelectItem
+        key={region}
+        region={region}
+        onClick={({ currentTarget: { className } }) =>
+          this.handleSelectRegion(className)
+        }
+        className={classNameList[i]}
+      >
+        {region}
+        {i === 0 && <S.SelectExtendIcon src={ReduceIcon} alt="Reduce Icon" />}
+      </S.RegionSelectItem>
+    ));
+  };
 }
 
 export default Main;
