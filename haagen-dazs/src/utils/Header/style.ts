@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-interface ISearchInput {
+interface SearchInput {
   isActivation: boolean;
 }
 
-interface IMenuListItem {
+interface MenuListItem {
   isActivation: boolean;
 }
 
@@ -30,7 +30,7 @@ export const EntryLogo = styled.img`
   margin-right: 150px;
 `;
 
-export const SearchInputWrapper = styled.div<ISearchInput>`
+export const SearchInputWrapper = styled.div<SearchInput>`
   width: 480px;
   height: 36px;
   border: solid 0.5px #65bbb7;
@@ -41,20 +41,35 @@ export const SearchInputWrapper = styled.div<ISearchInput>`
   letter-spacing: 0.6px;
   color: #292929;
   margin-right: 147px;
+  padding: 0 24px;
   display: flex;
   align-items: center;
   ${props => !props.isActivation && "visibility: hidden"};
+
+  > div {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    align-items: center;
+
+    &::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    > span {
+      display: inline-flex;
+      width: initial;
+
+      > div {
+        display: flex;
+      }
+    }
+  }
 `;
 
 export const SearchIcon = styled.img`
   display: inline-block;
-  padding: 0 16px 0 24px;
-`;
-
-export const SearchInput = styled.input`
-  width: calc(100% - 70px);
-  border: none;
-  opacity: 0.6;
+  margin-right: 16px;
 `;
 
 export const MenuList = styled.ul`
@@ -70,7 +85,7 @@ export const MenuListItem = styled.li`
   cursor: pointer;
 `;
 
-export const UnderLine = styled.div<IMenuListItem>`
+export const UnderLine = styled.div<MenuListItem>`
   width: 100%;
   height: 6px;
   background-color: #65bbb7;

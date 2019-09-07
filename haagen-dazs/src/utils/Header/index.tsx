@@ -4,22 +4,74 @@ import { Link } from "react-router-dom";
 import * as S from "./style";
 import Logo from "../../assets/header-component/EntryDSM_LOGO.png";
 import SearchIconImg from "../../assets/header-component/ic_search.png";
+import HeaderSearchBar from "../../components/HeaderSearchBar/index";
+
+interface Props {
+  isActivation: boolean;
+  isDaejeonSelected: boolean;
+  isNationwideSelected: boolean;
+  isUnpaidSelected: boolean;
+  isNotArrivedSelected: boolean;
+  isGeneralSelected: boolean;
+  isSocialIntegrationSelected: boolean;
+  isMeisterSelected: boolean;
+  handleChangeDaejeonCheckbox: () => void;
+  handleChangeNationwideCheckbox: () => void;
+  handleChangeUnpaidCheckbox: () => void;
+  handleChangeNotArrivedCheckbox: () => void;
+  handleChangeGeneralCheckbox: () => void;
+  handleChangeSocialIntegrationCheckbox: () => void;
+  handleChangeMeisterCheckbox: () => void;
+}
 
 const clearStorage = (): void => {
   sessionStorage.clear();
   localStorage.clear();
 };
 
-const Header: React.FC = () => {
+const Header: React.FC<Props> = ({
+  isActivation,
+  isDaejeonSelected,
+  isNationwideSelected,
+  isUnpaidSelected,
+  isNotArrivedSelected,
+  isGeneralSelected,
+  isSocialIntegrationSelected,
+  isMeisterSelected,
+  handleChangeDaejeonCheckbox,
+  handleChangeNationwideCheckbox,
+  handleChangeUnpaidCheckbox,
+  handleChangeNotArrivedCheckbox,
+  handleChangeGeneralCheckbox,
+  handleChangeSocialIntegrationCheckbox,
+  handleChangeMeisterCheckbox
+}) => {
   return (
     <S.HeaderWrapper>
       <S.ContentWrapper>
         <Link to="/">
           <S.EntryLogo src={Logo} alt="Entry Logo" />
         </Link>
-        <S.SearchInputWrapper isActivation={true}>
+        <S.SearchInputWrapper isActivation={isActivation}>
           <S.SearchIcon src={SearchIconImg} alt="Search Icon" />
-          <S.SearchInput placeholder="검색어를 입력해주세요." />
+          <HeaderSearchBar
+            isDaejeonSelected={isDaejeonSelected}
+            isNationwideSelected={isNationwideSelected}
+            isUnpaidSelected={isUnpaidSelected}
+            isNotArrivedSelected={isNotArrivedSelected}
+            isGeneralSelected={isGeneralSelected}
+            isSocialIntegrationSelected={isSocialIntegrationSelected}
+            isMeisterSelected={isMeisterSelected}
+            handleChangeNationwideCheckbox={handleChangeNationwideCheckbox}
+            handleChangeDaejeonCheckbox={handleChangeDaejeonCheckbox}
+            handleChangeUnpaidCheckbox={handleChangeUnpaidCheckbox}
+            handleChangeNotArrivedCheckbox={handleChangeNotArrivedCheckbox}
+            handleChangeGeneralCheckbox={handleChangeGeneralCheckbox}
+            handleChangeSocialIntegrationCheckbox={
+              handleChangeSocialIntegrationCheckbox
+            }
+            handleChangeMeisterCheckbox={handleChangeMeisterCheckbox}
+          />
         </S.SearchInputWrapper>
         <S.MenuList>
           <S.MenuListItem>
