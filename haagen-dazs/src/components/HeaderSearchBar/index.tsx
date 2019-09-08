@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import * as S from "./style";
-import { Keyword } from "./style";
 
 const inputChangeHandle = (
   e: React.ChangeEvent<HTMLInputElement>,
@@ -144,6 +143,11 @@ const HeaderSearchBar: React.FC<Props> = ({
       "대전",
       newKeywordsList
     );
+  }, [isDaejeonSelected]);
+
+  useEffect(() => {
+    let newKeywordsList = [...keywordsList];
+
     newKeywordsList = checkCreteriaStatus(
       keywordsList,
       setKeywordsList,
@@ -151,6 +155,11 @@ const HeaderSearchBar: React.FC<Props> = ({
       "전국",
       newKeywordsList
     );
+  }, [isNationwideSelected]);
+
+  useEffect(() => {
+    let newKeywordsList = [...keywordsList];
+
     newKeywordsList = checkCreteriaStatus(
       keywordsList,
       setKeywordsList,
@@ -158,6 +167,11 @@ const HeaderSearchBar: React.FC<Props> = ({
       "미납자",
       newKeywordsList
     );
+  }, [isUnpaidSelected]);
+
+  useEffect(() => {
+    let newKeywordsList = [...keywordsList];
+
     newKeywordsList = checkCreteriaStatus(
       keywordsList,
       setKeywordsList,
@@ -165,6 +179,10 @@ const HeaderSearchBar: React.FC<Props> = ({
       "원서 미도착",
       newKeywordsList
     );
+  }, [isNotArrivedSelected]);
+  useEffect(() => {
+    let newKeywordsList = [...keywordsList];
+
     newKeywordsList = checkCreteriaStatus(
       keywordsList,
       setKeywordsList,
@@ -172,6 +190,10 @@ const HeaderSearchBar: React.FC<Props> = ({
       "일반전형",
       newKeywordsList
     );
+  }, [isGeneralSelected]);
+  useEffect(() => {
+    let newKeywordsList = [...keywordsList];
+
     newKeywordsList = checkCreteriaStatus(
       keywordsList,
       setKeywordsList,
@@ -179,6 +201,10 @@ const HeaderSearchBar: React.FC<Props> = ({
       "사회통합",
       newKeywordsList
     );
+  }, [isSocialIntegrationSelected]);
+  useEffect(() => {
+    let newKeywordsList = [...keywordsList];
+
     newKeywordsList = checkCreteriaStatus(
       keywordsList,
       setKeywordsList,
@@ -186,15 +212,7 @@ const HeaderSearchBar: React.FC<Props> = ({
       "마이스터전형",
       newKeywordsList
     );
-  }, [
-    isDaejeonSelected,
-    isGeneralSelected,
-    isMeisterSelected,
-    isNationwideSelected,
-    isNotArrivedSelected,
-    isSocialIntegrationSelected,
-    isUnpaidSelected
-  ]);
+  }, [isMeisterSelected]);
 
   return (
     <div>
