@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import * as S from "./style";
+import { Keyword } from "./style";
 
 const inputChangeHandle = (
   e: React.ChangeEvent<HTMLInputElement>,
@@ -16,7 +17,7 @@ const inputBlurHandle = (
   keywordsList: string[],
   keyword: string
 ) => {
-  if (e.target.value !== "") {
+  if (e.target.value) {
     const addedKeywordsList = [...keywordsList, keyword];
     setKeywordsList(addedKeywordsList);
     setKeyword("");
@@ -76,6 +77,27 @@ const inputKeyDownHandle = (
   }
 };
 
+const checkCreteriaStatus = (
+  keywordsList: string[],
+  setKeywordsList: (keywordsList: string[]) => void,
+  creteriaProps: boolean,
+  creteriaText: string,
+  newKeywordsList: string[]
+): string[] => {
+  let editedKeywordsList: string[] = [...newKeywordsList];
+
+  if (creteriaProps && keywordsList.indexOf(creteriaText) === -1) {
+    editedKeywordsList.push(creteriaText);
+  } else if (keywordsList.indexOf(creteriaText) !== -1 && !creteriaProps) {
+    editedKeywordsList = editedKeywordsList.filter(
+      keyword => keyword !== creteriaText
+    );
+  }
+  setKeywordsList(editedKeywordsList);
+
+  return editedKeywordsList;
+};
+
 interface Props {
   isDaejeonSelected: boolean;
   isNationwideSelected: boolean;
@@ -113,32 +135,57 @@ const HeaderSearchBar: React.FC<Props> = ({
   const [keywordsList, setKeywordsList] = useState([]);
 
   useEffect(() => {
-    const newKeywordsList = [...keywordsList];
-    if (isDaejeonSelected && keywordsList.indexOf("대전") === -1) {
-      newKeywordsList.push("대전");
-    }
-    if (keywordsList.indexOf("전국") === -1 && isNationwideSelected) {
-      newKeywordsList.push("전국");
-    }
-    if (keywordsList.indexOf("미납자") === -1 && isUnpaidSelected) {
-      newKeywordsList.push("미납자");
-    }
-    if (keywordsList.indexOf("원서 미도착") === -1 && isNotArrivedSelected) {
-      newKeywordsList.push("원서 미도착");
-    }
-    if (keywordsList.indexOf("일반전형") === -1 && isGeneralSelected) {
-      newKeywordsList.push("일반전형");
-    }
-    if (
-      keywordsList.indexOf("사회통합") === -1 &&
-      isSocialIntegrationSelected
-    ) {
-      newKeywordsList.push("사회통합");
-    }
-    if (keywordsList.indexOf("마이스터전형") === -1 && isMeisterSelected) {
-      newKeywordsList.push("마이스터전형");
-    }
-    setKeywordsList(newKeywordsList);
+    let newKeywordsList = [...keywordsList];
+
+    newKeywordsList = checkCreteriaStatus(
+      keywordsList,
+      setKeywordsList,
+      isDaejeonSelected,
+      "대전",
+      newKeywordsList
+    );
+    newKeywordsList = checkCreteriaStatus(
+      keywordsList,
+      setKeywordsList,
+      isNationwideSelected,
+      "전국",
+      newKeywordsList
+    );
+    newKeywordsList = checkCreteriaStatus(
+      keywordsList,
+      setKeywordsList,
+      isUnpaidSelected,
+      "미납자",
+      newKeywordsList
+    );
+    newKeywordsList = checkCreteriaStatus(
+      keywordsList,
+      setKeywordsList,
+      isNotArrivedSelected,
+      "원서 미도착",
+      newKeywordsList
+    );
+    newKeywordsList = checkCreteriaStatus(
+      keywordsList,
+      setKeywordsList,
+      isGeneralSelected,
+      "일반전형",
+      newKeywordsList
+    );
+    newKeywordsList = checkCreteriaStatus(
+      keywordsList,
+      setKeywordsList,
+      isSocialIntegrationSelected,
+      "사회통합",
+      newKeywordsList
+    );
+    newKeywordsList = checkCreteriaStatus(
+      keywordsList,
+      setKeywordsList,
+      isMeisterSelected,
+      "마이스터전형",
+      newKeywordsList
+    );
   }, [
     isDaejeonSelected,
     isGeneralSelected,
@@ -148,8 +195,6 @@ const HeaderSearchBar: React.FC<Props> = ({
     isSocialIntegrationSelected,
     isUnpaidSelected
   ]);
-
-  console.log(keywordsList, "here");
 
   return (
     <div>
