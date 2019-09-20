@@ -1,7 +1,8 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 interface Button {
-  isActivation: boolean;
+  isactivation: string;
 }
 
 interface ErrorCheck {
@@ -77,9 +78,10 @@ export const ErrorMessage = styled.span<ErrorCheck>`
 `;
 
 export const CertifyBtn = styled.button<Button>`
+  all: unset;
   width: 100%;
   height: 100px;
-  opacity: ${props => (props.isActivation ? "1" : "0.5")};
+  opacity: ${props => (props.isactivation === "true" ? "1" : "0.5")};
   border-radius: 5px;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16);
   background-color: #65bbb7;
@@ -91,5 +93,5 @@ export const CertifyBtn = styled.button<Button>`
   color: white;
   border: none;
   margin-top: 48px;
-  cursor: ${props => (props.isActivation ? "pointer" : "default")};
+  cursor: ${props => (props.isactivation === "true" ? "pointer" : "default")};
 `;
