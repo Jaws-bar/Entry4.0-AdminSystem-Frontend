@@ -41,7 +41,26 @@ class AdminPage extends React.Component<null, State> {
 
     return (
       <>
-        <Header />
+        <Header
+          isActivation={true}
+          isDaejeonSelected={isDaejeonSelected}
+          isNationwideSelected={isNationwideSelected}
+          isUnpaidSelected={isUnpaidSelected}
+          isNotArrivedSelected={isNotArrivedSelected}
+          isGeneralSelected={isGeneralSelected}
+          isSocialIntegrationSelected={isSocialIntegrationSelected}
+          isMeisterSelected={isMeisterSelected}
+          handleChangeDaejeonCheckbox={this.handleChangeDaejeonCheckbox}
+          handleChangeNationwideCheckbox={this.handleChangeNationwideCheckbox}
+          handleChangeUnpaidCheckbox={this.handleChangeUnpaidCheckbox}
+          handleChangeNotArrivedCheckbox={this.handleChangeNotArrivedCheckbox}
+          handleChangeGeneralCheckbox={this.handleChangeGeneralCheckbox}
+          handleChangeSocialIntegrationCheckbox={
+            this.handleChangeSocialIntegrationCheckbox
+          }
+          handleChangeMeisterCheckbox={this.handleChangeMeisterCheckbox}
+          pageType="admin"
+        />
         <S.AdminContentContainer>
           <S.ApplicantListContainer>
             <SearchCreteriaSelectBox

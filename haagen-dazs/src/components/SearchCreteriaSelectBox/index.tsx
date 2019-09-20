@@ -21,9 +21,7 @@ export interface Props {
   handleChangeMeisterCheckbox: () => void;
 }
 
-export interface State {}
-
-class SearchCreteriaSelectBox extends React.Component<Props, State> {
+class SearchCreteriaSelectBox extends React.Component<Props, null> {
   render() {
     const {
       isDaejeonSelected,
