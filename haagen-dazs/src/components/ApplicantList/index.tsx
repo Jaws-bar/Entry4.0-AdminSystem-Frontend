@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import * as S from "./style";
+import checked from "../../assets/admin-page/checked.png";
 
 const ApplicantList: React.FC = () => (
   <S.ApplicantListWrapper>
@@ -22,9 +23,30 @@ const ApplicantList: React.FC = () => (
           <S.TD>오경태</S.TD>
           <S.TD>전국</S.TD>
           <S.TD>일반 전형</S.TD>
-          <S.TD>D</S.TD>
-          <S.TD>D</S.TD>
-          <S.TD>D</S.TD>
+          <S.TD>
+            <S.RealInputCheckBox id="submit-status" />
+            <label htmlFor="submit-status">
+              <S.CheckBoxIcon>
+                <img src={checked} alt="checked" />
+              </S.CheckBoxIcon>
+            </label>
+          </S.TD>
+          <S.TD>
+            <S.RealInputCheckBox id="payment-status" />
+            <label htmlFor="payment-status">
+              <S.CheckBoxIcon>
+                <img src={checked} alt="checked" />
+              </S.CheckBoxIcon>
+            </label>
+          </S.TD>
+          <S.TD>
+            <S.RealInputCheckBox id="final-submit-status" />
+            <label htmlFor="final-submit-status">
+              <S.CheckBoxIcon>
+                <img src={checked} alt="checked" />
+              </S.CheckBoxIcon>
+            </label>
+          </S.TD>
         </S.ApplicantListItem>
       </tbody>
     </table>
