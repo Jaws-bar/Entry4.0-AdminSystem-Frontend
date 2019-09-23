@@ -16,7 +16,7 @@ const inputBlurHandle = (
   keywordsList: string[],
   keyword: string
 ) => {
-  if (e.target.value) {
+  if (e.target.value !== "") {
     const addedKeywordsList = [...keywordsList, keyword];
     setKeywordsList(addedKeywordsList);
     setKeyword("");
@@ -130,8 +130,8 @@ const HeaderSearchBar: React.FC<Props> = ({
   handleChangeSocialIntegrationCheckbox,
   handleChangeMeisterCheckbox
 }) => {
-  const [keyword, setKeyword] = useState("");
-  const [keywordsList, setKeywordsList] = useState([]);
+  const [keyword, setKeyword] = useState<string>();
+  const [keywordsList, setKeywordsList] = useState<string[]>([]);
 
   useEffect(() => {
     let newKeywordsList = [...keywordsList];
@@ -156,7 +156,7 @@ const HeaderSearchBar: React.FC<Props> = ({
       newKeywordsList
     );
   },        [isNationwideSelected]);
-
+  
   useEffect(() => {
     let newKeywordsList = [...keywordsList];
 
@@ -180,6 +180,7 @@ const HeaderSearchBar: React.FC<Props> = ({
       newKeywordsList
     );
   },        [isNotArrivedSelected]);
+
   useEffect(() => {
     let newKeywordsList = [...keywordsList];
 
@@ -191,6 +192,7 @@ const HeaderSearchBar: React.FC<Props> = ({
       newKeywordsList
     );
   },        [isGeneralSelected]);
+
   useEffect(() => {
     let newKeywordsList = [...keywordsList];
 
@@ -202,6 +204,7 @@ const HeaderSearchBar: React.FC<Props> = ({
       newKeywordsList
     );
   },        [isSocialIntegrationSelected]);
+
   useEffect(() => {
     let newKeywordsList = [...keywordsList];
 
@@ -220,18 +223,21 @@ const HeaderSearchBar: React.FC<Props> = ({
         {keywordsList.length >= 1 &&
           keywordsList.map((keyword, index) => {
             return (
-              <span key={index}>
+
+              <div key={index}>
+
                 <div>
                   {index !== 0 && <S.Keyword>,</S.Keyword>}
                   <S.Keyword>#</S.Keyword>
                   <S.Keyword>{keyword}</S.Keyword>
                 </div>
-              </span>
+              </div>
+
             );
           })}
         <S.SearchInput
           type="text"
-          placeholder={!keywordsList.length ? "검색어를 입력해주세요." : ""}
+          placeholder={keywordsList.length > 0 ? "" : "검색어를 입력해주세요."}
           onChange={e => inputChangeHandle(e, setKeyword)}
           onBlur={e =>
             inputBlurHandle(
