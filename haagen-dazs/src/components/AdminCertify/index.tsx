@@ -1,41 +1,78 @@
 import * as React from "react";
-import { Redirect } from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 import * as S from "./style";
 import EntryLogo from "../../assets/login-page/EntryDSM_LOGO.png";
 import { getUserToken } from "../../lib/api";
 
-export interface State {
+interface State {
   inputID: string;
   inputPW: string;
   isLogin: boolean;
   isFail: boolean;
 }
+interface OwnProps {
+  setToken: (payload: { accessToken: string; sessionToken: string }) => void;
+}
 
-class AdminCetify extends React.Component<any, State> {
-  state: State = {
+type Props = RouteComponentProps & OwnProps;
+
+class AdminCetify extends React.Component<Props, State> {
+  public state: State = {
     inputID: "",
     inputPW: "",
-    isLogin: false,
-    isFail: false
+    isFail: false,
+    isLogin: false
   };
 
-  componentDidMount = (): void =>
-    this.setState(() => this.getAccessToeknFromStorage());
-
-  private storageKey: { accessToken: string; refreshToken: string } = {
-    accessToken: "accessToken",
-    refreshToken: "refreshToken"
+  private storageKey: { access: string; refresh: string } = {
+    access: "access",
+    refresh: "refresh"
   };
 
-  private getAccessToeknFromStorage = (): { isLogin: boolean } => {
-    if (
-      sessionStorage.getItem(this.storageKey.accessToken) &&
-      sessionStorage.getItem(this.storageKey.accessToken) !== null
-    )
-      return { isLogin: true };
-    else return { isLogin: false };
-  };
+  public render() {
+    const { inputID, inputPW, isFail } = this.state;
+
+    return (
+      <S.Container>
+        <S.Logo src={EntryLogo} alt="" />
+        <S.Title>Sign In</S.Title>
+        <S.CertifyDescription>
+          지급받은 아이디와 비밀번호를 입력해주세요
+        </S.CertifyDescription>
+        <S.CertifyInputWrapper>
+          <S.CertifyInput
+            name="inputID"
+            placeholder="ID"
+            value={inputID}
+            onChange={this.handleInputId}
+          />
+          <S.ErrorMessage isFail={isFail}>
+            아이디 혹은 비밀번호가 일치하지 않습니다.
+          </S.ErrorMessage>
+        </S.CertifyInputWrapper>
+
+        <S.CertifyInputWrapper>
+          <S.CertifyInput
+            name="inputPW"
+            placeholder="Password"
+            type="password"
+            value={inputPW}
+            onChange={this.handleInputPw}
+          />
+        </S.CertifyInputWrapper>
+
+        <S.CertifyBtn
+          onClick={
+            !!(inputID !== "" && inputPW !== "") ? this.authInfoSubmit : null
+          }
+          isactivation={inputID !== "" && inputPW !== "" ? "true" : "false"}
+        >
+          Sign in
+        </S.CertifyBtn>
+      </S.Container>
+    );
+  }
 
   private handleInputId = (e: React.ChangeEvent<HTMLInputElement>): void =>
     this.setState({ inputID: e.target.value });
@@ -47,74 +84,28 @@ class AdminCetify extends React.Component<any, State> {
     try {
       if (this.state.inputID && this.state.inputPW) {
         const response = await getUserToken({
-          email: this.state.inputID,
+          admin_id: this.state.inputID,
           password: this.state.inputPW
         });
-        localStorage.setItem(
-          this.storageKey.refreshToken,
-          response.refreshToken
-        );
-        sessionStorage.setItem(
-          this.storageKey.accessToken,
-          response.access_token
-        );
-        // sessionStorage.setItem("accessToken", response.data.accessToken);
+        localStorage.setItem(this.storageKey.refresh, response.refresh);
+        sessionStorage.setItem(this.storageKey.access, response.access);
+
+        this.props.setToken({
+          accessToken: response.access,
+          sessionToken: response.refresh
+        });
         this.setState({ isLogin: true });
+
+        await this.props.history.push("/");
       }
     } catch (error) {
       if (error.response.status === 403) {
-        this.setState({ isFail: true });
+        this.setState({ isFail: true, isLogin: false });
       } else {
         console.log(error.response);
       }
     }
   };
-
-  render() {
-    return this.state.isLogin ? (
-      <Redirect to="/" />
-    ) : (
-      <S.Container>
-        <S.Logo src={EntryLogo} alt="" />
-        <S.Title>Sign In</S.Title>
-        <S.CertifyDescription>
-          지급받은 아이디와 비밀번호를 입력해주세요
-        </S.CertifyDescription>
-        <S.CertifyInputWrapper>
-          <S.CertifyInput
-            name="inputID"
-            placeholder="ID"
-            value={this.state.inputID}
-            onChange={this.handleInputId}
-          />
-          <S.ErrorMessage isFail={this.state.isFail}>
-            아이디 혹은 비밀번호가 일치하지 않습니다.
-          </S.ErrorMessage>
-        </S.CertifyInputWrapper>
-
-        <S.CertifyInputWrapper>
-          <S.CertifyInput
-            name="inputPW"
-            placeholder="Password"
-            type="password"
-            value={this.state.inputPW}
-            onChange={this.handleInputPw}
-          />
-        </S.CertifyInputWrapper>
-
-        <S.CertifyBtn
-          onClick={this.authInfoSubmit}
-          isActivation={
-            this.state.inputID !== "" && this.state.inputPW !== ""
-              ? true
-              : false
-          }
-        >
-          Sign in
-        </S.CertifyBtn>
-      </S.Container>
-    );
-  }
 }
 
-export default AdminCetify;
+export default withRouter(AdminCetify);

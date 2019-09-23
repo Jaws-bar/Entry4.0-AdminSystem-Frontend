@@ -42,6 +42,7 @@ class Main extends React.Component<null, State> {
           handleChangeGeneralCheckbox={null}
           handleChangeSocialIntegrationCheckbox={null}
           handleChangeMeisterCheckbox={null}
+          pageType="main"
         />
         <S.StatisticContainer>
           <S.SelectWrapper>

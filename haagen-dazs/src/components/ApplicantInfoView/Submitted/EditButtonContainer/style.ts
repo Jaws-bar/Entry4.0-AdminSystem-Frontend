@@ -27,11 +27,13 @@ export const SubmissionCancelBtn = styled.button`
 `;
 
 const CheckBoxIcon = styled.span`
-  display: inline-block;
+  display: inline-flex;
   width: 20px;
   height: 20px;
   background-image: url(${Checkbox});
   cursor: pointer;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const ApplicationArrivalCheckBox = styled(CheckBoxIcon)`

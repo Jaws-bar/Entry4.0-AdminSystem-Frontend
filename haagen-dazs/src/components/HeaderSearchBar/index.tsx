@@ -143,7 +143,7 @@ const HeaderSearchBar: React.FC<Props> = ({
       "대전",
       newKeywordsList
     );
-  }, [isDaejeonSelected]);
+  },        [isDaejeonSelected]);
 
   useEffect(() => {
     let newKeywordsList = [...keywordsList];
@@ -155,8 +155,8 @@ const HeaderSearchBar: React.FC<Props> = ({
       "전국",
       newKeywordsList
     );
-  }, [isNationwideSelected]);
-
+  },        [isNationwideSelected]);
+  
   useEffect(() => {
     let newKeywordsList = [...keywordsList];
 
@@ -167,7 +167,7 @@ const HeaderSearchBar: React.FC<Props> = ({
       "미납자",
       newKeywordsList
     );
-  }, [isUnpaidSelected]);
+  },        [isUnpaidSelected]);
 
   useEffect(() => {
     let newKeywordsList = [...keywordsList];
@@ -179,7 +179,8 @@ const HeaderSearchBar: React.FC<Props> = ({
       "원서 미도착",
       newKeywordsList
     );
-  }, [isNotArrivedSelected]);
+  },        [isNotArrivedSelected]);
+
   useEffect(() => {
     let newKeywordsList = [...keywordsList];
 
@@ -190,7 +191,8 @@ const HeaderSearchBar: React.FC<Props> = ({
       "일반전형",
       newKeywordsList
     );
-  }, [isGeneralSelected]);
+  },        [isGeneralSelected]);
+
   useEffect(() => {
     let newKeywordsList = [...keywordsList];
 
@@ -201,7 +203,8 @@ const HeaderSearchBar: React.FC<Props> = ({
       "사회통합",
       newKeywordsList
     );
-  }, [isSocialIntegrationSelected]);
+  },        [isSocialIntegrationSelected]);
+
   useEffect(() => {
     let newKeywordsList = [...keywordsList];
 
@@ -212,7 +215,7 @@ const HeaderSearchBar: React.FC<Props> = ({
       "마이스터전형",
       newKeywordsList
     );
-  }, [isMeisterSelected]);
+  },        [isMeisterSelected]);
 
   return (
     <div>
@@ -220,13 +223,16 @@ const HeaderSearchBar: React.FC<Props> = ({
         {keywordsList.length >= 1 &&
           keywordsList.map((keyword, index) => {
             return (
+
               <div key={index}>
+
                 <div>
                   {index !== 0 && <S.Keyword>,</S.Keyword>}
                   <S.Keyword>#</S.Keyword>
                   <S.Keyword>{keyword}</S.Keyword>
                 </div>
               </div>
+
             );
           })}
         <S.SearchInput

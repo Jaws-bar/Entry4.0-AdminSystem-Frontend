@@ -59,6 +59,7 @@ class AdminPage extends React.Component<null, State> {
             this.handleChangeSocialIntegrationCheckbox
           }
           handleChangeMeisterCheckbox={this.handleChangeMeisterCheckbox}
+          pageType="admin"
         />
         <S.AdminContentContainer>
           <S.ApplicantListContainer>
