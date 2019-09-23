@@ -16,7 +16,7 @@ const inputBlurHandle = (
   keywordsList: string[],
   keyword: string
 ) => {
-  if (e.target.value) {
+  if (e.target.value !== "") {
     const addedKeywordsList = [...keywordsList, keyword];
     setKeywordsList(addedKeywordsList);
     setKeyword("");
@@ -130,8 +130,8 @@ const HeaderSearchBar: React.FC<Props> = ({
   handleChangeSocialIntegrationCheckbox,
   handleChangeMeisterCheckbox
 }) => {
-  const [keyword, setKeyword] = useState("");
-  const [keywordsList, setKeywordsList] = useState([]);
+  const [keyword, setKeyword] = useState<string>();
+  const [keywordsList, setKeywordsList] = useState<string[]>([]);
 
   useEffect(() => {
     let newKeywordsList = [...keywordsList];
@@ -231,7 +231,7 @@ const HeaderSearchBar: React.FC<Props> = ({
           })}
         <S.SearchInput
           type="text"
-          placeholder={!keywordsList.length ? "검색어를 입력해주세요." : ""}
+          placeholder={keywordsList.length > 0 ? "" : "검색어를 입력해주세요."}
           onChange={e => inputChangeHandle(e, setKeyword)}
           onBlur={e =>
             inputBlurHandle(
