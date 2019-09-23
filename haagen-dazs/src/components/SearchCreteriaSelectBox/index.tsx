@@ -21,52 +21,49 @@ export interface Props {
   handleChangeMeisterCheckbox: () => void;
 }
 
-class SearchCreteriaSelectBox extends React.Component<Props, null> {
-  render() {
-    const {
-      isDaejeonSelected,
-      isNationwideSelected,
-      isUnpaidSelected,
-      isNotArrivedSelected,
-      isGeneralSelected,
-      isSocialIntegrationSelected,
-      isMeisterSelected,
-      handleChangeDaejeonCheckbox,
-      handleChangeNationwideCheckbox,
-      handleChangeUnpaidCheckbox,
-      handleChangeNotArrivedCheckbox,
-      handleChangeGeneralCheckbox,
-      handleChangeSocialIntegrationCheckbox,
-      handleChangeMeisterCheckbox
-    } = this.props;
-    return (
-      <S.CreteriaSelectWrapper>
-        <S.CreteriaCheckboxContainer>
-          <FirstLineWrapper
-            isDaejeonSelected={isDaejeonSelected}
-            isNationwideSelected={isNationwideSelected}
-            isUnpaidSelected={isUnpaidSelected}
-            isNotArrivedSelected={isNotArrivedSelected}
-            handleChangeDaejeonCheckbox={handleChangeDaejeonCheckbox}
-            handleChangeNationwideCheckbox={handleChangeNationwideCheckbox}
-            handleChangeUnpaidCheckbox={handleChangeUnpaidCheckbox}
-            handleChangeNotArrivedCheckbox={handleChangeNotArrivedCheckbox}
-          />
-          <SecondLineWrapper
-            isGeneralSelected={isGeneralSelected}
-            isSocialIntegrationSelected={isSocialIntegrationSelected}
-            isMeisterSelected={isMeisterSelected}
-            handleChangeGeneralCheckbox={handleChangeGeneralCheckbox}
-            handleChangeSocialIntegrationCheckbox={
-              handleChangeSocialIntegrationCheckbox
-            }
-            handleChangeMeisterCheckbox={handleChangeMeisterCheckbox}
-          />
-        </S.CreteriaCheckboxContainer>
-        <S.ExcelOutputBtn>Excel 출력</S.ExcelOutputBtn>
-      </S.CreteriaSelectWrapper>
-    );
-  }
-}
+const SearchCreteriaSelectBox = ({
+  isDaejeonSelected,
+  isNationwideSelected,
+  isUnpaidSelected,
+  isNotArrivedSelected,
+  isGeneralSelected,
+  isSocialIntegrationSelected,
+  isMeisterSelected,
+  handleChangeDaejeonCheckbox,
+  handleChangeNationwideCheckbox,
+  handleChangeUnpaidCheckbox,
+  handleChangeNotArrivedCheckbox,
+  handleChangeGeneralCheckbox,
+  handleChangeSocialIntegrationCheckbox,
+  handleChangeMeisterCheckbox
+}) => {
+  return (
+    <S.CreteriaSelectWrapper>
+      <S.CreteriaCheckboxContainer>
+        <FirstLineWrapper
+          isDaejeonSelected={isDaejeonSelected}
+          isNationwideSelected={isNationwideSelected}
+          isUnpaidSelected={isUnpaidSelected}
+          isNotArrivedSelected={isNotArrivedSelected}
+          handleChangeDaejeonCheckbox={handleChangeDaejeonCheckbox}
+          handleChangeNationwideCheckbox={handleChangeNationwideCheckbox}
+          handleChangeUnpaidCheckbox={handleChangeUnpaidCheckbox}
+          handleChangeNotArrivedCheckbox={handleChangeNotArrivedCheckbox}
+        />
+        <SecondLineWrapper
+          isGeneralSelected={isGeneralSelected}
+          isSocialIntegrationSelected={isSocialIntegrationSelected}
+          isMeisterSelected={isMeisterSelected}
+          handleChangeGeneralCheckbox={handleChangeGeneralCheckbox}
+          handleChangeSocialIntegrationCheckbox={
+            handleChangeSocialIntegrationCheckbox
+          }
+          handleChangeMeisterCheckbox={handleChangeMeisterCheckbox}
+        />
+      </S.CreteriaCheckboxContainer>
+      <S.ExcelOutputBtn>Excel 출력</S.ExcelOutputBtn>
+    </S.CreteriaSelectWrapper>
+  );
+};
 
 export default SearchCreteriaSelectBox;

@@ -220,13 +220,13 @@ const HeaderSearchBar: React.FC<Props> = ({
         {keywordsList.length >= 1 &&
           keywordsList.map((keyword, index) => {
             return (
-              <span key={index}>
+              <div key={index}>
                 <div>
                   {index !== 0 && <S.Keyword>,</S.Keyword>}
                   <S.Keyword>#</S.Keyword>
                   <S.Keyword>{keyword}</S.Keyword>
                 </div>
-              </span>
+              </div>
             );
           })}
         <S.SearchInput

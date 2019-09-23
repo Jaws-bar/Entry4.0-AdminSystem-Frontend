@@ -33,7 +33,7 @@ export const EntryLogo = styled.img`
 export const SearchInputWrapper = styled.div<SearchInput>`
   width: 480px;
   height: 36px;
-  border: solid 0.5px #65bbb7;
+  border: solid 1px #65bbb7;
   background-color: #ffffff;
   font-size: 12px;
   font-weight: 200;
@@ -56,7 +56,7 @@ export const SearchInputWrapper = styled.div<SearchInput>`
       display: none !important;
     }
 
-    > span {
+    > div {
       display: inline-flex;
       width: initial;
 
