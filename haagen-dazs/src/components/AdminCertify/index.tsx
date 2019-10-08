@@ -84,7 +84,7 @@ class AdminCetify extends React.Component<Props, State> {
     try {
       if (this.state.inputID && this.state.inputPW) {
         const response = await getUserToken({
-          admin_id: this.state.inputID,
+          id: this.state.inputID,
           password: this.state.inputPW
         });
         localStorage.setItem(this.storageKey.refresh, response.refresh);
