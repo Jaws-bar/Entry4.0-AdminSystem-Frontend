@@ -4,7 +4,6 @@ export const AdminContentContainer = styled.div`
   position: relative;
   height: calc(100vh - 80px);
   overflow-y: hidden;
-
   display: flex;
 `;
 
@@ -13,6 +12,7 @@ export const ApplicantListContainer = styled.div`
   height: 100%;
   border-right: 1px solid rgba(0, 0, 0, 0.3);
   background-color: #fdfdfd;
+  position: relative;
 `;
 
 export const ApplicantInfoView = styled.div`
