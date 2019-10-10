@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import CheckBox from "../../assets/admin-page/checkbox.png";
 
-export const ApplicantListItem = styled.tr`
+export const UnselectedApplicantListItem = styled.tr`
   width: 100%;
   height: 60px;
   display: flex;
@@ -11,6 +11,10 @@ export const ApplicantListItem = styled.tr`
   color: #222222;
   border-bottom: 1px solid rgba(112, 112, 112, 0.2);
   cursor: pointer;
+`;
+
+export const SelectedApplicantListItem = styled(UnselectedApplicantListItem)`
+  background-color: rgba(101, 187, 183, 0.2);
 `;
 
 export const TD = styled.td`
