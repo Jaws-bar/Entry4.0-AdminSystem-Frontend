@@ -1,1 +1,1 @@
-export const connectionUrl = "https://api.entrydsm.hs.kr/api/v1";
+export const pictureRequestUrl = "https://api.entrydsm.hs.kr/static/pics";
