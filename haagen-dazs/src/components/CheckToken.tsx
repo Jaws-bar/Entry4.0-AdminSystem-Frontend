@@ -15,13 +15,10 @@ class CheckToken extends React.Component<Props, null> {
   }
 
   public componentDidMount() {
-    console.log(
-      sessionStorage.getItem("access"),
-      localStorage.getItem("refresh")
-    );
     if (
-      sessionStorage.getItem("access") === undefined ||
-      !sessionStorage.getItem("access")
+      (sessionStorage.getItem("access") === undefined ||
+        !sessionStorage.getItem("access")) &&
+      !localStorage.getItem("refresh")
     ) {
       this.props.history.push("/login");
     } else if (
@@ -37,11 +34,17 @@ class CheckToken extends React.Component<Props, null> {
   }
 
   private setAccessbyRefresh = async () => {
-    const accessToken = await refreshUserToken({
-      refreshToken: localStorage.getItem("refresh")
-    });
+    try {
+      const accessToken = await refreshUserToken({
+        refresh: localStorage.getItem("refresh")
+      });
 
-    sessionStorage.setItem("access", accessToken.access);
+      sessionStorage.setItem("access", accessToken.access);
+    } catch (error) {
+      if (error.response.status === 401) {
+        this.props.history.push("/login");
+      }
+    }
   };
 }
 
