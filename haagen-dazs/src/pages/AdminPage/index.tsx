@@ -13,6 +13,7 @@ import {
   SubmittedApplication
 } from "../../lib/api";
 import { Creteria } from "../../lib/api/index";
+import { dumy } from "../../dumy";
 
 export interface ListItem {
   receipt_code: string | null;
@@ -33,11 +34,13 @@ export interface State {
   isDaejeonSelected: boolean;
   isNationwideSelected: boolean;
   isUnpaidSelected: boolean;
+  isUnsubmittedSelected: boolean;
   isNotArrivedSelected: boolean;
   isGeneralSelected: boolean;
   isSocialIntegrationSelected: boolean;
   isMeisterSelected: boolean;
   numberOfPages: number;
+  numberOfPagesArray: number[];
   selectedApplicantIndex: number | null;
 }
 
@@ -89,8 +92,10 @@ class AdminPage extends React.Component<null, State> {
     isNotArrivedSelected: false,
     isSocialIntegrationSelected: false,
     isUnpaidSelected: false,
+    isUnsubmittedSelected: false,
     list: [],
     numberOfPages: 0,
+    numberOfPagesArray: [1],
     selectedApplicantIndex: null
   };
 
@@ -106,6 +111,7 @@ class AdminPage extends React.Component<null, State> {
       isDaejeonSelected,
       isNationwideSelected,
       isUnpaidSelected,
+      isUnsubmittedSelected,
       isNotArrivedSelected,
       isGeneralSelected,
       isSocialIntegrationSelected,
@@ -125,6 +131,7 @@ class AdminPage extends React.Component<null, State> {
           isGeneralSelected={isGeneralSelected}
           isSocialIntegrationSelected={isSocialIntegrationSelected}
           isMeisterSelected={isMeisterSelected}
+          isUnsubmittedSelected={isUnsubmittedSelected}
           handleChangeDaejeonCheckbox={this.handleChangeDaejeonCheckbox}
           handleChangeNationwideCheckbox={this.handleChangeNationwideCheckbox}
           handleChangeUnpaidCheckbox={this.handleChangeUnpaidCheckbox}
@@ -134,6 +141,7 @@ class AdminPage extends React.Component<null, State> {
             this.handleChangeSocialIntegrationCheckbox
           }
           handleChangeMeisterCheckbox={this.handleChangeMeisterCheckbox}
+          handleChangeUnsubmittedCheckbox={this.handleChangeUnsubmittedCheckbox}
           pageType="admin"
         />
         <S.AdminContentContainer>
@@ -146,6 +154,7 @@ class AdminPage extends React.Component<null, State> {
               isGeneralSelected={isGeneralSelected}
               isSocialIntegrationSelected={isSocialIntegrationSelected}
               isMeisterSelected={isMeisterSelected}
+              isUnsubmittedSelected={isUnsubmittedSelected}
               handleChangeDaejeonCheckbox={this.handleChangeDaejeonCheckbox}
               handleChangeNationwideCheckbox={
                 this.handleChangeNationwideCheckbox
@@ -159,6 +168,9 @@ class AdminPage extends React.Component<null, State> {
                 this.handleChangeSocialIntegrationCheckbox
               }
               handleChangeMeisterCheckbox={this.handleChangeMeisterCheckbox}
+              handleChangeUnsubmittedCheckbox={
+                this.handleChangeUnsubmittedCheckbox
+              }
             />
             <ApplicantListContainer
               changeNumberOfPages={this.changeNumberOfPages}
@@ -173,6 +185,8 @@ class AdminPage extends React.Component<null, State> {
               handleClickBackPageBtn={this.handleClickBackPageBtn}
               handleClickNextPageBtn={this.handleClickNextPageBtn}
               handleClickPageBtn={this.handleClickPageBtn}
+              changePageIndex={this.changePageIndex}
+              returnNumberOfPages={this.returnNumberOfPages}
             />
           </S.ApplicantListContainer>
 
@@ -234,6 +248,11 @@ class AdminPage extends React.Component<null, State> {
     this.checkCreteriaStatus();
   };
 
+  private handleChangeUnsubmittedCheckbox = (): void => {
+    this.setState({ isUnsubmittedSelected: !this.state.isUnsubmittedSelected });
+    this.checkCreteriaStatus();
+  };
+
   private changeNumberOfPages = (numberOfPages: number): void => {
     this.setState({ numberOfPages });
   };
@@ -260,16 +279,20 @@ class AdminPage extends React.Component<null, State> {
     }
   };
 
-  private handleClickPageBtn = (key: number): void => {
+  private handleClickPageBtn = async (key: number) => {
+    await this.setState({ currentPage: key });
+
     const currentList: ListItem[] = this.state.list.slice(
-      10 * this.state.currentPage,
-      10 * (this.state.currentPage + 1)
+      10 * (this.state.currentPage - 1),
+      this.state.currentPage * 10
     );
-    this.setState({
+
+    await this.setState({
       currentList,
-      currentPage: key,
       selectedApplicantIndex: null
     });
+
+    await this.changePageIndex();
   };
 
   private getApplicantsListData = async (body: Creteria) => {
@@ -284,6 +307,8 @@ class AdminPage extends React.Component<null, State> {
       });
       const currentList: ListItem[] = this.state.list.slice(0, 10);
       await this.setState({ currentList });
+
+      await this.changePageIndex();
     } catch (error) {
       console.log(error);
     }
@@ -335,6 +360,72 @@ class AdminPage extends React.Component<null, State> {
 
     return creteriaStatus;
   };
+
+  private changePageIndex = () => {
+    if (this.state.numberOfPages < 6) {
+      this.setState({
+        numberOfPagesArray: this.range(1, this.state.numberOfPages + 1)
+      });
+    } else {
+      if (this.state.currentPage <= 3) {
+        this.setState({
+          numberOfPagesArray: this.range(1, 6)
+        });
+      } else if (this.state.currentPage > this.state.numberOfPages - 3) {
+        this.setState({
+          numberOfPagesArray: this.range(
+            this.state.numberOfPages - 4,
+            this.state.numberOfPages + 1
+          )
+        });
+      } else {
+        this.setState({
+          numberOfPagesArray: this.range(
+            this.state.currentPage - 2,
+            this.state.currentPage + 3
+          )
+        });
+      }
+    }
+  };
+
+  private returnNumberOfPages = () => {
+    return this.state.numberOfPagesArray.map((i, index) =>
+      this.state.numberOfPagesArray[index] === this.state.currentPage ? (
+        <S.selectedNumberLetter
+          key={index}
+          onClick={async () => {
+            await this.handleClickPageBtn(i);
+            await this.changePageIndex();
+          }}
+        >
+          {i}
+        </S.selectedNumberLetter>
+      ) : (
+        <S.unselectedNumberLetter
+          key={index}
+          onClick={async () => {
+            await this.handleClickPageBtn(i);
+            await this.changePageIndex();
+          }}
+        >
+          {i}
+        </S.unselectedNumberLetter>
+      )
+    );
+  };
+
+  private range(start: number, end: number): number[] {
+    const array: number[] = [];
+    let pageNum: number = start;
+
+    for (let i = 0; i < end - start; i += 1) {
+      array[i] = pageNum;
+      pageNum += 1;
+    }
+
+    return array;
+  }
 }
 
 export default AdminPage;
