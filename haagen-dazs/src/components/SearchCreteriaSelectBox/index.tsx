@@ -11,6 +11,7 @@ export interface Props {
   isGeneralSelected: boolean;
   isSocialIntegrationSelected: boolean;
   isMeisterSelected: boolean;
+  isUnsubmittedSelected: boolean;
   handleChangeDaejeonCheckbox: () => void;
   handleChangeNationwideCheckbox: () => void;
   handleChangeUnpaidCheckbox: () => void;
@@ -18,6 +19,7 @@ export interface Props {
   handleChangeGeneralCheckbox: () => void;
   handleChangeSocialIntegrationCheckbox: () => void;
   handleChangeMeisterCheckbox: () => void;
+  handleChangeUnsubmittedCheckbox: () => void;
   getApplicantsList: (body: { email: string; access: string }) => void;
 }
 
@@ -29,13 +31,15 @@ const SearchCreteriaSelectBox = ({
   isGeneralSelected,
   isSocialIntegrationSelected,
   isMeisterSelected,
+  isUnsubmittedSelected,
   handleChangeDaejeonCheckbox,
   handleChangeNationwideCheckbox,
   handleChangeUnpaidCheckbox,
   handleChangeNotArrivedCheckbox,
   handleChangeGeneralCheckbox,
   handleChangeSocialIntegrationCheckbox,
-  handleChangeMeisterCheckbox
+  handleChangeMeisterCheckbox,
+  handleChangeUnsubmittedCheckbox
 }) => {
   return (
     <S.CreteriaSelectWrapper>
@@ -54,11 +58,13 @@ const SearchCreteriaSelectBox = ({
           isGeneralSelected={isGeneralSelected}
           isSocialIntegrationSelected={isSocialIntegrationSelected}
           isMeisterSelected={isMeisterSelected}
+          isUnsubmittedSelected={isUnsubmittedSelected}
           handleChangeGeneralCheckbox={handleChangeGeneralCheckbox}
           handleChangeSocialIntegrationCheckbox={
             handleChangeSocialIntegrationCheckbox
           }
           handleChangeMeisterCheckbox={handleChangeMeisterCheckbox}
+          handleChangeUnsubmittedCheckbox={handleChangeUnsubmittedCheckbox}
         />
       </S.CreteriaCheckboxContainer>
       <S.ExcelOutputBtn>Excel 출력</S.ExcelOutputBtn>
