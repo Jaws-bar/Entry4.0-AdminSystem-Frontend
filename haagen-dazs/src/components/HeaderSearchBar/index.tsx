@@ -36,13 +36,17 @@ const inputKeyDownHandle = (
   handleChangeNotArrivedCheckbox: () => void,
   handleChangeGeneralCheckbox: () => void,
   handleChangeSocialIntegrationCheckbox: () => void,
-  handleChangeMeisterCheckbox: () => void
+  handleChangeMeisterCheckbox: () => void,
+  handleChangeUnsubmitted: () => void
 ) => {
-  if (e.keyCode === 8 && keyword === "") {
+  console.log(keyword);
+
+  if (e.keyCode === 8 && (keyword === "" || keyword === undefined)) {
     const popedKeyWordsList = [...keywordsList];
     const deletedWord = popedKeyWordsList.pop();
     setKeywordsList(popedKeyWordsList);
 
+    console.log(keywordsList);
     switch (deletedWord) {
       case "대전":
         handleChangeDaejeonCheckbox();
@@ -64,6 +68,9 @@ const inputKeyDownHandle = (
         break;
       case "마이스터전형":
         handleChangeMeisterCheckbox();
+        break;
+      case "미제출자":
+        handleChangeUnsubmitted();
         break;
       default:
         break;
@@ -92,6 +99,7 @@ const checkCreteriaStatus = (
       keyword => keyword !== creteriaText
     );
   }
+  console.log(editedKeywordsList);
   setKeywordsList(editedKeywordsList);
 
   return editedKeywordsList;
@@ -105,6 +113,7 @@ interface Props {
   isGeneralSelected: boolean;
   isSocialIntegrationSelected: boolean;
   isMeisterSelected: boolean;
+  isUnsubmittedSelected: boolean;
   handleChangeDaejeonCheckbox: () => void;
   handleChangeNationwideCheckbox: () => void;
   handleChangeUnpaidCheckbox: () => void;
@@ -112,6 +121,7 @@ interface Props {
   handleChangeGeneralCheckbox: () => void;
   handleChangeSocialIntegrationCheckbox: () => void;
   handleChangeMeisterCheckbox: () => void;
+  handleChangeUnsubmittedCheckbox: () => void;
 }
 
 const HeaderSearchBar: React.FC<Props> = ({
@@ -122,13 +132,15 @@ const HeaderSearchBar: React.FC<Props> = ({
   isGeneralSelected,
   isSocialIntegrationSelected,
   isMeisterSelected,
+  isUnsubmittedSelected,
   handleChangeDaejeonCheckbox,
   handleChangeNationwideCheckbox,
   handleChangeUnpaidCheckbox,
   handleChangeNotArrivedCheckbox,
   handleChangeGeneralCheckbox,
   handleChangeSocialIntegrationCheckbox,
-  handleChangeMeisterCheckbox
+  handleChangeMeisterCheckbox,
+  handleChangeUnsubmittedCheckbox
 }) => {
   const [keyword, setKeyword] = useState<string>();
   const [keywordsList, setKeywordsList] = useState<string[]>([]);
@@ -156,7 +168,7 @@ const HeaderSearchBar: React.FC<Props> = ({
       newKeywordsList
     );
   },        [isNationwideSelected]);
-  
+
   useEffect(() => {
     let newKeywordsList = [...keywordsList];
 
@@ -217,22 +229,31 @@ const HeaderSearchBar: React.FC<Props> = ({
     );
   },        [isMeisterSelected]);
 
+  useEffect(() => {
+    let newKeywordsList = [...keywordsList];
+
+    newKeywordsList = checkCreteriaStatus(
+      keywordsList,
+      setKeywordsList,
+      isUnsubmittedSelected,
+      "미제출자",
+      newKeywordsList
+    );
+  },        [isUnsubmittedSelected]);
+
   return (
     <div>
       <>
         {keywordsList.length >= 1 &&
           keywordsList.map((keyword, index) => {
             return (
-
               <div key={index}>
-
                 <div>
                   {index !== 0 && <S.Keyword>,</S.Keyword>}
                   <S.Keyword>#</S.Keyword>
                   <S.Keyword>{keyword}</S.Keyword>
                 </div>
               </div>
-
             );
           })}
         <S.SearchInput
@@ -261,7 +282,8 @@ const HeaderSearchBar: React.FC<Props> = ({
               handleChangeNotArrivedCheckbox,
               handleChangeGeneralCheckbox,
               handleChangeSocialIntegrationCheckbox,
-              handleChangeMeisterCheckbox
+              handleChangeMeisterCheckbox,
+              handleChangeUnsubmittedCheckbox
             )
           }
         />
