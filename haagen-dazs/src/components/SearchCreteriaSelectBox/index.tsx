@@ -3,7 +3,6 @@ import * as React from "react";
 import * as S from "./style";
 import FirstLineWrapper from "./LineWrapper/FirstLineWrapper";
 import SecondLineWrapper from "./LineWrapper/SecondLineWrapper";
-
 export interface Props {
   isDaejeonSelected: boolean;
   isNationwideSelected: boolean;
@@ -19,6 +18,7 @@ export interface Props {
   handleChangeGeneralCheckbox: () => void;
   handleChangeSocialIntegrationCheckbox: () => void;
   handleChangeMeisterCheckbox: () => void;
+  getApplicantsList: (body: { email: string; access: string }) => void;
 }
 
 const SearchCreteriaSelectBox = ({

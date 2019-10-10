@@ -2,22 +2,19 @@ import * as React from "react";
 
 import * as S from "./style";
 import Checked from "../../../../assets/admin-page/checked.png";
-import { cancelSubmitApplicant } from "../../../../lib/api";
+import {
+  cancelSubmitApplicant,
+  changePaidArrivedStatus
+} from "../../../../lib/api";
 
-interface State {
-  isApplicationArrived: boolean;
-  isPaymentCompleted: boolean;
+interface Props {
+  email: string;
+  is_printed_application_arrived: boolean;
+  is_paid: boolean;
 }
 
-class EditButtonContainer extends React.Component<{}, State> {
-  public state: State = {
-    isApplicationArrived: false,
-    isPaymentCompleted: false
-  };
-
+class EditButtonContainer extends React.Component<Props, {}> {
   public render() {
-    const { isApplicationArrived, isPaymentCompleted } = this.state;
-
     return (
       <S.EditButtonWrapper>
         <S.CheckboxTitle>원서도착여부</S.CheckboxTitle>
@@ -28,7 +25,9 @@ class EditButtonContainer extends React.Component<{}, State> {
         />
         <label htmlFor="application-arrival-status">
           <S.ApplicationArrivalCheckBox onClick={this.handleOnclickIsArrived}>
-            {isApplicationArrived && <img src={Checked} alt="check icon" />}
+            {this.props.is_printed_application_arrived && (
+              <img src={Checked} alt="check icon" />
+            )}
           </S.ApplicationArrivalCheckBox>
         </label>
         <S.CheckboxTitle>결제여부</S.CheckboxTitle>
@@ -39,10 +38,14 @@ class EditButtonContainer extends React.Component<{}, State> {
         />
         <label htmlFor="payment-status">
           <S.PaymentCheckBox onClick={this.handleOnclickIsPaymentCompleted}>
-            {isPaymentCompleted && <img src={Checked} alt="check icon" />}
+            {this.props.is_paid && <img src={Checked} alt="check icon" />}
           </S.PaymentCheckBox>
         </label>
-        <S.SubmissionCancelBtn onClick={this.handleOnclickCancelSubmit}>
+        <S.SubmissionCancelBtn
+          onClick={() =>
+            this.handleOnclickCancelSubmit({ email: this.props.email })
+          }
+        >
           최종제출 취소
         </S.SubmissionCancelBtn>
       </S.EditButtonWrapper>
@@ -50,15 +53,30 @@ class EditButtonContainer extends React.Component<{}, State> {
   }
 
   private handleOnclickIsArrived = () => {
-    this.setState({ isApplicationArrived: !this.state.isApplicationArrived });
+    changePaidArrivedStatus({
+      access: sessionStorage.getItem("access"),
+      email: this.props.email,
+      status: "1"
+    });
   };
 
   private handleOnclickIsPaymentCompleted = () => {
-    this.setState({ isPaymentCompleted: !this.state.isPaymentCompleted });
+    changePaidArrivedStatus({
+      access: sessionStorage.getItem("access"),
+      email: this.props.email,
+      status: "0"
+    });
   };
 
-  private handleOnclickCancelSubmit = async () => {
-    await cancelSubmitApplicant({ email: "thisis@email.com" });
+  private handleOnclickCancelSubmit = async (body: { email: string }) => {
+    try {
+      await cancelSubmitApplicant({
+        email: body.email,
+        access: sessionStorage.getItem("access")
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
 

@@ -1,25 +1,45 @@
 import * as React from "react";
 
 import * as S from "./style";
+import { pictureRequestUrl } from "../../../../lib/api/endpoint";
 
-const BaseInfoContainer = () => (
+interface Props {
+  email: string;
+  apply_time: string;
+  additinal_type: string;
+  name: string;
+  birth_date: string;
+  address: string;
+  school_name: string;
+}
+
+const BaseInfoContainer: React.FC<Props> = ({
+  email,
+  apply_time,
+  additinal_type,
+  name,
+  birth_date,
+  address,
+  school_name
+}) => (
   <S.BaseInfoContainer>
-    <S.IdPhoto alt="ID Photo" />
+    <S.IdPhoto src={`${pictureRequestUrl}/${email}`} alt="ID Photo" />
     <S.BaseTextInfoContainer>
       <S.BaseInfoLine>
-        <S.BaseInfoName>홍길동</S.BaseInfoName>
-        <S.BaseInfo>2004.10.01</S.BaseInfo>
+        <S.BaseInfoName>{name}</S.BaseInfoName>
+        <S.BaseInfo>{birth_date.slice(0, 10)}</S.BaseInfo>
       </S.BaseInfoLine>
       <S.TwoItemsInfoLine>
         <div>
-          <S.BaseInfo>대덕소프트웨어마이스터고등학교</S.BaseInfo>
+          <S.BaseInfo>{school_name}</S.BaseInfo>
           <S.BaseInfo>졸업예정자</S.BaseInfo>
         </div>
-        <S.BaseInfo>마이스터 특별전형</S.BaseInfo>
+        <S.BaseInfo>
+          {apply_time} {additinal_type}
+        </S.BaseInfo>
       </S.TwoItemsInfoLine>
       <S.TwoItemsInfoLine>
-        <S.BaseInfo>대전광역시 유성구 장동 76</S.BaseInfo>
-        <S.BaseInfo>대덕소프트웨어마이스터고등학교 312호</S.BaseInfo>
+        <S.BaseInfo>{address}</S.BaseInfo>
       </S.TwoItemsInfoLine>
     </S.BaseTextInfoContainer>
   </S.BaseInfoContainer>

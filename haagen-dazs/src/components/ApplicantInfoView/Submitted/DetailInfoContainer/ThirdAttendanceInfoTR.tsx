@@ -2,19 +2,33 @@ import * as React from "react";
 
 import * as S from "./style";
 
-const ThirdAttendanceInfoTR = () => (
+interface Props {
+  volunteer_time: number;
+  full_cut_count: number;
+  period_cut_count: number;
+  late_count: number;
+  early_leave_count: number;
+}
+
+const ThirdAttendanceInfoTR: React.FC<Props> = ({
+  volunteer_time,
+  full_cut_count,
+  period_cut_count,
+  late_count,
+  early_leave_count
+}) => (
   <>
     <S.ThirdAttendanceInfoTR>
       <S.VolunteerTimeTitleTD rowSpan={2}>봉사시간</S.VolunteerTimeTitleTD>
       <S.VolunteerTimeTD rowSpan={2}>
-        <p>120시간</p>
+        <p>{volunteer_time}시간</p>
       </S.VolunteerTimeTD>
       <S.AttendanceDateTitleTD rowSpan={2}>출석정보</S.AttendanceDateTitleTD>
       <S.AttendanceDateTD>
         <div>
           전체 무단 결석 일수
           <S.AttendanceDate>
-            180 <b>일</b>
+            {full_cut_count} <b>일</b>
           </S.AttendanceDate>
         </div>
       </S.AttendanceDateTD>
@@ -22,7 +36,7 @@ const ThirdAttendanceInfoTR = () => (
         <div>
           전체 무단 조퇴 일수
           <S.AttendanceDate>
-            180 <b>일</b>
+            {early_leave_count} <b>일</b>
           </S.AttendanceDate>
         </div>
       </S.AttendanceDateTD>
@@ -32,7 +46,7 @@ const ThirdAttendanceInfoTR = () => (
         <div>
           전체 무단 지각 일수
           <S.AttendanceDate>
-            180 <b>일</b>
+            {late_count} <b>일</b>
           </S.AttendanceDate>
         </div>
       </S.AttendanceDateTD>
@@ -40,7 +54,7 @@ const ThirdAttendanceInfoTR = () => (
         <div>
           전체 무단 결과 일수
           <S.AttendanceDate>
-            180 <b>일</b>
+            {period_cut_count} <b>일</b>
           </S.AttendanceDate>
         </div>
       </S.AttendanceDateTD>

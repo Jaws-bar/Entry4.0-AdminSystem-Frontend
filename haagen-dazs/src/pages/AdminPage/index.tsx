@@ -7,18 +7,26 @@ import Unsubmitted from "../../components/ApplicantInfoView/Unsubmitted";
 import Submitted from "../../components/ApplicantInfoView/Submitted";
 import PageNation from "../../components/PageNation";
 import * as S from "./style";
+import {
+  getApplicantsList,
+  getApplication,
+  SubmittedApplication
+} from "../../lib/api";
+import { Creteria } from "../../lib/api/index";
 
 export interface ListItem {
-  code: string;
-  name: string;
-  region: string;
-  type: string;
-  arrive: number;
-  paid: number;
-  submit: number;
+  receipt_code: string | null;
+  name: string | null;
+  email: string;
+  region: "daejeon" | "nation" | null;
+  type: "common" | "meister" | "social" | null;
+  is_printed_application_arrived: boolean;
+  is_paid: boolean;
+  is_final_submit: boolean;
 }
 
 export interface State {
+  applicationData: SubmittedApplication;
   currentList: ListItem[];
   currentPage: number;
   list: ListItem[];
@@ -29,12 +37,49 @@ export interface State {
   isGeneralSelected: boolean;
   isSocialIntegrationSelected: boolean;
   isMeisterSelected: boolean;
-  isSubmitedApplicant: boolean;
   numberOfPages: number;
+  selectedApplicantIndex: number | null;
 }
 
 class AdminPage extends React.Component<null, State> {
   public state: State = {
+    applicationData: {
+      application: {
+        user_email: "",
+        apply_time: "",
+        additinal_type: "",
+        is_daejeon: false,
+        name: "",
+        sex: "",
+        birth_date: "",
+        parent_name: "",
+        parent_tel: "",
+        applicant_tel: "",
+        address: "",
+        post_code: "",
+        student_number: "",
+        graduated_year: "",
+        school_name: "",
+        school_tel: "",
+        volunteer_time: 0,
+        full_cut_count: 0,
+        period_cut_count: 0,
+        late_count: 0,
+        early_leave_count: 0,
+        korean: "",
+        social: "",
+        history: "",
+        math: "",
+        science: "",
+        tech_and_home: "",
+        english: "",
+        self_introduction: "",
+        study_plan: ""
+      },
+      score: {
+        final_score: ""
+      }
+    },
     currentList: [],
     currentPage: 1,
     isDaejeonSelected: false,
@@ -43,31 +88,30 @@ class AdminPage extends React.Component<null, State> {
     isNationwideSelected: false,
     isNotArrivedSelected: false,
     isSocialIntegrationSelected: false,
-    isSubmitedApplicant: false,
     isUnpaidSelected: false,
     list: [],
-
-    numberOfPages: 0
+    numberOfPages: 0,
+    selectedApplicantIndex: null
   };
 
   public componentWillMount() {
-    this.setState({ numberOfPages: Math.ceil(this.state.list.length / 10) });
-    const currentList: ListItem[] = this.state.list.slice(0, 10);
-    this.setState({ currentList });
+    this.getApplicantsListData({});
   }
 
   public render() {
     const {
+      applicationData,
       currentPage,
+      currentList,
       isDaejeonSelected,
       isNationwideSelected,
       isUnpaidSelected,
       isNotArrivedSelected,
       isGeneralSelected,
       isSocialIntegrationSelected,
-      isSubmitedApplicant,
       isMeisterSelected,
-      numberOfPages
+      numberOfPages,
+      selectedApplicantIndex
     } = this.state;
 
     return (
@@ -117,11 +161,11 @@ class AdminPage extends React.Component<null, State> {
               handleChangeMeisterCheckbox={this.handleChangeMeisterCheckbox}
             />
             <ApplicantListContainer
-              checkApplicantSubmissionStatus={
-                this.checkApplicantSubmissionStatus
-              }
               changeNumberOfPages={this.changeNumberOfPages}
               currentList={this.state.currentList}
+              handleChangeSelectedIndex={this.handleChangeSelectedIndex}
+              selectedIndex={selectedApplicantIndex}
+              getApplication={this.getApplication}
             />
             <PageNation
               currentPage={currentPage}
@@ -133,7 +177,20 @@ class AdminPage extends React.Component<null, State> {
           </S.ApplicantListContainer>
 
           <S.ApplicantInfoView>
-            {isSubmitedApplicant ? <Submitted /> : <Unsubmitted />}
+            {selectedApplicantIndex === null ? (
+              <div />
+            ) : currentList[selectedApplicantIndex].is_final_submit ? (
+              <Submitted
+                applicationData={applicationData}
+                is_printed_application_arrived={
+                  currentList[selectedApplicantIndex]
+                    .is_printed_application_arrived
+                }
+                is_paid={currentList[selectedApplicantIndex].is_paid}
+              />
+            ) : (
+              <Unsubmitted applicationData={applicationData} />
+            )}
           </S.ApplicantInfoView>
         </S.AdminContentContainer>
       </>
@@ -142,36 +199,39 @@ class AdminPage extends React.Component<null, State> {
 
   private handleChangeDaejeonCheckbox = (): void => {
     this.setState({ isDaejeonSelected: !this.state.isDaejeonSelected });
+    this.checkCreteriaStatus();
   };
 
   private handleChangeNationwideCheckbox = (): void => {
     this.setState({ isNationwideSelected: !this.state.isNationwideSelected });
+    this.checkCreteriaStatus();
   };
 
   private handleChangeUnpaidCheckbox = (): void => {
     this.setState({ isUnpaidSelected: !this.state.isUnpaidSelected });
+    this.checkCreteriaStatus();
   };
 
   private handleChangeNotArrivedCheckbox = (): void => {
     this.setState({ isNotArrivedSelected: !this.state.isNotArrivedSelected });
+    this.checkCreteriaStatus();
   };
 
   private handleChangeGeneralCheckbox = (): void => {
     this.setState({ isGeneralSelected: !this.state.isGeneralSelected });
+    this.checkCreteriaStatus();
   };
 
   private handleChangeSocialIntegrationCheckbox = (): void => {
     this.setState({
       isSocialIntegrationSelected: !this.state.isSocialIntegrationSelected
     });
+    this.checkCreteriaStatus();
   };
 
   private handleChangeMeisterCheckbox = (): void => {
     this.setState({ isMeisterSelected: !this.state.isMeisterSelected });
-  };
-
-  private checkApplicantSubmissionStatus = (status: boolean): void => {
-    this.setState({ isSubmitedApplicant: status });
+    this.checkCreteriaStatus();
   };
 
   private changeNumberOfPages = (numberOfPages: number): void => {
@@ -185,7 +245,7 @@ class AdminPage extends React.Component<null, State> {
         10 * (this.state.currentPage - 2),
         10 * (this.state.currentPage - 1)
       );
-      this.setState({ currentPage, currentList });
+      this.setState({ currentPage, currentList, selectedApplicantIndex: null });
     }
   };
 
@@ -196,7 +256,7 @@ class AdminPage extends React.Component<null, State> {
         10 * this.state.currentPage,
         10 * (this.state.currentPage + 1)
       );
-      this.setState({ currentPage, currentList });
+      this.setState({ currentPage, currentList, selectedApplicantIndex: null });
     }
   };
 
@@ -205,7 +265,75 @@ class AdminPage extends React.Component<null, State> {
       10 * this.state.currentPage,
       10 * (this.state.currentPage + 1)
     );
-    this.setState({ currentList, currentPage: key });
+    this.setState({
+      currentList,
+      currentPage: key,
+      selectedApplicantIndex: null
+    });
+  };
+
+  private getApplicantsListData = async (body: Creteria) => {
+    try {
+      const list: ListItem[] = await getApplicantsList({
+        access: sessionStorage.getItem("access"),
+        body: { region: body.region, type: body.type, status: body.status }
+      });
+      await this.setState({ list });
+      await this.setState({
+        numberOfPages: Math.ceil(this.state.list.length / 10)
+      });
+      const currentList: ListItem[] = this.state.list.slice(0, 10);
+      await this.setState({ currentList });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  private handleChangeSelectedIndex = async (index: number) => {
+    await this.setState({ selectedApplicantIndex: index });
+
+    try {
+      const applicationData = await getApplication({
+        email: this.state.currentList[this.state.selectedApplicantIndex].email,
+        access: sessionStorage.getItem("access")
+      });
+
+      await this.setState({ applicationData });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  private getApplication = async (body: { email: string; access: string }) => {
+    try {
+      const applicationData: SubmittedApplication = await getApplication({
+        email: body.email,
+        access: body.access
+      });
+      await this.setState({ applicationData });
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  private checkCreteriaStatus = () => {
+    // boolean 변경된 후 수정
+    const creteriaStatus: Creteria = {};
+    if (this.state.isDaejeonSelected) {
+      creteriaStatus.region = "daejeon";
+    } else if (this.state.isNationwideSelected) {
+      creteriaStatus.region = "nation";
+    }
+
+    if (this.state.isGeneralSelected) {
+      creteriaStatus.type = "common";
+    } else if (this.state.isMeisterSelected) {
+      creteriaStatus.type = "meister";
+    } else if (this.state.isSocialIntegrationSelected) {
+      creteriaStatus.type = "social";
+    }
+
+    return creteriaStatus;
   };
 }
 
