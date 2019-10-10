@@ -8,13 +8,19 @@ interface State {
   isStudyPlanSelected: boolean;
 }
 
-class DocumentContainer extends React.Component<{}, State> {
+interface Props {
+  self_introduction: string;
+  study_plan: string;
+}
+
+class DocumentContainer extends React.Component<Props, State> {
   public state: State = {
     isIntroductionSelected: true,
     isStudyPlanSelected: false
   };
 
   public render() {
+    const { self_introduction, study_plan } = this.props;
     return (
       <>
         <DocumentSelectBar
@@ -23,7 +29,11 @@ class DocumentContainer extends React.Component<{}, State> {
           isIntroductionSelected={this.state.isIntroductionSelected}
           isStudyPlanSelected={this.state.isStudyPlanSelected}
         />
-        <DocumentContent />
+        <DocumentContent
+          self_introduction={self_introduction}
+          study_plan={study_plan}
+          isIntroductionSelected={this.state.isIntroductionSelected}
+        />
       </>
     );
   }

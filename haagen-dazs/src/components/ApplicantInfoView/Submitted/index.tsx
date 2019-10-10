@@ -5,15 +5,57 @@ import BaseInfoContainer from "./BaseInfoContainer";
 import DetailInfoContainer from "./DetailInfoContainer";
 import DocumentContainer from "./DocumentContainer";
 import EditButtonContainer from "./EditButtonContainer";
+import { SubmittedApplication } from "../../../lib/api";
 
-class Submitted extends React.Component {
+interface Props {
+  applicationData: SubmittedApplication;
+  is_printed_application_arrived: boolean;
+  is_paid: boolean;
+}
+
+class Submitted extends React.Component<Props, {}> {
+  constructor(props: Props) {
+    super(props);
+  }
+
   public render() {
+    const {
+      applicationData,
+      is_printed_application_arrived,
+      is_paid
+    } = this.props;
     return (
       <S.SubmittedWrapper>
-        <EditButtonContainer />
-        <BaseInfoContainer />
-        <DetailInfoContainer />
-        <DocumentContainer />
+        <EditButtonContainer
+          email={applicationData.application.user_email}
+          is_printed_application_arrived={is_printed_application_arrived}
+          is_paid={is_paid}
+        />
+        <BaseInfoContainer
+          email={applicationData.application.user_email}
+          apply_time={applicationData.application.apply_time}
+          additinal_type={applicationData.application.additinal_type}
+          name={applicationData.application.name}
+          birth_date={applicationData.application.birth_date}
+          address={applicationData.application.address}
+          school_name={applicationData.application.school_name}
+        />
+        <DetailInfoContainer
+          applicant_tel={applicationData.application.applicant_tel}
+          parent_tel={applicationData.application.parent_tel}
+          school_tel={applicationData.application.school_tel}
+          user_email={applicationData.application.user_email}
+          final_score={applicationData.score.final_score}
+          volunteer_time={applicationData.application.volunteer_time}
+          full_cut_count={applicationData.application.full_cut_count}
+          period_cut_count={applicationData.application.period_cut_count}
+          late_count={applicationData.application.late_count}
+          early_leave_count={applicationData.application.early_leave_count}
+        />
+        <DocumentContainer
+          self_introduction={applicationData.application.self_introduction}
+          study_plan={applicationData.application.study_plan}
+        />
       </S.SubmittedWrapper>
     );
   }
