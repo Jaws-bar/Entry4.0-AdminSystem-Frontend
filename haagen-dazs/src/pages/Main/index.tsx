@@ -35,6 +35,7 @@ class Main extends React.Component<null, State> {
           isGeneralSelected={false}
           isSocialIntegrationSelected={false}
           isMeisterSelected={false}
+          isUnsubmittedSelected={false}
           handleChangeNationwideCheckbox={null}
           handleChangeDaejeonCheckbox={null}
           handleChangeUnpaidCheckbox={null}
@@ -42,6 +43,7 @@ class Main extends React.Component<null, State> {
           handleChangeGeneralCheckbox={null}
           handleChangeSocialIntegrationCheckbox={null}
           handleChangeMeisterCheckbox={null}
+          handleChangeUnsubmittedCheckbox={null}
           pageType="main"
         />
         <S.StatisticContainer>

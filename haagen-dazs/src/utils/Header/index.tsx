@@ -15,6 +15,7 @@ interface OwnProps {
   isGeneralSelected: boolean;
   isSocialIntegrationSelected: boolean;
   isMeisterSelected: boolean;
+  isUnsubmittedSelected: boolean;
   handleChangeDaejeonCheckbox: () => void;
   handleChangeNationwideCheckbox: () => void;
   handleChangeUnpaidCheckbox: () => void;
@@ -22,6 +23,7 @@ interface OwnProps {
   handleChangeGeneralCheckbox: () => void;
   handleChangeSocialIntegrationCheckbox: () => void;
   handleChangeMeisterCheckbox: () => void;
+  handleChangeUnsubmittedCheckbox: () => void;
   pageType: string;
 }
 
@@ -71,6 +73,7 @@ class Header extends React.Component<Props, State> {
       isGeneralSelected,
       isSocialIntegrationSelected,
       isMeisterSelected,
+      isUnsubmittedSelected,
       handleChangeDaejeonCheckbox,
       handleChangeNationwideCheckbox,
       handleChangeUnpaidCheckbox,
@@ -78,6 +81,7 @@ class Header extends React.Component<Props, State> {
       handleChangeGeneralCheckbox,
       handleChangeSocialIntegrationCheckbox,
       handleChangeMeisterCheckbox,
+      handleChangeUnsubmittedCheckbox,
       pageType
     } = this.props;
     return (
@@ -96,6 +100,7 @@ class Header extends React.Component<Props, State> {
               isGeneralSelected={isGeneralSelected}
               isSocialIntegrationSelected={isSocialIntegrationSelected}
               isMeisterSelected={isMeisterSelected}
+              isUnsubmittedSelected={isUnsubmittedSelected}
               handleChangeNationwideCheckbox={handleChangeNationwideCheckbox}
               handleChangeDaejeonCheckbox={handleChangeDaejeonCheckbox}
               handleChangeUnpaidCheckbox={handleChangeUnpaidCheckbox}
@@ -105,6 +110,7 @@ class Header extends React.Component<Props, State> {
                 handleChangeSocialIntegrationCheckbox
               }
               handleChangeMeisterCheckbox={handleChangeMeisterCheckbox}
+              handleChangeUnsubmittedCheckbox={handleChangeUnsubmittedCheckbox}
             />
           </S.SearchInputWrapper>
           <S.MenuList>
