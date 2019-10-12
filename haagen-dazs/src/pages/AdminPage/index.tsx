@@ -13,9 +13,9 @@ import {
   SubmittedApplication
 } from "../../lib/api";
 import { Creteria } from "../../lib/api/index";
-import { dumy } from "../../dumy";
 
 export interface ListItem {
+  applicant_tel?: string;
   receipt_code: string | null;
   name: string | null;
   email: string;
@@ -24,6 +24,7 @@ export interface ListItem {
   is_printed_application_arrived: boolean;
   is_paid: boolean;
   is_final_submit: boolean;
+  school_name?: string;
 }
 
 export interface State {
@@ -49,8 +50,8 @@ class AdminPage extends React.Component<null, State> {
     applicationData: {
       application: {
         user_email: "",
-        apply_time: "",
-        additinal_type: "",
+        apply_type: null,
+        additional_type: null,
         is_daejeon: false,
         name: "",
         sex: "",
@@ -59,9 +60,6 @@ class AdminPage extends React.Component<null, State> {
         parent_tel: "",
         applicant_tel: "",
         address: "",
-        post_code: "",
-        student_number: "",
-        graduated_year: "",
         school_name: "",
         school_tel: "",
         volunteer_time: 0,
@@ -69,19 +67,11 @@ class AdminPage extends React.Component<null, State> {
         period_cut_count: 0,
         late_count: 0,
         early_leave_count: 0,
-        korean: "",
-        social: "",
-        history: "",
-        math: "",
-        science: "",
-        tech_and_home: "",
-        english: "",
         self_introduction: "",
-        study_plan: ""
+        study_plan: "",
+        ged_average_score: ""
       },
-      score: {
-        final_score: ""
-      }
+      score: ""
     },
     currentList: [],
     currentPage: 1,
@@ -143,6 +133,7 @@ class AdminPage extends React.Component<null, State> {
           handleChangeMeisterCheckbox={this.handleChangeMeisterCheckbox}
           handleChangeUnsubmittedCheckbox={this.handleChangeUnsubmittedCheckbox}
           pageType="admin"
+          getApplicantsList={this.getApplicantsListData}
         />
         <S.AdminContentContainer>
           <S.ApplicantListContainer>
@@ -211,13 +202,23 @@ class AdminPage extends React.Component<null, State> {
     );
   }
 
-  private handleChangeDaejeonCheckbox = (): void => {
-    this.setState({ isDaejeonSelected: !this.state.isDaejeonSelected });
+  private handleChangeDaejeonCheckbox = async () => {
+    await this.setState({
+      isDaejeonSelected: !this.state.isDaejeonSelected
+    });
+    if (this.state.isDaejeonSelected && this.state.isNationwideSelected) {
+      this.setState({ isNationwideSelected: false });
+    }
     this.checkCreteriaStatus();
   };
 
-  private handleChangeNationwideCheckbox = (): void => {
-    this.setState({ isNationwideSelected: !this.state.isNationwideSelected });
+  private handleChangeNationwideCheckbox = async () => {
+    await this.setState({
+      isNationwideSelected: !this.state.isNationwideSelected
+    });
+    if (this.state.isNationwideSelected && this.state.isDaejeonSelected) {
+      this.setState({ isDaejeonSelected: false });
+    }
     this.checkCreteriaStatus();
   };
 
@@ -336,6 +337,8 @@ class AdminPage extends React.Component<null, State> {
         access: body.access
       });
       await this.setState({ applicationData });
+
+      console.log(applicationData.application.ged_average_score);
     } catch (error) {
       console.log(error.response);
     }
