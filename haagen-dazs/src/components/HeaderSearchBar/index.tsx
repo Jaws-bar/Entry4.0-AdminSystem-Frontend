@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import * as S from "./style";
-import { Creteria } from "../../lib/api/index";
 
 const inputChangeHandle = (
   e: React.ChangeEvent<HTMLInputElement>,
@@ -23,7 +22,8 @@ const inputBlurHandle = (
   handleChangeGeneralCheckbox: () => void,
   handleChangeSocialIntegrationCheckbox: () => void,
   handleChangeMeisterCheckbox: () => void,
-  handleChangeUnsubmitted: () => void
+  handleChangeUnsubmitted: () => void,
+  getApplicantsList: () => Promise<void>
 ) => {
   if (e.target.value !== "") {
     let addedKeywordsList: string[] = [];
@@ -60,13 +60,14 @@ const inputBlurHandle = (
           break;
       }
     }
+    getApplicantsList();
 
     setKeyword("");
     e.target.value = "";
   }
 };
 
-const inputKeyDownHandle = (
+const inputKeyDownHandle = async (
   e: React.KeyboardEvent<HTMLInputElement>,
   keyword: string,
   keywordsList: string[],
@@ -114,6 +115,7 @@ const inputKeyDownHandle = (
         break;
     }
   } else if (e.keyCode === 13 && keyword !== "") {
+    e.currentTarget.value = "";
     const addedKeywordsList = [...keywordsList, keyword];
     setKeywordsList(addedKeywordsList);
 
@@ -122,7 +124,7 @@ const inputKeyDownHandle = (
         handleChangeDaejeonCheckbox();
         break;
       case "전국":
-        handleChangeNationwideCheckbox();
+        await handleChangeNationwideCheckbox();
         break;
       case "미납자":
         handleChangeUnpaidCheckbox();
@@ -147,7 +149,6 @@ const inputKeyDownHandle = (
     }
 
     setKeyword("");
-    e.currentTarget.value = "";
   }
 };
 
@@ -189,7 +190,7 @@ interface Props {
   handleChangeSocialIntegrationCheckbox: () => void;
   handleChangeMeisterCheckbox: () => void;
   handleChangeUnsubmittedCheckbox: () => void;
-  getApplicantsList: (body: Creteria) => Promise<void>;
+  getApplicantsList: () => Promise<void>;
 }
 
 const HeaderSearchBar: React.FC<Props> = ({
@@ -208,7 +209,8 @@ const HeaderSearchBar: React.FC<Props> = ({
   handleChangeGeneralCheckbox,
   handleChangeSocialIntegrationCheckbox,
   handleChangeMeisterCheckbox,
-  handleChangeUnsubmittedCheckbox
+  handleChangeUnsubmittedCheckbox,
+  getApplicantsList
 }) => {
   const [keyword, setKeyword] = useState<string>();
   const [keywordsList, setKeywordsList] = useState<string[]>([]);
@@ -342,7 +344,8 @@ const HeaderSearchBar: React.FC<Props> = ({
               handleChangeGeneralCheckbox,
               handleChangeSocialIntegrationCheckbox,
               handleChangeMeisterCheckbox,
-              handleChangeUnsubmittedCheckbox
+              handleChangeUnsubmittedCheckbox,
+              getApplicantsList
             )
           }
           onKeyUp={e =>
