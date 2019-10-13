@@ -87,8 +87,8 @@ class AdminPage extends React.Component<null, State> {
     list: [],
     numberOfPages: 0,
     numberOfPagesArray: [1],
-    searchCreteriaStatus: {},
-    selectedApplicantIndex: null
+    selectedApplicantIndex: null,
+    searchCreteriaStatus: {}
   };
 
   public componentWillMount() {

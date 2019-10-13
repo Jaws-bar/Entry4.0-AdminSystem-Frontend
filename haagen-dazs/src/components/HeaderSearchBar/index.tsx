@@ -14,17 +14,60 @@ const inputBlurHandle = (
   setKeyword: (keyword: string) => void,
   setKeywordsList: (keywordsList: string[]) => void,
   keywordsList: string[],
-  keyword: string
+  keyword: string,
+  handleChangeDaejeonCheckbox: () => void,
+  handleChangeNationwideCheckbox: () => void,
+  handleChangeUnpaidCheckbox: () => void,
+  handleChangeNotArrivedCheckbox: () => void,
+  handleChangeGeneralCheckbox: () => void,
+  handleChangeSocialIntegrationCheckbox: () => void,
+  handleChangeMeisterCheckbox: () => void,
+  handleChangeUnsubmitted: () => void,
+  getApplicantsList: () => Promise<void>
 ) => {
   if (e.target.value !== "") {
-    const addedKeywordsList = [...keywordsList, keyword];
-    setKeywordsList(addedKeywordsList);
+    let addedKeywordsList: string[] = [];
+    if (keywordsList.indexOf(keyword) === -1) {
+      addedKeywordsList = [...keywordsList, keyword];
+      setKeywordsList(addedKeywordsList);
+
+      switch (keyword) {
+        case "대전":
+          handleChangeDaejeonCheckbox();
+          break;
+        case "전국":
+          handleChangeNationwideCheckbox();
+          break;
+        case "미납자":
+          handleChangeUnpaidCheckbox();
+          break;
+        case "원서 미도착":
+          handleChangeNotArrivedCheckbox();
+          break;
+        case "일반전형":
+          handleChangeGeneralCheckbox();
+          break;
+        case "사회통합":
+          handleChangeSocialIntegrationCheckbox();
+          break;
+        case "마이스터전형":
+          handleChangeMeisterCheckbox();
+          break;
+        case "미제출자":
+          handleChangeUnsubmitted();
+          break;
+        default:
+          break;
+      }
+    }
+    getApplicantsList();
+
     setKeyword("");
     e.target.value = "";
   }
 };
 
-const inputKeyDownHandle = (
+const inputKeyDownHandle = async (
   e: React.KeyboardEvent<HTMLInputElement>,
   keyword: string,
   keywordsList: string[],
@@ -39,14 +82,10 @@ const inputKeyDownHandle = (
   handleChangeMeisterCheckbox: () => void,
   handleChangeUnsubmitted: () => void
 ) => {
-  console.log(keyword);
-
   if (e.keyCode === 8 && (keyword === "" || keyword === undefined)) {
     const popedKeyWordsList = [...keywordsList];
     const deletedWord = popedKeyWordsList.pop();
     setKeywordsList(popedKeyWordsList);
-
-    console.log(keywordsList);
     switch (deletedWord) {
       case "대전":
         handleChangeDaejeonCheckbox();
@@ -76,10 +115,40 @@ const inputKeyDownHandle = (
         break;
     }
   } else if (e.keyCode === 13 && keyword !== "") {
+    e.currentTarget.value = "";
     const addedKeywordsList = [...keywordsList, keyword];
     setKeywordsList(addedKeywordsList);
+
+    switch (keyword) {
+      case "대전":
+        handleChangeDaejeonCheckbox();
+        break;
+      case "전국":
+        await handleChangeNationwideCheckbox();
+        break;
+      case "미납자":
+        handleChangeUnpaidCheckbox();
+        break;
+      case "원서 미도착":
+        handleChangeNotArrivedCheckbox();
+        break;
+      case "일반전형":
+        handleChangeGeneralCheckbox();
+        break;
+      case "사회통합":
+        handleChangeSocialIntegrationCheckbox();
+        break;
+      case "마이스터전형":
+        handleChangeMeisterCheckbox();
+        break;
+      case "미제출자":
+        handleChangeUnsubmitted();
+        break;
+      default:
+        break;
+    }
+
     setKeyword("");
-    e.currentTarget.value = "";
   }
 };
 
@@ -99,7 +168,6 @@ const checkCreteriaStatus = (
       keyword => keyword !== creteriaText
     );
   }
-  console.log(editedKeywordsList);
   setKeywordsList(editedKeywordsList);
 
   return editedKeywordsList;
@@ -122,6 +190,7 @@ interface Props {
   handleChangeSocialIntegrationCheckbox: () => void;
   handleChangeMeisterCheckbox: () => void;
   handleChangeUnsubmittedCheckbox: () => void;
+  getApplicantsList: () => Promise<void>;
 }
 
 const HeaderSearchBar: React.FC<Props> = ({
@@ -140,7 +209,8 @@ const HeaderSearchBar: React.FC<Props> = ({
   handleChangeGeneralCheckbox,
   handleChangeSocialIntegrationCheckbox,
   handleChangeMeisterCheckbox,
-  handleChangeUnsubmittedCheckbox
+  handleChangeUnsubmittedCheckbox,
+  getApplicantsList
 }) => {
   const [keyword, setKeyword] = useState<string>();
   const [keywordsList, setKeywordsList] = useState<string[]>([]);
@@ -266,7 +336,16 @@ const HeaderSearchBar: React.FC<Props> = ({
               setKeyword,
               setKeywordsList,
               keywordsList,
-              keyword
+              keyword,
+              handleChangeDaejeonCheckbox,
+              handleChangeNationwideCheckbox,
+              handleChangeUnpaidCheckbox,
+              handleChangeNotArrivedCheckbox,
+              handleChangeGeneralCheckbox,
+              handleChangeSocialIntegrationCheckbox,
+              handleChangeMeisterCheckbox,
+              handleChangeUnsubmittedCheckbox,
+              getApplicantsList
             )
           }
           onKeyUp={e =>
@@ -291,5 +370,4 @@ const HeaderSearchBar: React.FC<Props> = ({
     </div>
   );
 };
-
 export default HeaderSearchBar;
