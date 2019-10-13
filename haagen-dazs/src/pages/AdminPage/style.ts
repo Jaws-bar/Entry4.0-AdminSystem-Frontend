@@ -19,3 +19,17 @@ export const ApplicantInfoView = styled.div`
   width: 42.7%;
   background-color: #fdfdfd;
 `;
+
+export const unselectedNumberLetter = styled.p`
+  width: 30px;
+  font-size: 20px;
+  font-weight: 300;
+  color: #222222;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+`;
+
+export const selectedNumberLetter = styled(unselectedNumberLetter)`
+  font-weight: bold;
+`;

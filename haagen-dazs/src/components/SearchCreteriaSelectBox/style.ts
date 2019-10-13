@@ -4,7 +4,7 @@ export const CreteriaSelectWrapper = styled.div`
   width: 100%;
   height: 97px;
   display: flex;
-  padding: 24px 29% 25px 29%;
+  padding: 24px 23% 25px 23%;
 `;
 
 export const CreteriaCheckboxContainer = styled.div`

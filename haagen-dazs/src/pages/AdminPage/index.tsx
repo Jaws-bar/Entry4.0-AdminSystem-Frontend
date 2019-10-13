@@ -10,11 +10,12 @@ import * as S from "./style";
 import {
   getApplicantsList,
   getApplication,
-  SubmittedApplication
+  SubmittedApplication,
+  Creteria
 } from "../../lib/api";
-import { Creteria } from "../../lib/api/index";
 
 export interface ListItem {
+  applicant_tel?: string;
   receipt_code: string | null;
   name: string | null;
   email: string;
@@ -23,21 +24,25 @@ export interface ListItem {
   is_printed_application_arrived: boolean;
   is_paid: boolean;
   is_final_submit: boolean;
+  school_name?: string;
 }
 
 export interface State {
   applicationData: SubmittedApplication;
   currentList: ListItem[];
   currentPage: number;
+  searchCreteriaStatus: Creteria;
   list: ListItem[];
   isDaejeonSelected: boolean;
   isNationwideSelected: boolean;
   isUnpaidSelected: boolean;
+  isUnsubmittedSelected: boolean;
   isNotArrivedSelected: boolean;
   isGeneralSelected: boolean;
   isSocialIntegrationSelected: boolean;
   isMeisterSelected: boolean;
   numberOfPages: number;
+  numberOfPagesArray: number[];
   selectedApplicantIndex: number | null;
 }
 
@@ -46,8 +51,8 @@ class AdminPage extends React.Component<null, State> {
     applicationData: {
       application: {
         user_email: "",
-        apply_time: "",
-        additinal_type: "",
+        apply_type: null,
+        additional_type: null,
         is_daejeon: false,
         name: "",
         sex: "",
@@ -56,9 +61,6 @@ class AdminPage extends React.Component<null, State> {
         parent_tel: "",
         applicant_tel: "",
         address: "",
-        post_code: "",
-        student_number: "",
-        graduated_year: "",
         school_name: "",
         school_tel: "",
         volunteer_time: 0,
@@ -66,19 +68,11 @@ class AdminPage extends React.Component<null, State> {
         period_cut_count: 0,
         late_count: 0,
         early_leave_count: 0,
-        korean: "",
-        social: "",
-        history: "",
-        math: "",
-        science: "",
-        tech_and_home: "",
-        english: "",
         self_introduction: "",
-        study_plan: ""
+        study_plan: "",
+        ged_average_score: ""
       },
-      score: {
-        final_score: ""
-      }
+      score: ""
     },
     currentList: [],
     currentPage: 1,
@@ -89,13 +83,16 @@ class AdminPage extends React.Component<null, State> {
     isNotArrivedSelected: false,
     isSocialIntegrationSelected: false,
     isUnpaidSelected: false,
+    isUnsubmittedSelected: false,
     list: [],
     numberOfPages: 0,
-    selectedApplicantIndex: null
+    numberOfPagesArray: [1],
+    selectedApplicantIndex: null,
+    searchCreteriaStatus: {}
   };
 
   public componentWillMount() {
-    this.getApplicantsListData({});
+    this.getApplicantsListData();
   }
 
   public render() {
@@ -106,6 +103,7 @@ class AdminPage extends React.Component<null, State> {
       isDaejeonSelected,
       isNationwideSelected,
       isUnpaidSelected,
+      isUnsubmittedSelected,
       isNotArrivedSelected,
       isGeneralSelected,
       isSocialIntegrationSelected,
@@ -125,6 +123,7 @@ class AdminPage extends React.Component<null, State> {
           isGeneralSelected={isGeneralSelected}
           isSocialIntegrationSelected={isSocialIntegrationSelected}
           isMeisterSelected={isMeisterSelected}
+          isUnsubmittedSelected={isUnsubmittedSelected}
           handleChangeDaejeonCheckbox={this.handleChangeDaejeonCheckbox}
           handleChangeNationwideCheckbox={this.handleChangeNationwideCheckbox}
           handleChangeUnpaidCheckbox={this.handleChangeUnpaidCheckbox}
@@ -134,7 +133,9 @@ class AdminPage extends React.Component<null, State> {
             this.handleChangeSocialIntegrationCheckbox
           }
           handleChangeMeisterCheckbox={this.handleChangeMeisterCheckbox}
+          handleChangeUnsubmittedCheckbox={this.handleChangeUnsubmittedCheckbox}
           pageType="admin"
+          getApplicantsList={this.getApplicantsListData}
         />
         <S.AdminContentContainer>
           <S.ApplicantListContainer>
@@ -146,6 +147,7 @@ class AdminPage extends React.Component<null, State> {
               isGeneralSelected={isGeneralSelected}
               isSocialIntegrationSelected={isSocialIntegrationSelected}
               isMeisterSelected={isMeisterSelected}
+              isUnsubmittedSelected={isUnsubmittedSelected}
               handleChangeDaejeonCheckbox={this.handleChangeDaejeonCheckbox}
               handleChangeNationwideCheckbox={
                 this.handleChangeNationwideCheckbox
@@ -159,6 +161,9 @@ class AdminPage extends React.Component<null, State> {
                 this.handleChangeSocialIntegrationCheckbox
               }
               handleChangeMeisterCheckbox={this.handleChangeMeisterCheckbox}
+              handleChangeUnsubmittedCheckbox={
+                this.handleChangeUnsubmittedCheckbox
+              }
             />
             <ApplicantListContainer
               changeNumberOfPages={this.changeNumberOfPages}
@@ -173,6 +178,8 @@ class AdminPage extends React.Component<null, State> {
               handleClickBackPageBtn={this.handleClickBackPageBtn}
               handleClickNextPageBtn={this.handleClickNextPageBtn}
               handleClickPageBtn={this.handleClickPageBtn}
+              changePageIndex={this.changePageIndex}
+              returnNumberOfPages={this.returnNumberOfPages}
             />
           </S.ApplicantListContainer>
 
@@ -197,41 +204,82 @@ class AdminPage extends React.Component<null, State> {
     );
   }
 
-  private handleChangeDaejeonCheckbox = (): void => {
-    this.setState({ isDaejeonSelected: !this.state.isDaejeonSelected });
-    this.checkCreteriaStatus();
+  private handleChangeDaejeonCheckbox = async () => {
+    await this.setState({
+      isDaejeonSelected: !this.state.isDaejeonSelected
+    });
+    if (this.state.isDaejeonSelected && this.state.isNationwideSelected) {
+      await this.setState({ isNationwideSelected: false });
+    }
+    await this.setState({
+      searchCreteriaStatus: this.checkCreteriaStatus()
+    });
+
+    this.getApplicantsListData();
   };
 
-  private handleChangeNationwideCheckbox = (): void => {
-    this.setState({ isNationwideSelected: !this.state.isNationwideSelected });
-    this.checkCreteriaStatus();
+  private handleChangeNationwideCheckbox = async () => {
+    await this.setState({
+      isNationwideSelected: !this.state.isNationwideSelected
+    });
+    if (this.state.isNationwideSelected && this.state.isDaejeonSelected) {
+      await this.setState({ isDaejeonSelected: false });
+    }
+    await this.setState({
+      searchCreteriaStatus: this.checkCreteriaStatus()
+    });
+
+    this.getApplicantsListData();
   };
 
   private handleChangeUnpaidCheckbox = (): void => {
-    this.setState({ isUnpaidSelected: !this.state.isUnpaidSelected });
-    this.checkCreteriaStatus();
+    this.setState({
+      isUnpaidSelected: !this.state.isUnpaidSelected,
+      searchCreteriaStatus: this.checkCreteriaStatus()
+    });
+
+    this.getApplicantsListData();
   };
 
   private handleChangeNotArrivedCheckbox = (): void => {
-    this.setState({ isNotArrivedSelected: !this.state.isNotArrivedSelected });
-    this.checkCreteriaStatus();
+    this.setState({
+      isNotArrivedSelected: !this.state.isNotArrivedSelected,
+      searchCreteriaStatus: this.checkCreteriaStatus()
+    });
+
+    this.getApplicantsListData();
   };
 
   private handleChangeGeneralCheckbox = (): void => {
-    this.setState({ isGeneralSelected: !this.state.isGeneralSelected });
-    this.checkCreteriaStatus();
+    this.setState({
+      isGeneralSelected: !this.state.isGeneralSelected,
+      searchCreteriaStatus: this.checkCreteriaStatus()
+    });
+    this.getApplicantsListData();
   };
 
   private handleChangeSocialIntegrationCheckbox = (): void => {
     this.setState({
-      isSocialIntegrationSelected: !this.state.isSocialIntegrationSelected
+      isSocialIntegrationSelected: !this.state.isSocialIntegrationSelected,
+      searchCreteriaStatus: this.checkCreteriaStatus()
     });
-    this.checkCreteriaStatus();
+    this.getApplicantsListData();
   };
 
   private handleChangeMeisterCheckbox = (): void => {
-    this.setState({ isMeisterSelected: !this.state.isMeisterSelected });
-    this.checkCreteriaStatus();
+    this.setState({
+      isMeisterSelected: !this.state.isMeisterSelected,
+      searchCreteriaStatus: this.checkCreteriaStatus()
+    });
+    this.getApplicantsListData();
+  };
+
+  private handleChangeUnsubmittedCheckbox = (): void => {
+    this.setState({
+      isUnsubmittedSelected: !this.state.isUnsubmittedSelected,
+      searchCreteriaStatus: this.checkCreteriaStatus()
+    });
+    this.getApplicantsListData();
   };
 
   private changeNumberOfPages = (numberOfPages: number): void => {
@@ -260,23 +308,27 @@ class AdminPage extends React.Component<null, State> {
     }
   };
 
-  private handleClickPageBtn = (key: number): void => {
+  private handleClickPageBtn = async (key: number) => {
+    await this.setState({ currentPage: key });
+
     const currentList: ListItem[] = this.state.list.slice(
-      10 * this.state.currentPage,
-      10 * (this.state.currentPage + 1)
+      10 * (this.state.currentPage - 1),
+      this.state.currentPage * 10
     );
-    this.setState({
+
+    await this.setState({
       currentList,
-      currentPage: key,
       selectedApplicantIndex: null
     });
+
+    await this.changePageIndex();
   };
 
-  private getApplicantsListData = async (body: Creteria) => {
+  private getApplicantsListData = async () => {
     try {
       const list: ListItem[] = await getApplicantsList({
         access: sessionStorage.getItem("access"),
-        body: { region: body.region, type: body.type, status: body.status }
+        body: this.state.searchCreteriaStatus
       });
       await this.setState({ list });
       await this.setState({
@@ -284,6 +336,8 @@ class AdminPage extends React.Component<null, State> {
       });
       const currentList: ListItem[] = this.state.list.slice(0, 10);
       await this.setState({ currentList });
+
+      await this.changePageIndex();
     } catch (error) {
       console.log(error);
     }
@@ -317,7 +371,6 @@ class AdminPage extends React.Component<null, State> {
   };
 
   private checkCreteriaStatus = () => {
-    // boolean 변경된 후 수정
     const creteriaStatus: Creteria = {};
     if (this.state.isDaejeonSelected) {
       creteriaStatus.region = "daejeon";
@@ -333,8 +386,85 @@ class AdminPage extends React.Component<null, State> {
       creteriaStatus.type = "social";
     }
 
+    const unpaidUnarrivedUnsubmittedStatus: string = "";
+    unpaidUnarrivedUnsubmittedStatus.concat(
+      this.state.isUnpaidSelected ? "1" : "0"
+    );
+    unpaidUnarrivedUnsubmittedStatus.concat(
+      this.state.isNotArrivedSelected ? "1" : "0"
+    );
+    unpaidUnarrivedUnsubmittedStatus.concat(
+      this.state.isUnsubmittedSelected ? "1" : "0"
+    );
+
     return creteriaStatus;
   };
+
+  private changePageIndex = () => {
+    if (this.state.numberOfPages < 6) {
+      this.setState({
+        numberOfPagesArray: this.range(1, this.state.numberOfPages + 1)
+      });
+    } else {
+      if (this.state.currentPage <= 3) {
+        this.setState({
+          numberOfPagesArray: this.range(1, 6)
+        });
+      } else if (this.state.currentPage > this.state.numberOfPages - 3) {
+        this.setState({
+          numberOfPagesArray: this.range(
+            this.state.numberOfPages - 4,
+            this.state.numberOfPages + 1
+          )
+        });
+      } else {
+        this.setState({
+          numberOfPagesArray: this.range(
+            this.state.currentPage - 2,
+            this.state.currentPage + 3
+          )
+        });
+      }
+    }
+  };
+
+  private returnNumberOfPages = () => {
+    return this.state.numberOfPagesArray.map((i, index) =>
+      this.state.numberOfPagesArray[index] === this.state.currentPage ? (
+        <S.selectedNumberLetter
+          key={index}
+          onClick={async () => {
+            await this.handleClickPageBtn(i);
+            await this.changePageIndex();
+          }}
+        >
+          {i}
+        </S.selectedNumberLetter>
+      ) : (
+        <S.unselectedNumberLetter
+          key={index}
+          onClick={async () => {
+            await this.handleClickPageBtn(i);
+            await this.changePageIndex();
+          }}
+        >
+          {i}
+        </S.unselectedNumberLetter>
+      )
+    );
+  };
+
+  private range(start: number, end: number): number[] {
+    const array: number[] = [];
+    let pageNum: number = start;
+
+    for (let i = 0; i < end - start; i += 1) {
+      array[i] = pageNum;
+      pageNum += 1;
+    }
+
+    return array;
+  }
 }
 
 export default AdminPage;
