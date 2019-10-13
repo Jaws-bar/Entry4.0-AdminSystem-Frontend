@@ -4,7 +4,8 @@ import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import * as S from "./style";
 import Logo from "../../assets/header-component/EntryDSM_LOGO.png";
 import SearchIconImg from "../../assets/header-component/ic_search.png";
-import HeaderSearchBar from "../../components/HeaderSearchBar/index";
+import HeaderSearchBar from "../../components/HeaderSearchBar";
+import { Creteria } from "../../lib/api";
 
 interface OwnProps {
   isActivation: boolean;
@@ -15,6 +16,7 @@ interface OwnProps {
   isGeneralSelected: boolean;
   isSocialIntegrationSelected: boolean;
   isMeisterSelected: boolean;
+  isUnsubmittedSelected: boolean;
   handleChangeDaejeonCheckbox: () => void;
   handleChangeNationwideCheckbox: () => void;
   handleChangeUnpaidCheckbox: () => void;
@@ -22,7 +24,9 @@ interface OwnProps {
   handleChangeGeneralCheckbox: () => void;
   handleChangeSocialIntegrationCheckbox: () => void;
   handleChangeMeisterCheckbox: () => void;
+  handleChangeUnsubmittedCheckbox: () => void;
   pageType: string;
+  getApplicantsList: (body: Creteria) => Promise<void>;
 }
 
 interface State {
@@ -71,6 +75,7 @@ class Header extends React.Component<Props, State> {
       isGeneralSelected,
       isSocialIntegrationSelected,
       isMeisterSelected,
+      isUnsubmittedSelected,
       handleChangeDaejeonCheckbox,
       handleChangeNationwideCheckbox,
       handleChangeUnpaidCheckbox,
@@ -78,7 +83,9 @@ class Header extends React.Component<Props, State> {
       handleChangeGeneralCheckbox,
       handleChangeSocialIntegrationCheckbox,
       handleChangeMeisterCheckbox,
-      pageType
+      handleChangeUnsubmittedCheckbox,
+      pageType,
+      getApplicantsList
     } = this.props;
     return (
       <S.HeaderWrapper>
@@ -96,6 +103,7 @@ class Header extends React.Component<Props, State> {
               isGeneralSelected={isGeneralSelected}
               isSocialIntegrationSelected={isSocialIntegrationSelected}
               isMeisterSelected={isMeisterSelected}
+              isUnsubmittedSelected={isUnsubmittedSelected}
               handleChangeNationwideCheckbox={handleChangeNationwideCheckbox}
               handleChangeDaejeonCheckbox={handleChangeDaejeonCheckbox}
               handleChangeUnpaidCheckbox={handleChangeUnpaidCheckbox}
@@ -105,6 +113,8 @@ class Header extends React.Component<Props, State> {
                 handleChangeSocialIntegrationCheckbox
               }
               handleChangeMeisterCheckbox={handleChangeMeisterCheckbox}
+              handleChangeUnsubmittedCheckbox={handleChangeUnsubmittedCheckbox}
+              getApplicantsList={getApplicantsList}
             />
           </S.SearchInputWrapper>
           <S.MenuList>
