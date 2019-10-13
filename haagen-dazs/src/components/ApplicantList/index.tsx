@@ -19,11 +19,16 @@ const checkType = (type: string): string => {
     case "COMMON":
       returnWord = "일반전형";
       break;
-    case "SOCIAL":
-      returnWord = "사회통합전형";
-      break;
     case "MEISTER":
       returnWord = "마이스터전형";
+      break;
+    case "SOCIAL_ONE_PARENT":
+    case "SOCIAL_FROM_NORTH":
+    case "SOCIAL_MULTICULTURAL":
+    case "SOCIAL_BASE_LIVING":
+    case "SOCIAL_LOWEST_INCOME":
+    case "SOCIAL_TEEN_HOUSEHOLDER":
+      returnWord = "사회통합전형";
       break;
     default:
       returnWord = "";

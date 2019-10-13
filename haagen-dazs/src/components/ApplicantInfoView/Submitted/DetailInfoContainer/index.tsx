@@ -10,12 +10,13 @@ interface Props {
   parent_tel: string;
   school_tel: string;
   user_email: string;
-  final_score: string;
+  score: string;
   volunteer_time: number;
   full_cut_count: number;
   period_cut_count: number;
   late_count: number;
   early_leave_count: number;
+  ged_average_score: string;
 }
 
 const DetailInfoContainer: React.FC<Props> = ({
@@ -23,12 +24,13 @@ const DetailInfoContainer: React.FC<Props> = ({
   parent_tel,
   school_tel,
   user_email,
-  final_score,
+  score,
   volunteer_time,
   full_cut_count,
   period_cut_count,
   late_count,
-  early_leave_count
+  early_leave_count,
+  ged_average_score
 }) => (
   <>
     <S.UpperDetailInfoTable className="contact-table">
@@ -40,21 +42,35 @@ const DetailInfoContainer: React.FC<Props> = ({
         />
         <SecondAdditionalInfoTR
           user_email={user_email}
-          final_score={final_score}
+          final_score={score}
+          isNotQEApplicant={
+            volunteer_time !== null &&
+            full_cut_count !== null &&
+            period_cut_count !== null &&
+            late_count !== null &&
+            early_leave_count !== null
+          }
         />
       </tbody>
     </S.UpperDetailInfoTable>
-    <S.DetailInfoTable className="attendance-table">
-      <tbody>
-        <ThirdAttendanceInfoTR
-          volunteer_time={volunteer_time}
-          full_cut_count={full_cut_count}
-          period_cut_count={period_cut_count}
-          late_count={late_count}
-          early_leave_count={early_leave_count}
-        />
-      </tbody>
-    </S.DetailInfoTable>
+    {volunteer_time !== null &&
+      full_cut_count !== null &&
+      period_cut_count !== null &&
+      late_count !== null &&
+      early_leave_count !== null && (
+        <S.DetailInfoTable className="attendance-table">
+          <tbody>
+            <ThirdAttendanceInfoTR
+              volunteer_time={volunteer_time}
+              full_cut_count={full_cut_count}
+              period_cut_count={period_cut_count}
+              late_count={late_count}
+              early_leave_count={early_leave_count}
+              ged_average_score={ged_average_score}
+            />
+          </tbody>
+        </S.DetailInfoTable>
+      )}
   </>
 );
 

@@ -13,22 +13,35 @@ const FirstContantTR: React.FC<Props> = ({
   applicant_tel,
   school_tel
 }) => (
-  <S.FirstContactTR>
-    <S.FirstContactTitleTD>
+  <S.OneContactTR>
+    <S.OneContactTitleTD>
       <S.UpperDetailInfo>휴대전화</S.UpperDetailInfo>
-    </S.FirstContactTitleTD>
-    <S.FirstContactTD>
+    </S.OneContactTitleTD>
+    <S.OneContactTD>
       <S.UpperContactInfo>{applicant_tel}</S.UpperContactInfo>
-    </S.FirstContactTD>
-    <S.SecondContactTitleTD>
-      <S.UpperDetailInfo>부모님 휴대전화</S.UpperDetailInfo>
-      <S.DetailInfo>학교 전화</S.DetailInfo>
-    </S.SecondContactTitleTD>
-    <S.SecondContactTd>
-      <S.UpperContactInfo>{parent_tel}</S.UpperContactInfo>
-      <S.LowerContactInfo>{school_tel}</S.LowerContactInfo>
-    </S.SecondContactTd>
-  </S.FirstContactTR>
+    </S.OneContactTD>
+    {school_tel !== undefined ? (
+      <>
+        <S.TwoContactTitleTD>
+          <S.UpperDetailInfo>부모님 휴대전화</S.UpperDetailInfo>
+          <S.DetailInfo>학교 전화</S.DetailInfo>
+        </S.TwoContactTitleTD>
+        <S.TwoContactTd>
+          <S.UpperContactInfo>{parent_tel}</S.UpperContactInfo>
+          <S.LowerContactInfo>{school_tel}</S.LowerContactInfo>
+        </S.TwoContactTd>
+      </>
+    ) : (
+      <>
+        <S.GEDParentContactTitleTD>
+          <S.UpperContactInfo>부모님 휴대전화</S.UpperContactInfo>
+        </S.GEDParentContactTitleTD>
+        <S.OneContactTD>
+          <S.UpperContactInfo>{parent_tel}</S.UpperContactInfo>
+        </S.OneContactTD>
+      </>
+    )}
+  </S.OneContactTR>
 );
 
 export default FirstContantTR;
