@@ -60,7 +60,6 @@ const inputBlurHandle = (
           break;
       }
     }
-    getApplicantsList();
 
     setKeyword("");
     e.target.value = "";
