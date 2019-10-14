@@ -211,9 +211,8 @@ class AdminPage extends React.Component<null, State> {
     if (this.state.isDaejeonSelected && this.state.isNationwideSelected) {
       await this.setState({ isNationwideSelected: false });
     }
-    await this.setState({
-      searchCreteriaStatus: this.checkCreteriaStatus()
-    });
+
+    await this.checkCreteriaStatus();
 
     this.getApplicantsListData();
   };
@@ -225,60 +224,58 @@ class AdminPage extends React.Component<null, State> {
     if (this.state.isNationwideSelected && this.state.isDaejeonSelected) {
       await this.setState({ isDaejeonSelected: false });
     }
+    await this.checkCreteriaStatus();
+
+    this.getApplicantsListData();
+  };
+
+  private handleChangeUnpaidCheckbox = async () => {
     await this.setState({
-      searchCreteriaStatus: this.checkCreteriaStatus()
+      isUnpaidSelected: !this.state.isUnpaidSelected
     });
+    await this.checkCreteriaStatus();
 
     this.getApplicantsListData();
   };
 
-  private handleChangeUnpaidCheckbox = (): void => {
-    this.setState({
-      isUnpaidSelected: !this.state.isUnpaidSelected,
-      searchCreteriaStatus: this.checkCreteriaStatus()
+  private handleChangeNotArrivedCheckbox = async () => {
+    await this.setState({
+      isNotArrivedSelected: !this.state.isNotArrivedSelected
     });
+    await this.checkCreteriaStatus();
 
     this.getApplicantsListData();
   };
 
-  private handleChangeNotArrivedCheckbox = (): void => {
-    this.setState({
-      isNotArrivedSelected: !this.state.isNotArrivedSelected,
-      searchCreteriaStatus: this.checkCreteriaStatus()
+  private handleChangeGeneralCheckbox = async () => {
+    await this.setState({
+      isGeneralSelected: !this.state.isGeneralSelected
     });
-
+    await this.checkCreteriaStatus();
     this.getApplicantsListData();
   };
 
-  private handleChangeGeneralCheckbox = (): void => {
-    this.setState({
-      isGeneralSelected: !this.state.isGeneralSelected,
-      searchCreteriaStatus: this.checkCreteriaStatus()
+  private handleChangeSocialIntegrationCheckbox = async () => {
+    await this.setState({
+      isSocialIntegrationSelected: !this.state.isSocialIntegrationSelected
     });
+    await this.checkCreteriaStatus();
     this.getApplicantsListData();
   };
 
-  private handleChangeSocialIntegrationCheckbox = (): void => {
-    this.setState({
-      isSocialIntegrationSelected: !this.state.isSocialIntegrationSelected,
-      searchCreteriaStatus: this.checkCreteriaStatus()
+  private handleChangeMeisterCheckbox = async () => {
+    await this.setState({
+      isMeisterSelected: !this.state.isMeisterSelected
     });
+    await this.checkCreteriaStatus();
     this.getApplicantsListData();
   };
 
-  private handleChangeMeisterCheckbox = (): void => {
-    this.setState({
-      isMeisterSelected: !this.state.isMeisterSelected,
-      searchCreteriaStatus: this.checkCreteriaStatus()
+  private handleChangeUnsubmittedCheckbox = async () => {
+    await this.setState({
+      isUnsubmittedSelected: !this.state.isUnsubmittedSelected
     });
-    this.getApplicantsListData();
-  };
-
-  private handleChangeUnsubmittedCheckbox = (): void => {
-    this.setState({
-      isUnsubmittedSelected: !this.state.isUnsubmittedSelected,
-      searchCreteriaStatus: this.checkCreteriaStatus()
-    });
+    await this.checkCreteriaStatus();
     this.getApplicantsListData();
   };
 
@@ -338,6 +335,7 @@ class AdminPage extends React.Component<null, State> {
       await this.setState({ currentList });
 
       await this.changePageIndex();
+      await this.setState({ selectedApplicantIndex: null, currentPage: 1 });
     } catch (error) {
       console.log(error);
     }
@@ -370,7 +368,7 @@ class AdminPage extends React.Component<null, State> {
     }
   };
 
-  private checkCreteriaStatus = () => {
+  private checkCreteriaStatus = async () => {
     const creteriaStatus: Creteria = {};
     if (this.state.isDaejeonSelected) {
       creteriaStatus.region = "daejeon";
@@ -386,18 +384,22 @@ class AdminPage extends React.Component<null, State> {
       creteriaStatus.type = "social";
     }
 
-    const unpaidUnarrivedUnsubmittedStatus: string = "";
-    unpaidUnarrivedUnsubmittedStatus.concat(
+    let unpaidUnarrivedUnsubmittedStatus: string = "";
+
+    unpaidUnarrivedUnsubmittedStatus = unpaidUnarrivedUnsubmittedStatus.concat(
       this.state.isUnpaidSelected ? "1" : "0"
     );
-    unpaidUnarrivedUnsubmittedStatus.concat(
+
+    unpaidUnarrivedUnsubmittedStatus = unpaidUnarrivedUnsubmittedStatus.concat(
       this.state.isNotArrivedSelected ? "1" : "0"
     );
-    unpaidUnarrivedUnsubmittedStatus.concat(
+    unpaidUnarrivedUnsubmittedStatus = unpaidUnarrivedUnsubmittedStatus.concat(
       this.state.isUnsubmittedSelected ? "1" : "0"
     );
 
-    return creteriaStatus;
+    creteriaStatus.status = unpaidUnarrivedUnsubmittedStatus;
+
+    this.setState({ searchCreteriaStatus: creteriaStatus });
   };
 
   private changePageIndex = () => {
