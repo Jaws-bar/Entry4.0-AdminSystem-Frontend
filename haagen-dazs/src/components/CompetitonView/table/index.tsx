@@ -3,7 +3,8 @@ import * as React from "react";
 import * as S from "./style";
 import {
   NumberOfApplicantsDetailItems,
-  CompetitonDetatilItems
+  CompetitonDetatilItems,
+  getScoreDistribution
 } from "../../../lib/api";
 
 interface Props {
@@ -136,6 +137,8 @@ class CompetitionTable extends React.Component<Props, State> {
       nationCompetition,
       totalCompetition
     } = this.props;
+
+    const { scoreDistribution } = this.state;
     return (
       <S.TableContainer>
         <S.TableWrapper style={{ height: "38%" }}>
@@ -293,6 +296,126 @@ class CompetitionTable extends React.Component<Props, State> {
       </S.TableContainer>
     );
   }
+
+  private getAllScoreDistribution = async () => {
+    const scoreDistribution: {
+      nation: Type;
+      daejeon: Type;
+    } = {
+      nation: {
+        common: {
+          70: 0,
+          80: 0,
+          90: 0,
+          100: 0,
+          110: 0,
+          120: 0,
+          130: 0,
+          140: 0,
+          150: 0
+        },
+        meister: {
+          70: 0,
+          80: 0,
+          90: 0,
+          100: 0,
+          110: 0,
+          120: 0,
+          130: 0,
+          140: 0,
+          150: 0
+        },
+        social: {
+          70: 0,
+          80: 0,
+          90: 0,
+          100: 0,
+          110: 0,
+          120: 0,
+          130: 0,
+          140: 0,
+          150: 0
+        }
+      },
+      daejeon: {
+        common: {
+          70: 0,
+          80: 0,
+          90: 0,
+          100: 0,
+          110: 0,
+          120: 0,
+          130: 0,
+          140: 0,
+          150: 0
+        },
+        meister: {
+          70: 0,
+          80: 0,
+          90: 0,
+          100: 0,
+          110: 0,
+          120: 0,
+          130: 0,
+          140: 0,
+          150: 0
+        },
+        social: {
+          70: 0,
+          80: 0,
+          90: 0,
+          100: 0,
+          110: 0,
+          120: 0,
+          130: 0,
+          140: 0,
+          150: 0
+        }
+      }
+    };
+
+    try {
+      scoreDistribution.nation.common = await getScoreDistribution({
+        access: sessionStorage.getItem("access"),
+        region: "nation",
+        type: "common"
+      });
+
+      scoreDistribution.nation.meister = await getScoreDistribution({
+        access: sessionStorage.getItem("access"),
+        region: "nation",
+        type: "meister"
+      });
+
+      scoreDistribution.nation.social = await getScoreDistribution({
+        access: sessionStorage.getItem("access"),
+        region: "nation",
+        type: "social"
+      });
+
+      scoreDistribution.daejeon.common = await getScoreDistribution({
+        access: sessionStorage.getItem("access"),
+        region: "daejeon",
+        type: "common"
+      });
+
+      scoreDistribution.daejeon.meister = await getScoreDistribution({
+        access: sessionStorage.getItem("access"),
+        region: "daejeon",
+        type: "meister"
+      });
+
+      scoreDistribution.daejeon.social = await getScoreDistribution({
+        access: sessionStorage.getItem("access"),
+        region: "daejeon",
+        type: "social"
+      });
+
+      this.setState({ scoreDistribution });
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
 }
 
 export default CompetitionTable;
