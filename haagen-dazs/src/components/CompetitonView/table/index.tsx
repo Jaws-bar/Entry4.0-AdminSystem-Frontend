@@ -22,7 +22,111 @@ interface Props {
   };
 }
 
-class CompetitionTable extends React.Component<Props, {}> {
+interface State {
+  scoreDistribution: {
+    nation: Type;
+    daejeon: Type;
+  };
+}
+
+interface Type {
+  common: ScoreCategory;
+  meister: ScoreCategory;
+  social: ScoreCategory;
+}
+
+export interface ScoreCategory {
+  70: number;
+  80: number;
+  90: number;
+  100: number;
+  110: number;
+  120: number;
+  130: number;
+  140: number;
+  150: number;
+}
+
+class CompetitionTable extends React.Component<Props, State> {
+  public state: State = {
+    scoreDistribution: {
+      nation: {
+        common: {
+          70: 0,
+          80: 0,
+          90: 0,
+          100: 0,
+          110: 0,
+          120: 0,
+          130: 0,
+          140: 0,
+          150: 0
+        },
+        meister: {
+          70: 0,
+          80: 0,
+          90: 0,
+          100: 0,
+          110: 0,
+          120: 0,
+          130: 0,
+          140: 0,
+          150: 0
+        },
+        social: {
+          70: 0,
+          80: 0,
+          90: 0,
+          100: 0,
+          110: 0,
+          120: 0,
+          130: 0,
+          140: 0,
+          150: 0
+        }
+      },
+      daejeon: {
+        common: {
+          70: 0,
+          80: 0,
+          90: 0,
+          100: 0,
+          110: 0,
+          120: 0,
+          130: 0,
+          140: 0,
+          150: 0
+        },
+        meister: {
+          70: 0,
+          80: 0,
+          90: 0,
+          100: 0,
+          110: 0,
+          120: 0,
+          130: 0,
+          140: 0,
+          150: 0
+        },
+        social: {
+          70: 0,
+          80: 0,
+          90: 0,
+          100: 0,
+          110: 0,
+          120: 0,
+          130: 0,
+          140: 0,
+          150: 0
+        }
+      }
+    }
+  };
+
+  public componentWillMount() {
+    this.getAllScoreDistribution();
+  }
+
   public render() {
     const {
       daejeonApplicants,
