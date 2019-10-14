@@ -4,7 +4,8 @@ import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import * as S from "./style";
 import Logo from "../../assets/header-component/EntryDSM_LOGO.png";
 import SearchIconImg from "../../assets/header-component/ic_search.png";
-import HeaderSearchBar from "../../components/HeaderSearchBar/index";
+import HeaderSearchBar from "../../components/HeaderSearchBar";
+import { Creteria } from "../../lib/api";
 
 interface OwnProps {
   isActivation: boolean;
@@ -25,7 +26,7 @@ interface OwnProps {
   handleChangeMeisterCheckbox: () => void;
   handleChangeUnsubmittedCheckbox: () => void;
   pageType: string;
-  getApplicantsList: () => Promise<void>;
+  getApplicantsList: (body: Creteria) => Promise<void>;
 }
 
 interface State {
