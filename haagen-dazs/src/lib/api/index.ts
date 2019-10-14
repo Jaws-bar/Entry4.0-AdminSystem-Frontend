@@ -1,16 +1,11 @@
-import { pictureRequestUrl } from "./endpoint";
 import axios from "axios";
 
 import { ListItem } from "../../pages/AdminPage";
+import { ScoreCategory } from "../../components/CompetitonView/table";
 
 interface PayloadType {
   id: string;
   password: string;
-}
-
-interface TokenType {
-  access: string;
-  refresh: string;
 }
 
 export interface NumberOfApplicantsDetailItems {
@@ -46,46 +41,46 @@ export interface CompetitonSortation {
 
 export interface SubmittedApplication {
   application: {
-    user_email: string;
-    apply_time: string;
-    additinal_type: string;
-    is_daejeon: boolean;
-    name: string;
-    sex: string;
+    additional_type:
+      | "NATIONAL_MERIT"
+      | "PRIVILEGED_ADMISSION"
+      | "NOT_APPLICABLE";
+    address: string;
+    applicant_tel: string;
+    apply_type:
+      | "COMMON"
+      | "MEISTER"
+      | "SOCIAL_ONE_PARENT"
+      | "SOCIAL_FROM_NORTH"
+      | "SOCIAL_MULTICULTURAL"
+      | "SOCIAL_BASE_LIVING"
+      | "SOCIAL_LOWEST_INCOME"
+      | "SOCIAL_TEEN_HOUSEHOLDER";
     birth_date: string;
+    early_leave_count: number;
+    full_cut_count: number;
+    ged_average_score: string;
+    is_daejeon: boolean;
+    late_count: number;
+    name: string;
     parent_name: string;
     parent_tel: string;
-    applicant_tel: string;
-    address: string;
-    post_code: string;
-    student_number: string;
-    graduated_year: string;
+    period_cut_count: number;
+    self_introduction: string;
+    sex: string;
     school_name: string;
     school_tel: string;
-    volunteer_time: number;
-    full_cut_count: number;
-    period_cut_count: number;
-    late_count: number;
-    early_leave_count: number;
-    korean: string;
-    social: string;
-    history: string;
-    math: string;
-    science: string;
-    tech_and_home: string;
-    english: string;
-    self_introduction: string;
     study_plan: string;
+    user_email: string;
+    volunteer_time: number;
   };
-  score: {
-    final_score: string;
-  };
+  score: string;
 }
 
 export interface Creteria {
   region?: "daejeon" | "nation";
   type?: "common" | "meister" | "social";
-  status?: 0 | 1;
+  status?: string;
 }
 
 const instanceAxios = axios.create({
@@ -229,17 +224,31 @@ export const changePaidArrivedStatus = async (payload: {
   return response.data;
 };
 
-export const getGradeDistribution = async (payload: {
+export const getScoreDistribution = async (payload: {
   access: string;
   region: "daejeon" | "nation";
   type: "common" | "meister" | "social";
 }) => {
-  const response = await instanceAxios.get("/stats/scores", {
+  const response = await instanceAxios.get<ScoreCategory>("/stats/scores", {
     headers: authorizationHeader(payload.access),
     params: {
       region: payload.region,
       type: payload.type
     }
+  });
+
+  return response.data;
+};
+
+export const getApplicantIdPhotoApi = async (payload: { email: string }) => {
+  const response = await instanceAxios.get<Blob>("/info/photo", {
+    headers: {
+      Accept: "image/*"
+    },
+    params: {
+      email: payload.email
+    },
+    responseType: "blob"
   });
 
   return response.data;
