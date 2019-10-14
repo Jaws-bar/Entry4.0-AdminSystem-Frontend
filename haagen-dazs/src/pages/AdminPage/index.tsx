@@ -194,6 +194,12 @@ class AdminPage extends React.Component<null, State> {
                     .is_printed_application_arrived
                 }
                 is_paid={currentList[selectedApplicantIndex].is_paid}
+                handleChangeApplicantPaymentStatus={
+                  this.handleChangeApplicantPaymentStatus
+                }
+                handleChangeApplicantArrivedStatus={
+                  this.handleChangeApplicantArrivedStatus
+                }
               />
             ) : (
               <Unsubmitted applicationData={applicationData} />
@@ -277,6 +283,32 @@ class AdminPage extends React.Component<null, State> {
     });
     await this.checkCreteriaStatus();
     this.getApplicantsListData();
+  };
+
+  private handleChangeApplicantPaymentStatus = () => {
+    const currentApplicantStatus = this.state.currentList[ this.state.selectedApplicantIndex
+];
+    currentApplicantStatus.is_paid = !currentApplicantStatus.is_paid;
+
+    const currentList = this.state.currentList;
+    currentList[this.state.selectedApplicantIndex] = currentApplicantStatus;
+
+    this.setState({
+      currentList
+    });
+  };
+
+  private handleChangeApplicantArrivedStatus = () => {
+    const currentApplicantStatus = this.state.currentList[ this.state.selectedApplicantIndex
+];
+    currentApplicantStatus.is_printed_application_arrived = !currentApplicantStatus.is_printed_application_arrived;
+
+    const currentList = this.state.currentList;
+    currentList[this.state.selectedApplicantIndex] = currentApplicantStatus;
+
+    this.setState({
+      currentList
+    });
   };
 
   private changeNumberOfPages = (numberOfPages: number): void => {
