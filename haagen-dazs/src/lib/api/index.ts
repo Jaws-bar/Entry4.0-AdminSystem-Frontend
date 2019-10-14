@@ -1,4 +1,3 @@
-import { pictureRequestUrl } from "./endpoint";
 import axios from "axios";
 
 import { ListItem } from "../../pages/AdminPage";
@@ -6,11 +5,6 @@ import { ListItem } from "../../pages/AdminPage";
 interface PayloadType {
   id: string;
   password: string;
-}
-
-interface TokenType {
-  access: string;
-  refresh: string;
 }
 
 export interface NumberOfApplicantsDetailItems {
