@@ -209,84 +209,84 @@ class CompetitionTable extends React.Component<Props, State> {
             </S.TR>
             <S.TR>
               <S.TD>141~150</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
+              <S.TD>{scoreDistribution.nation.common[150]}</S.TD>
+              <S.TD>{scoreDistribution.nation.meister[150]}</S.TD>
+              <S.TD>{scoreDistribution.nation.social[150]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.common[150]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.meister[150]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.social[150]}</S.TD>
             </S.TR>
             <S.TR>
               <S.TD>131~140</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
+              <S.TD>{scoreDistribution.nation.common[140]}</S.TD>
+              <S.TD>{scoreDistribution.nation.meister[140]}</S.TD>
+              <S.TD>{scoreDistribution.nation.social[140]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.common[140]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.meister[140]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.social[140]}</S.TD>
             </S.TR>
             <S.TR>
               <S.TD>121~130</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
+              <S.TD>{scoreDistribution.nation.common[130]}</S.TD>
+              <S.TD>{scoreDistribution.nation.meister[130]}</S.TD>
+              <S.TD>{scoreDistribution.nation.social[130]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.common[130]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.meister[130]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.social[130]}</S.TD>
             </S.TR>
             <S.TR>
               <S.TD>111~120</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
+              <S.TD>{scoreDistribution.nation.common[120]}</S.TD>
+              <S.TD>{scoreDistribution.nation.meister[120]}</S.TD>
+              <S.TD>{scoreDistribution.nation.social[120]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.common[120]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.meister[120]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.social[120]}</S.TD>
             </S.TR>
             <S.TR>
               <S.TD>101~110</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
+              <S.TD>{scoreDistribution.nation.common[110]}</S.TD>
+              <S.TD>{scoreDistribution.nation.meister[110]}</S.TD>
+              <S.TD>{scoreDistribution.nation.social[110]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.common[110]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.meister[110]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.social[110]}</S.TD>
             </S.TR>
             <S.TR>
               <S.TD>91~100</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
+              <S.TD>{scoreDistribution.nation.common[100]}</S.TD>
+              <S.TD>{scoreDistribution.nation.meister[100]}</S.TD>
+              <S.TD>{scoreDistribution.nation.social[100]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.common[100]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.meister[100]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.social[100]}</S.TD>
             </S.TR>
             <S.TR>
               <S.TD>81~90</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
+              <S.TD>{scoreDistribution.nation.common[90]}</S.TD>
+              <S.TD>{scoreDistribution.nation.meister[90]}</S.TD>
+              <S.TD>{scoreDistribution.nation.social[90]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.common[90]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.meister[90]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.social[90]}</S.TD>
             </S.TR>
             <S.TR>
               <S.TD>71~80</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
+              <S.TD>{scoreDistribution.nation.common[80]}</S.TD>
+              <S.TD>{scoreDistribution.nation.meister[80]}</S.TD>
+              <S.TD>{scoreDistribution.nation.social[80]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.common[80]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.meister[80]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.social[80]}</S.TD>
             </S.TR>
             <S.TR>
               <S.TD>70이하</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
-              <S.TD>0</S.TD>
+              <S.TD>{scoreDistribution.nation.common[70]}</S.TD>
+              <S.TD>{scoreDistribution.nation.meister[70]}</S.TD>
+              <S.TD>{scoreDistribution.nation.social[70]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.common[70]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.meister[70]}</S.TD>
+              <S.TD>{scoreDistribution.daejeon.social[70]}</S.TD>
             </S.TR>
           </tbody>
         </S.TableWrapper>
