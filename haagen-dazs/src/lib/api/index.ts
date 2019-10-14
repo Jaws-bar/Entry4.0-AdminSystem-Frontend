@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import { ListItem } from "../../pages/AdminPage";
+import { ScoreCategory } from "../../components/CompetitonView/table";
 
 interface PayloadType {
   id: string;
@@ -223,12 +224,12 @@ export const changePaidArrivedStatus = async (payload: {
   return response.data;
 };
 
-export const getGradeDistribution = async (payload: {
+export const getScoreDistribution = async (payload: {
   access: string;
   region: "daejeon" | "nation";
   type: "common" | "meister" | "social";
 }) => {
-  const response = await instanceAxios.get("/stats/scores", {
+  const response = await instanceAxios.get<ScoreCategory>("/stats/scores", {
     headers: authorizationHeader(payload.access),
     params: {
       region: payload.region,
