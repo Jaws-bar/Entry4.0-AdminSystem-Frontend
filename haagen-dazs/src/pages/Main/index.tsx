@@ -5,6 +5,7 @@ import * as S from "./style";
 import CompetitionView from "../../components/CompetitonView";
 import ExtendIcon from "../../assets/Main-page/ic_down.png";
 import ReduceIcon from "../../assets/Main-page/ic_up.png";
+import { getApplicantsList } from "../../lib/api/index";
 
 export interface State {
   isExtend: boolean;
@@ -45,6 +46,7 @@ class Main extends React.Component<null, State> {
           handleChangeMeisterCheckbox={null}
           handleChangeUnsubmittedCheckbox={null}
           pageType="main"
+          getApplicantsList={null}
         />
         <S.StatisticContainer>
           <S.SelectWrapper>

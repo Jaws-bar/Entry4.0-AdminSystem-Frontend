@@ -25,6 +25,7 @@ interface OwnProps {
   handleChangeMeisterCheckbox: () => void;
   handleChangeUnsubmittedCheckbox: () => void;
   pageType: string;
+  getApplicantsList: () => Promise<void>;
 }
 
 interface State {
@@ -82,7 +83,8 @@ class Header extends React.Component<Props, State> {
       handleChangeSocialIntegrationCheckbox,
       handleChangeMeisterCheckbox,
       handleChangeUnsubmittedCheckbox,
-      pageType
+      pageType,
+      getApplicantsList
     } = this.props;
     return (
       <S.HeaderWrapper>
@@ -111,6 +113,7 @@ class Header extends React.Component<Props, State> {
               }
               handleChangeMeisterCheckbox={handleChangeMeisterCheckbox}
               handleChangeUnsubmittedCheckbox={handleChangeUnsubmittedCheckbox}
+              getApplicantsList={getApplicantsList}
             />
           </S.SearchInputWrapper>
           <S.MenuList>

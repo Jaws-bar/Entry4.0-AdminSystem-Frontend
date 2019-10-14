@@ -24,6 +24,7 @@ class Submitted extends React.Component<Props, {}> {
       is_printed_application_arrived,
       is_paid
     } = this.props;
+
     return (
       <S.SubmittedWrapper>
         <EditButtonContainer
@@ -33,8 +34,8 @@ class Submitted extends React.Component<Props, {}> {
         />
         <BaseInfoContainer
           email={applicationData.application.user_email}
-          apply_time={applicationData.application.apply_time}
-          additinal_type={applicationData.application.additinal_type}
+          apply_type={applicationData.application.apply_type}
+          additinal_type={applicationData.application.additional_type}
           name={applicationData.application.name}
           birth_date={applicationData.application.birth_date}
           address={applicationData.application.address}
@@ -45,12 +46,13 @@ class Submitted extends React.Component<Props, {}> {
           parent_tel={applicationData.application.parent_tel}
           school_tel={applicationData.application.school_tel}
           user_email={applicationData.application.user_email}
-          final_score={applicationData.score.final_score}
+          score={applicationData.score}
           volunteer_time={applicationData.application.volunteer_time}
           full_cut_count={applicationData.application.full_cut_count}
           period_cut_count={applicationData.application.period_cut_count}
           late_count={applicationData.application.late_count}
           early_leave_count={applicationData.application.early_leave_count}
+          ged_average_score={applicationData.application.ged_average_score}
         />
         <DocumentContainer
           self_introduction={applicationData.application.self_introduction}
