@@ -47,20 +47,20 @@ export const SubtitleTD = styled.td`
   text-align: center;
 `;
 
-export const FirstContactTD = styled(TD)`
+export const OneContactTD = styled(TD)`
   padding: 48px 16px 32px 16px;
 `;
 
-export const SecondContactTd = styled(TD)`
+export const TwoContactTd = styled(TD)`
   width: 163px;
 `;
 
-export const FirstContactTitleTD = styled(FirstContactTD)`
+export const OneContactTitleTD = styled(OneContactTD)`
   width: 81px;
   padding: 48px 0 32px 0;
 `;
 
-export const SecondContactTitleTD = styled(FirstContactTD)`
+export const TwoContactTitleTD = styled(OneContactTD)`
   width: 135px;
   padding: 48px 0 32px 0;
 `;
@@ -93,7 +93,7 @@ export const AttendanceDateTitleTD = styled(SubtitleTD)`
   width: 83px;
 `;
 
-export const FirstContactTR = styled.tr`
+export const OneContactTR = styled.tr`
   height: 142px;
 `;
 
@@ -103,4 +103,21 @@ export const SecondAdditionalInfoTR = styled.tr`
 
 export const ThirdAttendanceInfoTR = styled.tr`
   height: 42px;
+`;
+
+export const GEDScoreTitleTD = styled(VolunteerTimeTitleTD)`
+  width: 50.5%;
+  height: 40px;
+`;
+
+export const GEDScoreTD = styled(VolunteerTimeTitleTD)`
+  font-weight: 300;
+  width: 49.5%;
+  height: 40px;
+`;
+
+export const GEDParentContactTitleTD = styled(OneContactTitleTD)`
+  width: 135px;
+  padding-left: 15px;
+  padding-right: 15px;
 `;
