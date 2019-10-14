@@ -238,3 +238,17 @@ export const getGradeDistribution = async (payload: {
 
   return response.data;
 };
+
+export const getApplicantIdPhotoApi = async (payload: { email: string }) => {
+  const response = await instanceAxios.get<Blob>("/info/photo", {
+    headers: {
+      Accept: "image/*"
+    },
+    params: {
+      email: payload.email
+    },
+    responseType: "blob"
+  });
+
+  return response.data;
+};
