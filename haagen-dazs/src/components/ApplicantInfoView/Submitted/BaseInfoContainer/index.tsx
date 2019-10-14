@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import * as S from "./style";
+import { getApplicantIdPhotoApi } from "../../../../lib/api";
 
 interface Props {
   email: string;
@@ -54,49 +55,69 @@ const BaseInfoContainer: React.FC<Props> = ({
   name,
   birth_date,
   address,
-  school_name
-}) => (
-  <S.BaseInfoContainer>
-    <S.IdPhoto src={``} alt="ID Photo" />
-    <S.BaseTextInfoContainer>
-      <S.BaseInfoLine>
-        <S.BaseInfoName>{name}</S.BaseInfoName>
-        <S.BaseInfo>{birth_date.slice(0, 10)}</S.BaseInfo>
-      </S.BaseInfoLine>
-      {additinal_type === "NOT_APPLICABLE" ? (
-        <S.BaseInfoLine>
-          {school_name === undefined ? (
-            <S.BaseInfo>검정고시</S.BaseInfo>
-          ) : (
-            <S.BaseInfo>{school_name}</S.BaseInfo>
-          )}
-          <S.BaseInfo>{checkApplyType(apply_type)}</S.BaseInfo>
-        </S.BaseInfoLine>
-      ) : (
-        <S.TwoItemsInfoLine>
-          {school_name === undefined ? (
-            <S.BaseInfo>검정고시 {checkApplyType(apply_type)}</S.BaseInfo>
-          ) : (
-            <S.BaseInfo>
-              {school_name} {checkApplyType(apply_type)}
-            </S.BaseInfo>
-          )}
-          <S.BaseInfo>{checkAdditionalType(additinal_type)}</S.BaseInfo>
-        </S.TwoItemsInfoLine>
-      )}
+  school_name,
+  email
+}) => {
+  const [photo, setPhoto] = React.useState("");
 
-      <S.TwoItemsInfoLine>
-        {address !== null && address.indexOf("/") === -1 ? (
-          <S.BaseInfo>{address}</S.BaseInfo>
+  const getApplicantIdPhoto = React.useCallback(async () => {
+    try {
+      const response = await getApplicantIdPhotoApi({ email });
+
+      const photo = URL.createObjectURL(new Blob([response]));
+      setPhoto(photo);
+    } catch (e) {
+      console.log(e);
+    }
+  },                                            [email]);
+
+  React.useEffect(() => {
+    getApplicantIdPhoto();
+  },              [email]);
+
+  return (
+    <S.BaseInfoContainer>
+      <S.IdPhoto src={photo} alt="ID Photo" />
+      <S.BaseTextInfoContainer>
+        <S.BaseInfoLine>
+          <S.BaseInfoName>{name}</S.BaseInfoName>
+          <S.BaseInfo>{birth_date.slice(0, 10)}</S.BaseInfo>
+        </S.BaseInfoLine>
+        {additinal_type === "NOT_APPLICABLE" ? (
+          <S.BaseInfoLine>
+            {school_name === undefined ? (
+              <S.BaseInfo>검정고시</S.BaseInfo>
+            ) : (
+              <S.BaseInfo>{school_name}</S.BaseInfo>
+            )}
+            <S.BaseInfo>{checkApplyType(apply_type)}</S.BaseInfo>
+          </S.BaseInfoLine>
         ) : (
-          <>
-            <S.BaseInfo>{address.slice(0, address.indexOf("/"))}</S.BaseInfo>
-            <S.BaseInfo>{address.slice(address.indexOf("/") + 1)}</S.BaseInfo>
-          </>
+          <S.TwoItemsInfoLine>
+            {school_name === undefined ? (
+              <S.BaseInfo>검정고시 {checkApplyType(apply_type)}</S.BaseInfo>
+            ) : (
+              <S.BaseInfo>
+                {school_name} {checkApplyType(apply_type)}
+              </S.BaseInfo>
+            )}
+            <S.BaseInfo>{checkAdditionalType(additinal_type)}</S.BaseInfo>
+          </S.TwoItemsInfoLine>
         )}
-      </S.TwoItemsInfoLine>
-    </S.BaseTextInfoContainer>
-  </S.BaseInfoContainer>
-);
+
+        <S.TwoItemsInfoLine>
+          {address !== null && address.indexOf("/") === -1 ? (
+            <S.BaseInfo>{address}</S.BaseInfo>
+          ) : (
+            <>
+              <S.BaseInfo>{address.slice(0, address.indexOf("/"))}</S.BaseInfo>
+              <S.BaseInfo>{address.slice(address.indexOf("/") + 1)}</S.BaseInfo>
+            </>
+          )}
+        </S.TwoItemsInfoLine>
+      </S.BaseTextInfoContainer>
+    </S.BaseInfoContainer>
+  );
+};
 
 export default BaseInfoContainer;
