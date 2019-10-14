@@ -40,46 +40,46 @@ export interface CompetitonSortation {
 
 export interface SubmittedApplication {
   application: {
-    user_email: string;
-    apply_time: string;
-    additinal_type: string;
-    is_daejeon: boolean;
-    name: string;
-    sex: string;
+    additional_type:
+      | "NATIONAL_MERIT"
+      | "PRIVILEGED_ADMISSION"
+      | "NOT_APPLICABLE";
+    address: string;
+    applicant_tel: string;
+    apply_type:
+      | "COMMON"
+      | "MEISTER"
+      | "SOCIAL_ONE_PARENT"
+      | "SOCIAL_FROM_NORTH"
+      | "SOCIAL_MULTICULTURAL"
+      | "SOCIAL_BASE_LIVING"
+      | "SOCIAL_LOWEST_INCOME"
+      | "SOCIAL_TEEN_HOUSEHOLDER";
     birth_date: string;
+    early_leave_count: number;
+    full_cut_count: number;
+    ged_average_score: string;
+    is_daejeon: boolean;
+    late_count: number;
+    name: string;
     parent_name: string;
     parent_tel: string;
-    applicant_tel: string;
-    address: string;
-    post_code: string;
-    student_number: string;
-    graduated_year: string;
+    period_cut_count: number;
+    self_introduction: string;
+    sex: string;
     school_name: string;
     school_tel: string;
-    volunteer_time: number;
-    full_cut_count: number;
-    period_cut_count: number;
-    late_count: number;
-    early_leave_count: number;
-    korean: string;
-    social: string;
-    history: string;
-    math: string;
-    science: string;
-    tech_and_home: string;
-    english: string;
-    self_introduction: string;
     study_plan: string;
+    user_email: string;
+    volunteer_time: number;
   };
-  score: {
-    final_score: string;
-  };
+  score: string;
 }
 
 export interface Creteria {
   region?: "daejeon" | "nation";
   type?: "common" | "meister" | "social";
-  status?: 0 | 1;
+  status?: string;
 }
 
 const instanceAxios = axios.create({
