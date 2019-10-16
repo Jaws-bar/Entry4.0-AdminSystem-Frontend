@@ -10,7 +10,7 @@ interface Props {
 const Unsubmitted: React.FC<Props> = ({ applicationData }) => (
   <S.UnsubmittedWrapper>
     <S.UnsubmittedNotification>
-      최종제출이 되지 않은 지원자입니다.
+      최종 미제출 지원자입니다.
     </S.UnsubmittedNotification>
     <table>
       <tbody>
