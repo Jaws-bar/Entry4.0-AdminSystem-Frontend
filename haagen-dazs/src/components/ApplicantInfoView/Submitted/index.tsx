@@ -13,6 +13,7 @@ interface Props {
   is_paid: boolean;
   handleChangeApplicantPaymentStatus: () => void;
   handleChangeApplicantArrivedStatus: () => void;
+  handleChangeSubmittedStatus: () => void;
 }
 
 class Submitted extends React.Component<Props, {}> {
@@ -26,7 +27,8 @@ class Submitted extends React.Component<Props, {}> {
       is_printed_application_arrived,
       is_paid,
       handleChangeApplicantPaymentStatus,
-      handleChangeApplicantArrivedStatus
+      handleChangeApplicantArrivedStatus,
+      handleChangeSubmittedStatus
     } = this.props;
 
     return (
@@ -41,6 +43,7 @@ class Submitted extends React.Component<Props, {}> {
           handleChangeApplicantArrivedStatus={
             handleChangeApplicantArrivedStatus
           }
+          handleChangeSubmittedStatus={handleChangeSubmittedStatus}
         />
         <BaseInfoContainer
           email={applicationData.application.user_email}
