@@ -11,6 +11,8 @@ interface Props {
   email: string;
   is_printed_application_arrived: boolean;
   is_paid: boolean;
+  handleChangeApplicantPaymentStatus: () => void;
+  handleChangeApplicantArrivedStatus: () => void;
 }
 
 class EditButtonContainer extends React.Component<Props, {}> {
@@ -53,29 +55,37 @@ class EditButtonContainer extends React.Component<Props, {}> {
   }
 
   private handleOnclickIsArrived = () => {
-    changePaidArrivedStatus({
-      access: sessionStorage.getItem("access"),
-      email: this.props.email,
-      status: "1"
-    });
+    if (window.confirm("원서 도착 여부를 수정하시겠습니까?")) {
+      this.props.handleChangeApplicantArrivedStatus();
+      changePaidArrivedStatus({
+        access: sessionStorage.getItem("access"),
+        email: this.props.email,
+        status: "1"
+      });
+    }
   };
 
   private handleOnclickIsPaymentCompleted = () => {
-    changePaidArrivedStatus({
-      access: sessionStorage.getItem("access"),
-      email: this.props.email,
-      status: "0"
-    });
+    if (window.confirm("결제 여부를 수정하시겠습니까?")) {
+      this.props.handleChangeApplicantPaymentStatus();
+      changePaidArrivedStatus({
+        access: sessionStorage.getItem("access"),
+        email: this.props.email,
+        status: "0"
+      });
+    }
   };
 
   private handleOnclickCancelSubmit = async (body: { email: string }) => {
-    try {
-      await cancelSubmitApplicant({
-        email: body.email,
-        access: sessionStorage.getItem("access")
-      });
-    } catch (error) {
-      console.log(error);
+    if (window.confirm("최종제출을 취소하시겠습니까?")) {
+      try {
+        await cancelSubmitApplicant({
+          email: body.email,
+          access: sessionStorage.getItem("access")
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 }

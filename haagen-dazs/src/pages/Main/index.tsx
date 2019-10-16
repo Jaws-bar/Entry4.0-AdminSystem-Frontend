@@ -47,6 +47,9 @@ class Main extends React.Component<null, State> {
           handleChangeUnsubmittedCheckbox={null}
           pageType="main"
           getApplicantsList={null}
+          lastUpdatedList={null}
+          list={null}
+          searchApplicant={null}
         />
         <S.StatisticContainer>
           <S.SelectWrapper>

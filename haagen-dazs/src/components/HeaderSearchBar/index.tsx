@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import * as S from "./style";
+import { ListItem } from "../../pages/AdminPage";
+import { getApplicantsList } from "../../lib/api";
 
 const inputChangeHandle = (
   e: React.ChangeEvent<HTMLInputElement>,
@@ -9,7 +11,44 @@ const inputChangeHandle = (
   setKeyword(e.target.value);
 };
 
-const inputBlurHandle = (
+const additionalFiltering = (
+  lastUpdatedList: ListItem[],
+  noncreKeywordsList: string[]
+) => {
+  const filtering = () => {
+    let searchedList: ListItem[] = lastUpdatedList;
+
+    noncreKeywordsList.forEach(keyword => {
+      if (keyword.indexOf("@") !== -1) {
+        searchedList = searchedList.filter(item =>
+          item.email.includes(keyword)
+        );
+      } else if (/^[0-9]/.test(keyword[0])) {
+        searchedList = searchedList.filter(
+          item =>
+            !!item.applicant_tel &&
+            (item.email.includes(keyword) ||
+              item.applicant_tel.includes(keyword))
+        );
+      } else if (/A-Za-z/.test(keyword[0])) {
+        searchedList = searchedList.filter(item =>
+          item.email.includes(keyword)
+        );
+      } else if (/([각-힣])/.test(keyword[0])) {
+        searchedList = searchedList.filter(
+          item =>
+            (!!item.name && item.name.includes(keyword)) ||
+            (!!item.school_name && item.school_name.includes(keyword))
+        );
+      }
+    });
+    return searchedList;
+  };
+
+  return filtering();
+};
+
+const inputBlurHandle = async (
   e: React.ChangeEvent<HTMLInputElement>,
   setKeyword: (keyword: string) => void,
   setKeywordsList: (keywordsList: string[]) => void,
@@ -23,13 +62,20 @@ const inputBlurHandle = (
   handleChangeSocialIntegrationCheckbox: () => void,
   handleChangeMeisterCheckbox: () => void,
   handleChangeUnsubmitted: () => void,
-  getApplicantsList: () => Promise<void>
+  lastUpdatedList: ListItem[],
+  noncreKeywordsList: string[],
+  searchApplicant: (filteredList: ListItem[]) => void,
+  list: ListItem[],
+  setNoncreKeywordsList: (noncreKeywordsList: string[]) => void
 ) => {
   if (e.target.value !== "") {
+    e.currentTarget.value = "";
     let addedKeywordsList: string[] = [];
     if (keywordsList.indexOf(keyword) === -1) {
       addedKeywordsList = [...keywordsList, keyword];
       setKeywordsList(addedKeywordsList);
+
+      const newNoncreKeywordsList: string[] = [...noncreKeywordsList];
 
       switch (keyword) {
         case "대전":
@@ -57,12 +103,46 @@ const inputBlurHandle = (
           handleChangeUnsubmitted();
           break;
         default:
+          let filteredList: ListItem[];
+
+          if (keyword.indexOf("@") !== -1) {
+            filteredList = list.filter(item => item.email.includes(keyword));
+            await searchApplicant(filteredList);
+          } else if (/^[0-9]/.test(keyword[0])) {
+            filteredList = list.filter(
+              item =>
+                !!item.applicant_tel &&
+                (item.email.includes(keyword) ||
+                  item.applicant_tel.includes(keyword))
+            );
+            await searchApplicant(filteredList);
+          } else if (/A-Za-z/.test(keyword[0])) {
+            filteredList = list.filter(item => item.email.includes(keyword));
+            await searchApplicant(filteredList);
+          } else if (/([각-힣])/.test(keyword[0])) {
+            filteredList = list.filter(
+              item =>
+                (!!item.name && item.name.includes(keyword)) ||
+                (!!item.school_name && item.school_name.includes(keyword))
+            );
+            await searchApplicant(filteredList);
+          }
+
+          newNoncreKeywordsList.push(keyword);
+          setNoncreKeywordsList(newNoncreKeywordsList);
+
           break;
       }
-    }
 
-    setKeyword("");
-    e.target.value = "";
+      const listItem = await additionalFiltering(
+        lastUpdatedList,
+        newNoncreKeywordsList
+      );
+
+      await searchApplicant(listItem);
+
+      setKeyword("");
+    }
   }
 };
 
@@ -79,15 +159,23 @@ const inputKeyDownHandle = async (
   handleChangeGeneralCheckbox: () => void,
   handleChangeSocialIntegrationCheckbox: () => void,
   handleChangeMeisterCheckbox: () => void,
-  handleChangeUnsubmitted: () => void
+  handleChangeUnsubmitted: () => void,
+  lastUpdatedList: ListItem[],
+  list: ListItem[],
+  searchApplicant: (filteredList: ListItem[]) => void,
+  noncreKeywordsList: string[],
+  setNoncreKeywordsList: (noncreKeywordsList: string[]) => void
 ) => {
   if (e.keyCode === 8 && (keyword === "" || keyword === undefined)) {
     const popedKeyWordsList = [...keywordsList];
     const deletedWord = popedKeyWordsList.pop();
     setKeywordsList(popedKeyWordsList);
+
+    const newNoncreKeywordsList: string[] = [...noncreKeywordsList];
+
     switch (deletedWord) {
       case "대전":
-        handleChangeDaejeonCheckbox();
+        await handleChangeDaejeonCheckbox();
         break;
       case "전국":
         handleChangeNationwideCheckbox();
@@ -111,12 +199,23 @@ const inputKeyDownHandle = async (
         handleChangeUnsubmitted();
         break;
       default:
+        newNoncreKeywordsList.pop();
+        setNoncreKeywordsList(newNoncreKeywordsList);
         break;
     }
+
+    const listItem = await additionalFiltering(
+      lastUpdatedList,
+      newNoncreKeywordsList
+    );
+
+    await searchApplicant(listItem);
   } else if (e.keyCode === 13 && keyword !== "") {
     e.currentTarget.value = "";
     const addedKeywordsList = [...keywordsList, keyword];
     setKeywordsList(addedKeywordsList);
+
+    const newNoncreKeywordsList: string[] = [...noncreKeywordsList];
 
     switch (keyword) {
       case "대전":
@@ -144,8 +243,42 @@ const inputKeyDownHandle = async (
         handleChangeUnsubmitted();
         break;
       default:
+        let filteredList: ListItem[];
+
+        if (keyword.indexOf("@") !== -1) {
+          filteredList = list.filter(item => item.email.includes(keyword));
+          await searchApplicant(filteredList);
+        } else if (/^[0-9]/.test(keyword[0])) {
+          filteredList = list.filter(
+            item =>
+              !!item.applicant_tel &&
+              (item.email.includes(keyword) ||
+                item.applicant_tel.includes(keyword))
+          );
+          await searchApplicant(filteredList);
+        } else if (/A-Za-z/.test(keyword[0])) {
+          filteredList = list.filter(item => item.email.includes(keyword));
+          await searchApplicant(filteredList);
+        } else if (/([각-힣])/.test(keyword[0])) {
+          filteredList = list.filter(
+            item =>
+              (!!item.name && item.name.includes(keyword)) ||
+              (!!item.school_name && item.school_name.includes(keyword))
+          );
+          await searchApplicant(filteredList);
+        }
+
+        newNoncreKeywordsList.push(keyword);
+        setNoncreKeywordsList(newNoncreKeywordsList);
+
         break;
     }
+    const listItem = await additionalFiltering(
+      lastUpdatedList,
+      newNoncreKeywordsList
+    );
+
+    await searchApplicant(listItem);
 
     setKeyword("");
   }
@@ -156,7 +289,10 @@ const checkCreteriaStatus = (
   setKeywordsList: (keywordsList: string[]) => void,
   creteriaProps: boolean,
   creteriaText: string,
-  newKeywordsList: string[]
+  newKeywordsList: string[],
+  searchApplicant: (filteredList: ListItem[]) => void,
+  noncreKeywordsList: string[],
+  lastUpdatedList: ListItem[]
 ): string[] => {
   let editedKeywordsList: string[] = [...newKeywordsList];
 
@@ -168,6 +304,9 @@ const checkCreteriaStatus = (
     );
   }
   setKeywordsList(editedKeywordsList);
+
+  const listItem = additionalFiltering(lastUpdatedList, noncreKeywordsList);
+  searchApplicant(listItem);
 
   return editedKeywordsList;
 };
@@ -190,6 +329,10 @@ interface Props {
   handleChangeMeisterCheckbox: () => void;
   handleChangeUnsubmittedCheckbox: () => void;
   getApplicantsList: () => Promise<void>;
+  lastUpdatedList: ListItem[];
+  list: ListItem[];
+  searchApplicant: (filteredList: ListItem[]) => void;
+  pageType: "main" | "admin";
 }
 
 const HeaderSearchBar: React.FC<Props> = ({
@@ -209,105 +352,165 @@ const HeaderSearchBar: React.FC<Props> = ({
   handleChangeSocialIntegrationCheckbox,
   handleChangeMeisterCheckbox,
   handleChangeUnsubmittedCheckbox,
-  getApplicantsList
+  lastUpdatedList,
+  list,
+  searchApplicant,
+  pageType
 }) => {
-  const [keyword, setKeyword] = useState<string>();
+  const [keyword, setKeyword] = useState<string>("");
   const [keywordsList, setKeywordsList] = useState<string[]>([]);
+  const [noncreKeywordsList, setNoncreKeywordsList] = useState<string[]>([]);
 
   useEffect(() => {
-    let newKeywordsList = [...keywordsList];
+    if (pageType === "admin") {
+      let newKeywordsList = [...keywordsList];
 
-    newKeywordsList = checkCreteriaStatus(
-      keywordsList,
-      setKeywordsList,
-      isDaejeonSelected,
-      "대전",
-      newKeywordsList
-    );
+      newKeywordsList = checkCreteriaStatus(
+        keywordsList,
+        setKeywordsList,
+        isDaejeonSelected,
+        "대전",
+        newKeywordsList,
+        searchApplicant,
+        noncreKeywordsList,
+        lastUpdatedList
+      );
+
+      searchApplicant(additionalFiltering(lastUpdatedList, noncreKeywordsList));
+    }
   },        [isDaejeonSelected]);
 
   useEffect(() => {
-    let newKeywordsList = [...keywordsList];
+    if (pageType === "admin") {
+      let newKeywordsList = [...keywordsList];
 
-    newKeywordsList = checkCreteriaStatus(
-      keywordsList,
-      setKeywordsList,
-      isNationwideSelected,
-      "전국",
-      newKeywordsList
-    );
+      newKeywordsList = checkCreteriaStatus(
+        keywordsList,
+        setKeywordsList,
+        isNationwideSelected,
+        "전국",
+        newKeywordsList,
+        searchApplicant,
+        noncreKeywordsList,
+        lastUpdatedList
+      );
+
+      searchApplicant(additionalFiltering(lastUpdatedList, noncreKeywordsList));
+    }
   },        [isNationwideSelected]);
 
   useEffect(() => {
-    let newKeywordsList = [...keywordsList];
+    if (pageType === "admin") {
+      let newKeywordsList = [...keywordsList];
 
-    newKeywordsList = checkCreteriaStatus(
-      keywordsList,
-      setKeywordsList,
-      isUnpaidSelected,
-      "미납자",
-      newKeywordsList
-    );
+      newKeywordsList = checkCreteriaStatus(
+        keywordsList,
+        setKeywordsList,
+        isUnpaidSelected,
+        "미납자",
+        newKeywordsList,
+        searchApplicant,
+        noncreKeywordsList,
+        lastUpdatedList
+      );
+
+      searchApplicant(additionalFiltering(lastUpdatedList, noncreKeywordsList));
+    }
   },        [isUnpaidSelected]);
 
   useEffect(() => {
-    let newKeywordsList = [...keywordsList];
+    if (pageType === "admin") {
+      let newKeywordsList = [...keywordsList];
 
-    newKeywordsList = checkCreteriaStatus(
-      keywordsList,
-      setKeywordsList,
-      isNotArrivedSelected,
-      "원서 미도착",
-      newKeywordsList
-    );
+      newKeywordsList = checkCreteriaStatus(
+        keywordsList,
+        setKeywordsList,
+        isNotArrivedSelected,
+        "원서 미도착",
+        newKeywordsList,
+        searchApplicant,
+        noncreKeywordsList,
+        lastUpdatedList
+      );
+
+      searchApplicant(additionalFiltering(lastUpdatedList, noncreKeywordsList));
+    }
   },        [isNotArrivedSelected]);
 
   useEffect(() => {
-    let newKeywordsList = [...keywordsList];
+    if (pageType === "admin") {
+      let newKeywordsList = [...keywordsList];
 
-    newKeywordsList = checkCreteriaStatus(
-      keywordsList,
-      setKeywordsList,
-      isGeneralSelected,
-      "일반전형",
-      newKeywordsList
-    );
+      newKeywordsList = checkCreteriaStatus(
+        keywordsList,
+        setKeywordsList,
+        isGeneralSelected,
+        "일반전형",
+        newKeywordsList,
+        searchApplicant,
+        noncreKeywordsList,
+        lastUpdatedList
+      );
+
+      searchApplicant(additionalFiltering(lastUpdatedList, noncreKeywordsList));
+    }
   },        [isGeneralSelected]);
 
   useEffect(() => {
-    let newKeywordsList = [...keywordsList];
+    if (pageType === "admin") {
+      let newKeywordsList = [...keywordsList];
 
-    newKeywordsList = checkCreteriaStatus(
-      keywordsList,
-      setKeywordsList,
-      isSocialIntegrationSelected,
-      "사회통합",
-      newKeywordsList
-    );
+      newKeywordsList = checkCreteriaStatus(
+        keywordsList,
+        setKeywordsList,
+        isSocialIntegrationSelected,
+        "사회통합",
+        newKeywordsList,
+        searchApplicant,
+        noncreKeywordsList,
+        lastUpdatedList
+      );
+
+      searchApplicant(additionalFiltering(lastUpdatedList, noncreKeywordsList));
+    }
   },        [isSocialIntegrationSelected]);
 
   useEffect(() => {
-    let newKeywordsList = [...keywordsList];
+    if (pageType === "admin") {
+      let newKeywordsList = [...keywordsList];
 
-    newKeywordsList = checkCreteriaStatus(
-      keywordsList,
-      setKeywordsList,
-      isMeisterSelected,
-      "마이스터전형",
-      newKeywordsList
-    );
+      newKeywordsList = checkCreteriaStatus(
+        keywordsList,
+        setKeywordsList,
+        isMeisterSelected,
+        "마이스터전형",
+        newKeywordsList,
+        searchApplicant,
+        noncreKeywordsList,
+        lastUpdatedList
+      );
+
+      searchApplicant(additionalFiltering(lastUpdatedList, noncreKeywordsList));
+    }
   },        [isMeisterSelected]);
 
   useEffect(() => {
-    let newKeywordsList = [...keywordsList];
+    if (pageType === "admin") {
+      let newKeywordsList = [...keywordsList];
 
-    newKeywordsList = checkCreteriaStatus(
-      keywordsList,
-      setKeywordsList,
-      isUnsubmittedSelected,
-      "미제출자",
-      newKeywordsList
-    );
+      newKeywordsList = checkCreteriaStatus(
+        keywordsList,
+        setKeywordsList,
+        isUnsubmittedSelected,
+        "미제출자",
+        newKeywordsList,
+        searchApplicant,
+        noncreKeywordsList,
+        lastUpdatedList
+      );
+
+      searchApplicant(additionalFiltering(lastUpdatedList, noncreKeywordsList));
+    }
   },        [isUnsubmittedSelected]);
 
   return (
@@ -344,7 +547,11 @@ const HeaderSearchBar: React.FC<Props> = ({
               handleChangeSocialIntegrationCheckbox,
               handleChangeMeisterCheckbox,
               handleChangeUnsubmittedCheckbox,
-              getApplicantsList
+              lastUpdatedList,
+              noncreKeywordsList,
+              searchApplicant,
+              list,
+              setNoncreKeywordsList
             )
           }
           onKeyUp={e =>
@@ -361,7 +568,12 @@ const HeaderSearchBar: React.FC<Props> = ({
               handleChangeGeneralCheckbox,
               handleChangeSocialIntegrationCheckbox,
               handleChangeMeisterCheckbox,
-              handleChangeUnsubmittedCheckbox
+              handleChangeUnsubmittedCheckbox,
+              lastUpdatedList,
+              list,
+              searchApplicant,
+              noncreKeywordsList,
+              setNoncreKeywordsList
             )
           }
         />

@@ -57,7 +57,6 @@ export const SearchInputWrapper = styled.div<SearchInput>`
     }
 
     > div {
-
       display: inline-flex;
       width: initial;
 

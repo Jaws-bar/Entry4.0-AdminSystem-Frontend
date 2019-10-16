@@ -74,6 +74,12 @@ module.exports = {
   ],
   devtool: "inline-source-map",
   devServer: {
-    historyApiFallback: true
+    historyApiFallback: true,
+    proxy: {
+      "/api/": {
+        changeOrigin: true,
+        target: "https://admin.entrydsm.hs.kr"
+      }
+    }
   }
 };

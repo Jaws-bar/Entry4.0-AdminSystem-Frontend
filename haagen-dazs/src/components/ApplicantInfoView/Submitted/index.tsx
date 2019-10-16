@@ -11,6 +11,8 @@ interface Props {
   applicationData: SubmittedApplication;
   is_printed_application_arrived: boolean;
   is_paid: boolean;
+  handleChangeApplicantPaymentStatus: () => void;
+  handleChangeApplicantArrivedStatus: () => void;
 }
 
 class Submitted extends React.Component<Props, {}> {
@@ -22,7 +24,9 @@ class Submitted extends React.Component<Props, {}> {
     const {
       applicationData,
       is_printed_application_arrived,
-      is_paid
+      is_paid,
+      handleChangeApplicantPaymentStatus,
+      handleChangeApplicantArrivedStatus
     } = this.props;
 
     return (
@@ -31,6 +35,12 @@ class Submitted extends React.Component<Props, {}> {
           email={applicationData.application.user_email}
           is_printed_application_arrived={is_printed_application_arrived}
           is_paid={is_paid}
+          handleChangeApplicantPaymentStatus={
+            handleChangeApplicantPaymentStatus
+          }
+          handleChangeApplicantArrivedStatus={
+            handleChangeApplicantArrivedStatus
+          }
         />
         <BaseInfoContainer
           email={applicationData.application.user_email}

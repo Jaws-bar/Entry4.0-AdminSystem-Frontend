@@ -5,7 +5,8 @@ import * as S from "./style";
 import Logo from "../../assets/header-component/EntryDSM_LOGO.png";
 import SearchIconImg from "../../assets/header-component/ic_search.png";
 import HeaderSearchBar from "../../components/HeaderSearchBar";
-import { Creteria } from "../../lib/api";
+import { ListItem } from "../../pages/AdminPage";
+
 
 interface OwnProps {
   isActivation: boolean;
@@ -24,9 +25,11 @@ interface OwnProps {
   handleChangeGeneralCheckbox: () => void;
   handleChangeSocialIntegrationCheckbox: () => void;
   handleChangeMeisterCheckbox: () => void;
-  handleChangeUnsubmittedCheckbox: () => void;
-  pageType: string;
-  getApplicantsList: (body: Creteria) => Promise<void>;
+  pageType: "main" | "admin";
+  getApplicantsList: () => Promise<void>;
+  lastUpdatedList: ListItem[];
+  list: ListItem[];
+  searchApplicant: (filteredList: ListItem[]) => void;
 }
 
 interface State {
@@ -85,7 +88,10 @@ class Header extends React.Component<Props, State> {
       handleChangeMeisterCheckbox,
       handleChangeUnsubmittedCheckbox,
       pageType,
-      getApplicantsList
+      getApplicantsList,
+      lastUpdatedList,
+      list,
+      searchApplicant
     } = this.props;
     return (
       <S.HeaderWrapper>
@@ -115,6 +121,10 @@ class Header extends React.Component<Props, State> {
               handleChangeMeisterCheckbox={handleChangeMeisterCheckbox}
               handleChangeUnsubmittedCheckbox={handleChangeUnsubmittedCheckbox}
               getApplicantsList={getApplicantsList}
+              lastUpdatedList={lastUpdatedList}
+              list={list}
+              searchApplicant={searchApplicant}
+              pageType={pageType}
             />
           </S.SearchInputWrapper>
           <S.MenuList>
