@@ -7,6 +7,7 @@ import SearchIconImg from "../../assets/header-component/ic_search.png";
 import HeaderSearchBar from "../../components/HeaderSearchBar";
 import { ListItem } from "../../pages/AdminPage";
 
+
 interface OwnProps {
   isActivation: boolean;
   isDaejeonSelected: boolean;
@@ -24,7 +25,6 @@ interface OwnProps {
   handleChangeGeneralCheckbox: () => void;
   handleChangeSocialIntegrationCheckbox: () => void;
   handleChangeMeisterCheckbox: () => void;
-  handleChangeUnsubmittedCheckbox: () => void;
   pageType: "main" | "admin";
   getApplicantsList: () => Promise<void>;
   lastUpdatedList: ListItem[];
