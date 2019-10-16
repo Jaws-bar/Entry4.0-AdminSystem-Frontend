@@ -81,7 +81,7 @@ const BaseInfoContainer: React.FC<Props> = ({
       <S.BaseTextInfoContainer>
         <S.BaseInfoLine>
           <S.BaseInfoName>{name}</S.BaseInfoName>
-          <S.BaseInfo>{birth_date.slice(0, 10)}</S.BaseInfo>
+          <S.BaseInfo>{birth_date && birth_date.slice(0, 10)}</S.BaseInfo>
         </S.BaseInfoLine>
         {additinal_type === "NOT_APPLICABLE" ? (
           <S.BaseInfoLine>
@@ -110,8 +110,12 @@ const BaseInfoContainer: React.FC<Props> = ({
             <S.BaseInfo>{address}</S.BaseInfo>
           ) : (
             <>
-              <S.BaseInfo>{address.slice(0, address.indexOf("/"))}</S.BaseInfo>
-              <S.BaseInfo>{address.slice(address.indexOf("/") + 1)}</S.BaseInfo>
+              <S.BaseInfo>
+                {address && address.slice(0, address.indexOf("/"))}
+              </S.BaseInfo>
+              <S.BaseInfo>
+                {address && address.slice(address.indexOf("/") + 1)}
+              </S.BaseInfo>
             </>
           )}
         </S.TwoItemsInfoLine>
