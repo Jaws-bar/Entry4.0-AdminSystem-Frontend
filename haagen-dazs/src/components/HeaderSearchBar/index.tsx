@@ -545,7 +545,11 @@ const HeaderSearchBar: React.FC<Props> = ({
               handleChangeSocialIntegrationCheckbox,
               handleChangeMeisterCheckbox,
               handleChangeUnsubmittedCheckbox,
-              getApplicantsList
+              lastUpdatedList,
+              noncreKeywordsList,
+              searchApplicant,
+              list,
+              setNoncreKeywordsList
             )
           }
           onKeyUp={e =>
@@ -562,7 +566,12 @@ const HeaderSearchBar: React.FC<Props> = ({
               handleChangeGeneralCheckbox,
               handleChangeSocialIntegrationCheckbox,
               handleChangeMeisterCheckbox,
-              handleChangeUnsubmittedCheckbox
+              handleChangeUnsubmittedCheckbox,
+              lastUpdatedList,
+              list,
+              searchApplicant,
+              noncreKeywordsList,
+              setNoncreKeywordsList
             )
           }
         />
