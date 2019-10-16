@@ -355,103 +355,160 @@ const HeaderSearchBar: React.FC<Props> = ({
   searchApplicant,
   pageType
 }) => {
-  const [keyword, setKeyword] = useState<string>();
+  const [keyword, setKeyword] = useState<string>("");
   const [keywordsList, setKeywordsList] = useState<string[]>([]);
+  const [noncreKeywordsList, setNoncreKeywordsList] = useState<string[]>([]);
 
   useEffect(() => {
-    let newKeywordsList = [...keywordsList];
+    if (pageType === "admin") {
+      let newKeywordsList = [...keywordsList];
 
-    newKeywordsList = checkCreteriaStatus(
-      keywordsList,
-      setKeywordsList,
-      isDaejeonSelected,
-      "대전",
-      newKeywordsList
-    );
+      newKeywordsList = checkCreteriaStatus(
+        keywordsList,
+        setKeywordsList,
+        isDaejeonSelected,
+        "대전",
+        newKeywordsList,
+        searchApplicant,
+        noncreKeywordsList,
+        lastUpdatedList
+      );
+
+      searchApplicant(additionalFiltering(lastUpdatedList, noncreKeywordsList));
+    }
   },        [isDaejeonSelected]);
 
   useEffect(() => {
-    let newKeywordsList = [...keywordsList];
+    if (pageType === "admin") {
+      let newKeywordsList = [...keywordsList];
 
-    newKeywordsList = checkCreteriaStatus(
-      keywordsList,
-      setKeywordsList,
-      isNationwideSelected,
-      "전국",
-      newKeywordsList
-    );
+      newKeywordsList = checkCreteriaStatus(
+        keywordsList,
+        setKeywordsList,
+        isNationwideSelected,
+        "전국",
+        newKeywordsList,
+        searchApplicant,
+        noncreKeywordsList,
+        lastUpdatedList
+      );
+
+      searchApplicant(additionalFiltering(lastUpdatedList, noncreKeywordsList));
+    }
   },        [isNationwideSelected]);
 
   useEffect(() => {
-    let newKeywordsList = [...keywordsList];
+    if (pageType === "admin") {
+      let newKeywordsList = [...keywordsList];
 
-    newKeywordsList = checkCreteriaStatus(
-      keywordsList,
-      setKeywordsList,
-      isUnpaidSelected,
-      "미납자",
-      newKeywordsList
-    );
+      newKeywordsList = checkCreteriaStatus(
+        keywordsList,
+        setKeywordsList,
+        isUnpaidSelected,
+        "미납자",
+        newKeywordsList,
+        searchApplicant,
+        noncreKeywordsList,
+        lastUpdatedList
+      );
+
+      searchApplicant(additionalFiltering(lastUpdatedList, noncreKeywordsList));
+    }
   },        [isUnpaidSelected]);
 
   useEffect(() => {
-    let newKeywordsList = [...keywordsList];
+    if (pageType === "admin") {
+      let newKeywordsList = [...keywordsList];
 
-    newKeywordsList = checkCreteriaStatus(
-      keywordsList,
-      setKeywordsList,
-      isNotArrivedSelected,
-      "원서 미도착",
-      newKeywordsList
-    );
+      newKeywordsList = checkCreteriaStatus(
+        keywordsList,
+        setKeywordsList,
+        isNotArrivedSelected,
+        "원서 미도착",
+        newKeywordsList,
+        searchApplicant,
+        noncreKeywordsList,
+        lastUpdatedList
+      );
+
+      searchApplicant(additionalFiltering(lastUpdatedList, noncreKeywordsList));
+    }
   },        [isNotArrivedSelected]);
 
   useEffect(() => {
-    let newKeywordsList = [...keywordsList];
+    if (pageType === "admin") {
+      let newKeywordsList = [...keywordsList];
 
-    newKeywordsList = checkCreteriaStatus(
-      keywordsList,
-      setKeywordsList,
-      isGeneralSelected,
-      "일반전형",
-      newKeywordsList
-    );
+      newKeywordsList = checkCreteriaStatus(
+        keywordsList,
+        setKeywordsList,
+        isGeneralSelected,
+        "일반전형",
+        newKeywordsList,
+        searchApplicant,
+        noncreKeywordsList,
+        lastUpdatedList
+      );
+
+      searchApplicant(additionalFiltering(lastUpdatedList, noncreKeywordsList));
+    }
   },        [isGeneralSelected]);
 
   useEffect(() => {
-    let newKeywordsList = [...keywordsList];
+    if (pageType === "admin") {
+      let newKeywordsList = [...keywordsList];
 
-    newKeywordsList = checkCreteriaStatus(
-      keywordsList,
-      setKeywordsList,
-      isSocialIntegrationSelected,
-      "사회통합",
-      newKeywordsList
-    );
+      newKeywordsList = checkCreteriaStatus(
+        keywordsList,
+        setKeywordsList,
+        isSocialIntegrationSelected,
+        "사회통합",
+        newKeywordsList,
+        searchApplicant,
+        noncreKeywordsList,
+        lastUpdatedList
+      );
+
+      searchApplicant(additionalFiltering(lastUpdatedList, noncreKeywordsList));
+    }
   },        [isSocialIntegrationSelected]);
 
   useEffect(() => {
-    let newKeywordsList = [...keywordsList];
+    if (pageType === "admin") {
+      let newKeywordsList = [...keywordsList];
 
-    newKeywordsList = checkCreteriaStatus(
-      keywordsList,
-      setKeywordsList,
-      isMeisterSelected,
-      "마이스터전형",
-      newKeywordsList
-    );
+      newKeywordsList = checkCreteriaStatus(
+        keywordsList,
+        setKeywordsList,
+        isMeisterSelected,
+        "마이스터전형",
+        newKeywordsList,
+        searchApplicant,
+        noncreKeywordsList,
+        lastUpdatedList
+      );
+
+      searchApplicant(additionalFiltering(lastUpdatedList, noncreKeywordsList));
+    }
   },        [isMeisterSelected]);
 
   useEffect(() => {
-    let newKeywordsList = [...keywordsList];
+    if (pageType === "admin") {
+      let newKeywordsList = [...keywordsList];
 
-    newKeywordsList = checkCreteriaStatus(
-      keywordsList,
-      setKeywordsList,
-      isUnsubmittedSelected,
-      "미제출자",
-      newKeywordsList
-    );
+      newKeywordsList = checkCreteriaStatus(
+        keywordsList,
+        setKeywordsList,
+        isUnsubmittedSelected,
+        "미제출자",
+        newKeywordsList,
+        searchApplicant,
+        noncreKeywordsList,
+        lastUpdatedList
+      );
+
+      searchApplicant(additionalFiltering(lastUpdatedList, noncreKeywordsList));
+    }
   },        [isUnsubmittedSelected]);
 
   return (
