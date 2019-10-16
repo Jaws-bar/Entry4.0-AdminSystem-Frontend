@@ -287,7 +287,10 @@ const checkCreteriaStatus = (
   setKeywordsList: (keywordsList: string[]) => void,
   creteriaProps: boolean,
   creteriaText: string,
-  newKeywordsList: string[]
+  newKeywordsList: string[],
+  searchApplicant: (filteredList: ListItem[]) => void,
+  noncreKeywordsList: string[],
+  lastUpdatedList: ListItem[]
 ): string[] => {
   let editedKeywordsList: string[] = [...newKeywordsList];
 
@@ -299,6 +302,9 @@ const checkCreteriaStatus = (
     );
   }
   setKeywordsList(editedKeywordsList);
+
+  const listItem = additionalFiltering(lastUpdatedList, noncreKeywordsList);
+  searchApplicant(listItem);
 
   return editedKeywordsList;
 };
@@ -321,6 +327,10 @@ interface Props {
   handleChangeMeisterCheckbox: () => void;
   handleChangeUnsubmittedCheckbox: () => void;
   getApplicantsList: () => Promise<void>;
+  lastUpdatedList: ListItem[];
+  list: ListItem[];
+  searchApplicant: (filteredList: ListItem[]) => void;
+  pageType: "main" | "admin";
 }
 
 const HeaderSearchBar: React.FC<Props> = ({
@@ -340,7 +350,10 @@ const HeaderSearchBar: React.FC<Props> = ({
   handleChangeSocialIntegrationCheckbox,
   handleChangeMeisterCheckbox,
   handleChangeUnsubmittedCheckbox,
-  getApplicantsList
+  lastUpdatedList,
+  list,
+  searchApplicant,
+  pageType
 }) => {
   const [keyword, setKeyword] = useState<string>();
   const [keywordsList, setKeywordsList] = useState<string[]>([]);
