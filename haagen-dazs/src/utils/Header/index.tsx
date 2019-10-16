@@ -25,6 +25,7 @@ interface OwnProps {
   handleChangeGeneralCheckbox: () => void;
   handleChangeSocialIntegrationCheckbox: () => void;
   handleChangeMeisterCheckbox: () => void;
+  handleChangeUnsubmittedCheckbox: () => void;
   pageType: "main" | "admin";
   getApplicantsList: () => Promise<void>;
   lastUpdatedList: ListItem[];

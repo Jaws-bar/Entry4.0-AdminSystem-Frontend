@@ -13,6 +13,7 @@ interface Props {
   is_paid: boolean;
   handleChangeApplicantPaymentStatus: () => void;
   handleChangeApplicantArrivedStatus: () => void;
+  handleChangeSubmittedStatus: () => void;
 }
 
 class EditButtonContainer extends React.Component<Props, {}> {
@@ -83,6 +84,8 @@ class EditButtonContainer extends React.Component<Props, {}> {
           email: body.email,
           access: sessionStorage.getItem("access")
         });
+
+        this.props.handleChangeSubmittedStatus();
       } catch (error) {
         console.log(error);
       }

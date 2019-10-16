@@ -207,6 +207,7 @@ class AdminPage extends React.Component<null, State> {
                 handleChangeApplicantArrivedStatus={
                   this.handleChangeApplicantArrivedStatus
                 }
+                handleChangeSubmittedStatus={this.handleChangeSubmittedStatus}
               />
             ) : (
               <Unsubmitted applicationData={applicationData} />
@@ -430,6 +431,19 @@ class AdminPage extends React.Component<null, State> {
     const currentApplicantStatus = this.state.currentList[ this.state.selectedApplicantIndex
 ];
     currentApplicantStatus.is_printed_application_arrived = !currentApplicantStatus.is_printed_application_arrived;
+
+    const currentList = this.state.currentList;
+    currentList[this.state.selectedApplicantIndex] = currentApplicantStatus;
+
+    this.setState({
+      currentList
+    });
+  };
+
+  private handleChangeSubmittedStatus = () => {
+    const currentApplicantStatus = this.state.currentList[ this.state.selectedApplicantIndex
+];
+    currentApplicantStatus.is_final_submit = !currentApplicantStatus.is_final_submit;
 
     const currentList = this.state.currentList;
     currentList[this.state.selectedApplicantIndex] = currentApplicantStatus;
