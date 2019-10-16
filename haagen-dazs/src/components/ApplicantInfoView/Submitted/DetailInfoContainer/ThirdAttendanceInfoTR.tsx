@@ -20,7 +20,6 @@ const ThirdAttendanceInfoTR: React.FC<Props> = ({
   ged_average_score
 }) => (
   <>
-    {console.log(ged_average_score)}
     {ged_average_score === undefined ? (
       <>
         <S.ThirdAttendanceInfoTR>
