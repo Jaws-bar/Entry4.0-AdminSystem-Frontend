@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import * as S from "./style";
+import { ListItem } from "../../pages/AdminPage";
+import { getApplicantsList } from "../../lib/api";
 
 const inputChangeHandle = (
   e: React.ChangeEvent<HTMLInputElement>,
