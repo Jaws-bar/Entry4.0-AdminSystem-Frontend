@@ -264,9 +264,9 @@ export const getApplicantIdPhotoApi = async (payload: {
 
 export const printListExcel = async () => {
   const response = await instanceAxios.get<File>("/list/excel", {
-    headers: {
-      responseType: "blob"
-    }
+    // headers: {
+    responseType: "blob"
+    // }
   });
 
   return response.data;
