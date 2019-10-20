@@ -11,6 +11,7 @@ interface Props {
   email: string;
   is_printed_application_arrived: boolean;
   is_paid: boolean;
+  is_final_submit: boolean;
   handleChangeApplicantPaymentStatus: () => void;
   handleChangeApplicantArrivedStatus: () => void;
   handleChangeSubmittedStatus: () => void;
@@ -49,7 +50,7 @@ class EditButtonContainer extends React.Component<Props, {}> {
             this.handleOnclickCancelSubmit({ email: this.props.email })
           }
         >
-          최종제출 취소
+          {this.props.is_final_submit ? "최종제출 취소" : "최종제출 처리"}
         </S.SubmissionCancelBtn>
       </S.EditButtonWrapper>
     );
@@ -78,7 +79,7 @@ class EditButtonContainer extends React.Component<Props, {}> {
   };
 
   private handleOnclickCancelSubmit = async (body: { email: string }) => {
-    if (window.confirm("최종제출을 취소하시겠습니까?")) {
+    if (window.confirm("최종제출 여부를 수정하시겠습니까?")) {
       try {
         await cancelSubmitApplicant({
           email: body.email,

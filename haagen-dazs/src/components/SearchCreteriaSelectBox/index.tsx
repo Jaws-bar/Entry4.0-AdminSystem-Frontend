@@ -3,6 +3,8 @@ import * as React from "react";
 import * as S from "./style";
 import FirstLineWrapper from "./LineWrapper/FirstLineWrapper";
 import SecondLineWrapper from "./LineWrapper/SecondLineWrapper";
+import { printListExcel } from "../../lib/api";
+
 export interface Props {
   isDaejeonSelected: boolean;
   isNationwideSelected: boolean;
@@ -22,6 +24,17 @@ export interface Props {
   handleChangeUnsubmittedCheckbox: () => void;
   getApplicantsList: (body: { email: string; access: string }) => void;
 }
+
+const printApplicantListExcel = async () => {
+  const response = await printListExcel();
+
+  const url = URL.createObjectURL(new Blob([response]));
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", "지원자명단.xlsx");
+  document.body.appendChild(link);
+  link.click();
+};
 
 const SearchCreteriaSelectBox = ({
   isDaejeonSelected,
@@ -67,7 +80,9 @@ const SearchCreteriaSelectBox = ({
           handleChangeUnsubmittedCheckbox={handleChangeUnsubmittedCheckbox}
         />
       </S.CreteriaCheckboxContainer>
-      <S.ExcelOutputBtn>Excel 출력</S.ExcelOutputBtn>
+      <S.ExcelOutputBtn onClick={printApplicantListExcel}>
+        Excel 출력
+      </S.ExcelOutputBtn>
     </S.CreteriaSelectWrapper>
   );
 };

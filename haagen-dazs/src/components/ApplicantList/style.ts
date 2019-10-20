@@ -3,7 +3,7 @@ import CheckBox from "../../assets/admin-page/checkbox.png";
 
 export const UnselectedApplicantListItem = styled.tr`
   width: 100%;
-  height: 60px;
+  height: 10%;
   display: flex;
   align-items: center;
   -webkit-text-stroke: 0.5px #ffffff;

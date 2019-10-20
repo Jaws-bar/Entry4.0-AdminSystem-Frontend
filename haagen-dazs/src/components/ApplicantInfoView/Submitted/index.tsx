@@ -11,6 +11,7 @@ interface Props {
   applicationData: SubmittedApplication;
   is_printed_application_arrived: boolean;
   is_paid: boolean;
+  is_final_submit: boolean;
   handleChangeApplicantPaymentStatus: () => void;
   handleChangeApplicantArrivedStatus: () => void;
   handleChangeSubmittedStatus: () => void;
@@ -26,6 +27,7 @@ class Submitted extends React.Component<Props, {}> {
       applicationData,
       is_printed_application_arrived,
       is_paid,
+      is_final_submit,
       handleChangeApplicantPaymentStatus,
       handleChangeApplicantArrivedStatus,
       handleChangeSubmittedStatus
@@ -33,10 +35,21 @@ class Submitted extends React.Component<Props, {}> {
 
     return (
       <S.SubmittedWrapper>
+        {!is_final_submit && (
+          <>
+            <S.UnsubmittedNotification>
+              최종 미제출 지원자입니다.
+            </S.UnsubmittedNotification>
+
+            <S.HR />
+          </>
+        )}
+
         <EditButtonContainer
           email={applicationData.application.user_email}
           is_printed_application_arrived={is_printed_application_arrived}
           is_paid={is_paid}
+          is_final_submit={is_final_submit}
           handleChangeApplicantPaymentStatus={
             handleChangeApplicantPaymentStatus
           }

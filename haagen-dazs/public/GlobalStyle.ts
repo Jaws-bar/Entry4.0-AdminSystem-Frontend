@@ -34,6 +34,7 @@ export const GlobalStyle: GlobalStyleComponent<
     font-size: 0;
     font-family: 'NanumBarunGothic';
     min-width: 1360px;
+    overflow: auto;
   }
 
   article, aside, details, figcaption, figure,
