@@ -88,7 +88,9 @@ class EditButtonContainer extends React.Component<Props, {}> {
 
         this.props.handleChangeSubmittedStatus();
       } catch (error) {
-        console.log(error);
+        if (error.error_code === 1203) {
+          window.alert("최종제출 여부 수정 권한이 없습니다.");
+        }
       }
     }
   };
