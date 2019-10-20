@@ -46,6 +46,7 @@ class AdminCetify extends React.Component<Props, State> {
             placeholder="ID"
             value={inputID}
             onChange={this.handleInputId}
+            onKeyUp={this.handleKeyUp}
           />
           <S.ErrorMessage isFail={isFail}>
             아이디 혹은 비밀번호가 일치하지 않습니다.
@@ -59,6 +60,7 @@ class AdminCetify extends React.Component<Props, State> {
             type="password"
             value={inputPW}
             onChange={this.handleInputPw}
+            onKeyUp={this.handleKeyUp}
           />
         </S.CertifyInputWrapper>
 
@@ -73,6 +75,16 @@ class AdminCetify extends React.Component<Props, State> {
       </S.Container>
     );
   }
+
+  private handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (
+      this.state.inputID !== "" &&
+      this.state.inputPW !== "" &&
+      e.keyCode === 13
+    ) {
+      this.authInfoSubmit();
+    }
+  };
 
   private handleInputId = (e: React.ChangeEvent<HTMLInputElement>): void =>
     this.setState({ inputID: e.target.value });

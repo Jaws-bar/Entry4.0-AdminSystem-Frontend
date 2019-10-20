@@ -40,7 +40,7 @@ export const SearchInputWrapper = styled.div<SearchInput>`
   line-height: 2;
   letter-spacing: 0.6px;
   color: #292929;
-  margin-right: 147px;
+  margin-right: 225px;
   padding: 0 24px;
   display: flex;
   align-items: center;

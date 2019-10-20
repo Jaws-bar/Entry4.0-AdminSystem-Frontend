@@ -91,7 +91,7 @@ const instanceAxios = axios.create({
 const authorizationHeader = (
   accessToken: string
 ): { Authorization: string } => ({
-  Authorization: `Bearer ${accessToken}`
+  Authorization: accessToken
 });
 
 export const getUserToken = async (body: PayloadType) => {
@@ -194,12 +194,16 @@ export const cancelSubmitApplicant = async (payload: {
   email: string;
   access: string;
 }) => {
-  const response = await instanceAxios.delete(`/submit`, {
-    headers: authorizationHeader(payload.access),
-    params: {
-      email: payload.email
+  const response = await instanceAxios.patch(
+    `/submit`,
+    {},
+    {
+      headers: authorizationHeader(payload.access),
+      params: {
+        email: payload.email
+      }
     }
-  });
+  );
 
   return response.data;
 };
@@ -240,15 +244,29 @@ export const getScoreDistribution = async (payload: {
   return response.data;
 };
 
-export const getApplicantIdPhotoApi = async (payload: { email: string }) => {
+export const getApplicantIdPhotoApi = async (payload: {
+  email: string;
+  access: string;
+}) => {
   const response = await instanceAxios.get<Blob>("/info/photo", {
     headers: {
-      Accept: "image/*"
+      Accept: "image/*",
+      Authorization: authorizationHeader(payload.access).Authorization
     },
     params: {
       email: payload.email
     },
     responseType: "blob"
+  });
+
+  return response.data;
+};
+
+export const printListExcel = async () => {
+  const response = await instanceAxios.get<File>("/list/excel", {
+    headers: {
+      responseType: "blob"
+    }
   });
 
   return response.data;

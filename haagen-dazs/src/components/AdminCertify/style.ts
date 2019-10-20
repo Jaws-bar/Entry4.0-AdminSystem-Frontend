@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 interface Button {
   isactivation: string;
@@ -10,11 +9,11 @@ interface ErrorCheck {
 }
 
 export const Container = styled.div`
-  width: calc(100% - 750px);
+  width: 60%;
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0px 235px;
+  padding: 0px 12%;
 `;
 
 export const Logo = styled.img`
@@ -70,7 +69,7 @@ export const CertifyInput = styled.input`
 export const ErrorMessage = styled.span<ErrorCheck>`
   flex: 4;
   opacity: 0.6;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 300;
   color: #7e0000;
   cursor: default;

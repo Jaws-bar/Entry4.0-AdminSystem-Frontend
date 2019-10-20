@@ -7,7 +7,6 @@ import SearchIconImg from "../../assets/header-component/ic_search.png";
 import HeaderSearchBar from "../../components/HeaderSearchBar";
 import { ListItem } from "../../pages/AdminPage";
 
-
 interface OwnProps {
   isActivation: boolean;
   isDaejeonSelected: boolean;
@@ -129,13 +128,6 @@ class Header extends React.Component<Props, State> {
             />
           </S.SearchInputWrapper>
           <S.MenuList>
-            <S.MenuListItem
-              onMouseOver={this.handleChangeQnAStatus}
-              onMouseOut={this.handleChangeQnAStatus}
-            >
-              <Link to="/">Q{"&"}A</Link>
-              <S.UnderLine isActivation={this.state.isQnASelected} />
-            </S.MenuListItem>
             <S.MenuListItem
               onMouseOver={this.handleChangeStasticsStatus}
               onMouseOut={this.handleChangeStasticsStatus}

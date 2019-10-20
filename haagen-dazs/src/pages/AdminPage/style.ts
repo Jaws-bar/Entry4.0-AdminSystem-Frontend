@@ -8,7 +8,7 @@ export const AdminContentContainer = styled.div`
 `;
 
 export const ApplicantListContainer = styled.div`
-  width: 57.3%;
+  width: 57%;
   height: 100%;
   border-right: 1px solid rgba(0, 0, 0, 0.3);
   background-color: #fdfdfd;
@@ -16,7 +16,7 @@ export const ApplicantListContainer = styled.div`
 `;
 
 export const ApplicantInfoView = styled.div`
-  width: 42.7%;
+  width: 43%;
   background-color: #fdfdfd;
 `;
 

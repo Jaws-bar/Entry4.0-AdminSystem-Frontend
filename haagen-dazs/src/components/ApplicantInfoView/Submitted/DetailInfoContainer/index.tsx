@@ -40,17 +40,7 @@ const DetailInfoContainer: React.FC<Props> = ({
           parent_tel={parent_tel}
           school_tel={school_tel}
         />
-        <SecondAdditionalInfoTR
-          user_email={user_email}
-          final_score={score}
-          isNotQEApplicant={
-            volunteer_time !== null &&
-            full_cut_count !== null &&
-            period_cut_count !== null &&
-            late_count !== null &&
-            early_leave_count !== null
-          }
-        />
+        <SecondAdditionalInfoTR user_email={user_email} final_score={score} />
       </tbody>
     </S.UpperDetailInfoTable>
     {volunteer_time !== null &&

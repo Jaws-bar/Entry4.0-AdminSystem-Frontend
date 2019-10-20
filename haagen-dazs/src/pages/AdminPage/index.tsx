@@ -193,7 +193,7 @@ class AdminPage extends React.Component<null, State> {
           <S.ApplicantInfoView>
             {selectedApplicantIndex === null ? (
               <div />
-            ) : currentList[selectedApplicantIndex].is_final_submit ? (
+            ) : (
               <Submitted
                 applicationData={applicationData}
                 is_printed_application_arrived={
@@ -201,6 +201,9 @@ class AdminPage extends React.Component<null, State> {
                     .is_printed_application_arrived
                 }
                 is_paid={currentList[selectedApplicantIndex].is_paid}
+                is_final_submit={
+                  currentList[selectedApplicantIndex].is_final_submit
+                }
                 handleChangeApplicantPaymentStatus={
                   this.handleChangeApplicantPaymentStatus
                 }
@@ -209,8 +212,6 @@ class AdminPage extends React.Component<null, State> {
                 }
                 handleChangeSubmittedStatus={this.handleChangeSubmittedStatus}
               />
-            ) : (
-              <Unsubmitted applicationData={applicationData} />
             )}
           </S.ApplicantInfoView>
         </S.AdminContentContainer>

@@ -2,6 +2,7 @@ import * as React from "react";
 
 import * as S from "./style";
 import { getApplicantIdPhotoApi } from "../../../../lib/api";
+import { checkFalse } from "../../../../utils/checkFalse";
 
 interface Props {
   email: string;
@@ -25,7 +26,7 @@ const checkApplyType = (apply_type: string): string => {
       return "사회통합전형 북한이탈주민";
     case "SOCIAL_MULTICULTURAL":
       return "사회통합전형 다문화가정";
-    case "SOCIAL_BASE_LIVING":
+    case "SOCIAL_BASIC_LIVING":
       return "기초생활수급권자";
     case "SOCIAL_LOWEST_INCOME":
       return "차상위계층";
@@ -62,8 +63,12 @@ const BaseInfoContainer: React.FC<Props> = ({
 
   const getApplicantIdPhoto = React.useCallback(async () => {
     try {
-      const response = await getApplicantIdPhotoApi({ email });
+      const response = await getApplicantIdPhotoApi({
+        email,
+        access: sessionStorage.getItem("access")
+      });
 
+      console.log(email);
       const photo = URL.createObjectURL(new Blob([response]));
       setPhoto(photo);
     } catch (e) {
@@ -80,25 +85,42 @@ const BaseInfoContainer: React.FC<Props> = ({
       <S.IdPhoto src={photo} alt="ID Photo" />
       <S.BaseTextInfoContainer>
         <S.BaseInfoLine>
-          <S.BaseInfoName>{name}</S.BaseInfoName>
-          <S.BaseInfo>{birth_date && birth_date.slice(0, 10)}</S.BaseInfo>
+          <S.BaseInfoName>{checkFalse(name) ? name : "미기입"}</S.BaseInfoName>
+          <S.BaseInfo>
+            {checkFalse(birth_date) && birth_date.slice(0, 10)}
+          </S.BaseInfo>
         </S.BaseInfoLine>
         {additinal_type === "NOT_APPLICABLE" ? (
           <S.BaseInfoLine>
             {school_name === undefined ? (
               <S.BaseInfo>검정고시</S.BaseInfo>
             ) : (
-              <S.BaseInfo>{school_name}</S.BaseInfo>
-            )}
-            <S.BaseInfo>{checkApplyType(apply_type)}</S.BaseInfo>
+              <S.BaseInfo>
+                {checkFalse(school_name) ? school_name : "학교명 미기입"}
+              </S.BaseInfo>
+            )}{" "}
+            <S.BaseInfo>
+              {checkFalse(apply_type)
+                ? checkApplyType(apply_type)
+                : "전형 미기입"}
+            </S.BaseInfo>
           </S.BaseInfoLine>
         ) : (
           <S.TwoItemsInfoLine>
             {school_name === undefined ? (
-              <S.BaseInfo>검정고시 {checkApplyType(apply_type)}</S.BaseInfo>
+              <S.BaseInfo>
+                검정고시{" "}
+                {checkFalse(apply_type)
+                  ? checkApplyType(apply_type)
+                  : "전형 미기입"}
+              </S.BaseInfo>
             ) : (
               <S.BaseInfo>
-                {school_name} {checkApplyType(apply_type)}
+                {`${checkFalse(school_name) ? school_name : "미기입"}${" "}${
+                  checkFalse(apply_type)
+                    ? checkApplyType(apply_type)
+                    : "전형 미기입"
+                } `}
               </S.BaseInfo>
             )}
             <S.BaseInfo>{checkAdditionalType(additinal_type)}</S.BaseInfo>

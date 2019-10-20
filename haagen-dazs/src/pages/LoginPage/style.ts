@@ -12,7 +12,7 @@ export const Background = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 750px;
+  width: 40%;
   height: 100%;
   background-image: url(${backgroundImg});
   background-size: 750px 100%;
