@@ -36,7 +36,7 @@ const printApplicantListExcel = async () => {
   link.setAttribute(
     "download",
     `지원자명단_${currentTime.getMonth() +
-      1}월${currentTime.getDate()}_${currentTime.getHours()}시${currentTime.getMinutes()}분.xlsx`
+      1}월${currentTime.getDate()}일_${currentTime.getHours()}시${currentTime.getMinutes()}분.xlsx`
   );
   document.body.appendChild(link);
   link.click();
