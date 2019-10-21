@@ -28,10 +28,16 @@ export interface Props {
 const printApplicantListExcel = async () => {
   const response = await printListExcel();
 
+  const currentTime = new Date();
+
   const url = URL.createObjectURL(new Blob([response]));
   const link = document.createElement("a");
   link.href = url;
-  link.setAttribute("download", "지원자명단.xlsx");
+  link.setAttribute(
+    "download",
+    `지원자명단_${currentTime.getMonth() +
+      1}월${currentTime.getDate()}_${currentTime.getHours()}시${currentTime.getMinutes()}분.xlsx`
+  );
   document.body.appendChild(link);
   link.click();
 };
