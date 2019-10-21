@@ -23,7 +23,8 @@ class CheckToken extends React.Component<Props, null> {
       this.props.history.push("/login");
     } else if (
       localStorage.getItem("refresh") !== undefined &&
-      sessionStorage.getItem("access") === undefined
+      (sessionStorage.getItem("access") === undefined ||
+        sessionStorage.getItem("access") === null)
     ) {
       this.setAccessbyRefresh();
     }
