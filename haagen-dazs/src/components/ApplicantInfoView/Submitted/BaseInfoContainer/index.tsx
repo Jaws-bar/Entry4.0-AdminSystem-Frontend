@@ -3,6 +3,7 @@ import * as React from "react";
 import * as S from "./style";
 import { getApplicantIdPhotoApi } from "../../../../lib/api";
 import { checkFalse } from "../../../../utils/checkFalse";
+import defaultImg from "../../../../assets/admin-page/cross.png";
 
 interface Props {
   email: string;
@@ -72,7 +73,10 @@ const BaseInfoContainer: React.FC<Props> = ({
       const photo = URL.createObjectURL(new Blob([response]));
       setPhoto(photo);
     } catch (e) {
-      console.log(e);
+      if (e.response.status === 500) {
+        const photo = null;
+        setPhoto(photo);
+      }
     }
   },                                            [email]);
 
@@ -82,7 +86,7 @@ const BaseInfoContainer: React.FC<Props> = ({
 
   return (
     <S.BaseInfoContainer>
-      <S.IdPhoto src={photo} alt="ID Photo" />
+      <S.IdPhoto src={photo === null ? defaultImg : photo} alt="ID Photo" />
       <S.BaseTextInfoContainer>
         <S.BaseInfoLine>
           <S.BaseInfoName>{checkFalse(name) ? name : "미기입"}</S.BaseInfoName>
