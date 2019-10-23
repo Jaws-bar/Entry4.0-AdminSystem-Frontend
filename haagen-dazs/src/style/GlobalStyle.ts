@@ -4,12 +4,11 @@ import {
   DefaultTheme
 } from "styled-components";
 
-import Font from "../assets/font/NanumGothic-Regular.ttf";
-
 export const GlobalStyle: GlobalStyleComponent<
   {},
   DefaultTheme
 > = createGlobalStyle`
+@import url("https://cdn.jsdelivr.net/gh/moonspam/NanumBarunGothic@1.0/nanumbarungothicsubset.css");
 
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -33,7 +32,7 @@ export const GlobalStyle: GlobalStyleComponent<
     width:100%;
     height: 100%;
     font-size: 0;
-    font-family: ${Font};
+    font-family: 'NanumBarunGothic';
     min-width: 1360px;
     overflow: auto;
   }
