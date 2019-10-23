@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import { Switch, BrowserRouter, Route } from "react-router-dom";
 import { hot } from "react-hot-loader/root";
 
-import { GlobalStyle } from "../public/GlobalStyle";
+import { GlobalStyle } from "./style/GlobalStyle";
 import { LoginPage, Main, AdminPage } from "./pages";
 import CheckToken from "./components/CheckToken";
 
