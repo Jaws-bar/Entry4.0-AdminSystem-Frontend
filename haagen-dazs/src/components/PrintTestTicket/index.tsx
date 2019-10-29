@@ -45,7 +45,9 @@ class PrintOrder extends React.Component<{}, State> {
     const { userData } = this.state;
     return (
       <>
-        <S.printButton onClick={this.printOrder}>프린트</S.printButton>
+        <S.printButton onClick={this.printOrder}>
+          <div>프린트</div>
+        </S.printButton>
         <S.printDiv id="printDiv">
           {userData.map((value, index) => (
             <S.Page key={index}>

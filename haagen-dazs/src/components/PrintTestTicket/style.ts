@@ -2,8 +2,12 @@ import styled from "styled-components";
 
 export const printDiv = styled.div`
   @media print {
+    overflow-y: visible;
+    overflow-x: visible;
+
     @page {
       margin: 0;
+      overflow-y: scroll;
     }
     body {
       margin: 1.6cm;
@@ -34,12 +38,12 @@ export const TicketBody = styled.div`
     border: 1px solid black;
 
     p {
-      font-size: 10px;
+      font-size: 6px;
       text-align: center;
     }
 
     p.big {
-      font-size: 12px;
+      font-size: 9px;
       font-weight: bold;
     }
 
@@ -49,22 +53,22 @@ export const TicketBody = styled.div`
   }
 
   .tickeyBody {
-    height: 115px;
+    height: 140px;
     display: flex;
 
     img {
-      width: 40%;
+      width: 30%;
       height: 100%;
       border-right: 1px solid black;
     }
 
     table {
-      width: 60%;
+      width: 70%;
       border-collapse: collapse;
       font-size: 10px;
 
       tr {
-        height: 19.16666666666667px;
+        height: 23.166667px;
 
         td {
           text-align: center;
@@ -92,4 +96,13 @@ export const printButton = styled.button`
   background: #f56262;
   color: #fff;
   cursor: pointer;
+
+  > div {
+    width: 100%;
+    height: 100%;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;

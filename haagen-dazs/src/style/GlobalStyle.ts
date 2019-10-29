@@ -28,13 +28,12 @@ export const GlobalStyle: GlobalStyleComponent<
     border: 0;
   }
 
-  html, body, #root{
-    width:100%;
+  #root{
+    width: 100%;
     height: 100%;
     font-size: 0;
     font-family: 'NanumBarunGothic';
     min-width: 1360px;
-    overflow: auto;
   }
 
   article, aside, details, figcaption, figure,
