@@ -6,6 +6,7 @@ import {
   cancelSubmitApplicant,
   changePaidArrivedStatus
 } from "../../../../lib/api";
+import { refreshAccessToken } from "../../../../utils/refreshToken";
 
 interface Props {
   email: string;
@@ -88,7 +89,10 @@ class EditButtonContainer extends React.Component<Props, {}> {
 
         this.props.handleChangeSubmittedStatus();
       } catch (error) {
-        if (error.error_code === 1203) {
+        if (error.response.status === 401) {
+          refreshAccessToken();
+          this.handleOnclickCancelSubmit({ email: body.email });
+        } else if (error.error_code === 1203) {
           window.alert("최종제출 여부 수정 권한이 없습니다.");
         }
       }

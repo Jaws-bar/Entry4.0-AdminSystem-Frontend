@@ -10,6 +10,7 @@ import {
   CompetitonSortation,
   getCompetitionRate
 } from "../../lib/api";
+import { refreshAccessToken } from "../../utils/refreshToken";
 
 interface Props {
   selectedItem: string;
@@ -144,7 +145,10 @@ class CompetitionView extends React.Component<Props, State> {
         totalCompetition: competition.total
       });
     } catch (error) {
-      console.log(error);
+      if (error.response.status === 401) {
+        refreshAccessToken();
+        this.getAllStatisticsTableItem();
+      }
     }
   };
 }

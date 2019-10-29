@@ -1,11 +1,15 @@
 import { refreshUserToken } from "../../lib/api";
 
-export const refreshAccessToken = () => {
-  try {
-    const response = refreshUserToken({
-      refresh: localStorage.getItem("refresh")
-    });
+export const refreshAccessToken = async () => {
+  if (localStorage.getItem("refresh")) {
+    try {
+      const response = await refreshUserToken({
+        refresh: localStorage.getItem("refresh")
+      });
 
-    console.log(response);
-  } catch (error) {}
+      sessionStorage.setItem("access", response.access);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 };
