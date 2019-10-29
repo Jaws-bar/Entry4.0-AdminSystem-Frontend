@@ -40,7 +40,7 @@ export const SearchInputWrapper = styled.div<SearchInput>`
   line-height: 2;
   letter-spacing: 0.6px;
   color: #292929;
-  margin-right: 225px;
+  margin-right: 100px;
   padding: 0 24px;
   display: flex;
   align-items: center;
@@ -81,7 +81,7 @@ export const MenuList = styled.ul`
 
 export const MenuListItem = styled.li`
   position: relative;
-  margin-right: 54px;
+  margin-right: 50px;
   cursor: pointer;
 `;
 

@@ -2,6 +2,7 @@ import axios from "axios";
 
 import { ListItem } from "../../pages/AdminPage";
 import { ScoreCategory } from "../../components/CompetitonView/table";
+import { UserData } from "../../components/PrintTestTicket";
 
 interface PayloadType {
   id: string;
@@ -264,9 +265,17 @@ export const getApplicantIdPhotoApi = async (payload: {
 
 export const printListExcel = async () => {
   const response = await instanceAxios.get<File>("/list/excel", {
-    // headers: {
     responseType: "blob"
-    // }
+  });
+
+  return response.data;
+};
+
+export const getApplicantExamcode = async (payload: { access: string }) => {
+  const response = await instanceAxios.get<UserData[]>("/info/exam", {
+    headers: {
+      Authorization: authorizationHeader(payload.access).Authorization
+    }
   });
 
   return response.data;
