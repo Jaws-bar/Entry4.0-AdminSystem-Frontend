@@ -6,6 +6,7 @@ import {
   CompetitonDetatilItems,
   getScoreDistribution
 } from "../../../lib/api";
+import { refreshAccessToken } from "../../../utils/refreshToken";
 
 interface Props {
   daejeonApplicants: NumberOfApplicantsDetailItems;
@@ -413,7 +414,10 @@ class CompetitionTable extends React.Component<Props, State> {
 
       this.setState({ scoreDistribution });
     } catch (error) {
-      console.log(error.response);
+      if (error.response.status === 401) {
+        refreshAccessToken();
+        this.getAllScoreDistribution();
+      }
     }
   };
 }

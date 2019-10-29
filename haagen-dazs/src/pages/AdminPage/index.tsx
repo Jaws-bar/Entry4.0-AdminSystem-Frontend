@@ -3,7 +3,6 @@ import * as React from "react";
 import { Header } from "../../utils";
 import SearchCreteriaSelectBox from "../../components/SearchCreteriaSelectBox";
 import ApplicantListContainer from "../../components/ApplicantListContainer";
-import Unsubmitted from "../../components/ApplicantInfoView/Unsubmitted";
 import Submitted from "../../components/ApplicantInfoView/Submitted";
 import PageNation from "../../components/PageNation";
 import * as S from "./style";
@@ -13,6 +12,7 @@ import {
   SubmittedApplication,
   Creteria
 } from "../../lib/api";
+import { refreshAccessToken } from "../../utils/refreshToken";
 
 export interface ListItem {
   applicant_tel?: string;
@@ -525,7 +525,10 @@ class AdminPage extends React.Component<null, State> {
       await this.changePageIndex();
       await this.setState({ selectedApplicantIndex: null, currentPage: 1 });
     } catch (error) {
-      console.log(error);
+      if (error.response.status === 401) {
+        refreshAccessToken();
+        this.getApplicantsListData();
+      }
     }
   };
 
@@ -540,7 +543,10 @@ class AdminPage extends React.Component<null, State> {
 
       await this.setState({ applicationData });
     } catch (error) {
-      console.log(error);
+      if (error.response.status === 401) {
+        refreshAccessToken();
+        this.handleChangeSelectedIndex(index);
+      }
     }
   };
 
@@ -552,7 +558,13 @@ class AdminPage extends React.Component<null, State> {
       });
       await this.setState({ applicationData });
     } catch (error) {
-      console.log(error.response);
+      if (error.response.status === 401) {
+        refreshAccessToken();
+        this.getApplication({
+          email: body.email,
+          access: sessionStorage.getItem("access")
+        });
+      }
     }
   };
 

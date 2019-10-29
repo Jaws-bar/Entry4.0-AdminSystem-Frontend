@@ -2,6 +2,7 @@ import * as React from "react";
 
 import * as S from "./style";
 import { getApplicantIdPhotoApi } from "../../../../lib/api";
+import { refreshAccessToken } from "../../../../utils/refreshToken";
 import { checkFalse } from "../../../../utils/checkFalse";
 import defaultImg from "../../../../assets/admin-page/cross.png";
 
@@ -69,11 +70,13 @@ const BaseInfoContainer: React.FC<Props> = ({
         access: sessionStorage.getItem("access")
       });
 
-      console.log(email);
       const photo = URL.createObjectURL(new Blob([response]));
       setPhoto(photo);
     } catch (e) {
-      if (e.response.status === 500) {
+      if (e.response.status === 401) {
+        refreshAccessToken();
+        getApplicantIdPhoto();
+      } else if (e.response.status === 500) {
         const photo = null;
         setPhoto(photo);
       }

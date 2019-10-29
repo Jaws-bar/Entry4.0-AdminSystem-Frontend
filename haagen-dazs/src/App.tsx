@@ -5,6 +5,7 @@ import { hot } from "react-hot-loader/root";
 import { GlobalStyle } from "./style/GlobalStyle";
 import { LoginPage, Main, AdminPage } from "./pages";
 import CheckToken from "./components/CheckToken";
+import PrintTestTicket from "./components/PrintTestTicket";
 
 const App: FC = () => {
   const [token, setToken] = useState<{
@@ -24,6 +25,7 @@ const App: FC = () => {
         <CheckToken token={token}>
           <Route path="/" exact component={Main} />
           <Route path="/administration" exact component={AdminPage} />
+          <Route path="/print" exact component={PrintTestTicket} />
         </CheckToken>
       </Switch>
     </BrowserRouter>

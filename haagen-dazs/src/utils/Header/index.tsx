@@ -33,7 +33,7 @@ interface OwnProps {
 }
 
 interface State {
-  isQnASelected: boolean;
+  isTablePrintSelected: boolean;
   isStasticsSelected: boolean;
   isApplicantSelected: boolean;
 }
@@ -45,7 +45,7 @@ class Header extends React.Component<Props, State> {
     super(props);
     this.state = {
       isApplicantSelected: false,
-      isQnASelected: false,
+      isTablePrintSelected: false,
       isStasticsSelected: false
     };
   }
@@ -56,8 +56,8 @@ class Header extends React.Component<Props, State> {
     this.props.history.push("/login");
   };
 
-  public handleChangeQnAStatus = (): void => {
-    this.setState({ isQnASelected: !this.state.isQnASelected });
+  public handleChangeTablePrintStatus = (): void => {
+    this.setState({ isTablePrintSelected: !this.state.isTablePrintSelected });
   };
 
   public handleChangeStasticsStatus = (): void => {
@@ -128,6 +128,15 @@ class Header extends React.Component<Props, State> {
             />
           </S.SearchInputWrapper>
           <S.MenuList>
+            <S.MenuListItem
+              onMouseOver={this.handleChangeTablePrintStatus}
+              onMouseOut={this.handleChangeTablePrintStatus}
+            >
+              <a href="https://admin.entrydsm.hs.kr/print" target="_blank">
+                수험표 출력
+              </a>
+              <S.UnderLine isActivation={this.state.isTablePrintSelected} />
+            </S.MenuListItem>
             <S.MenuListItem
               onMouseOver={this.handleChangeStasticsStatus}
               onMouseOut={this.handleChangeStasticsStatus}
