@@ -8,7 +8,7 @@ export type UserData = Array<{
   exam_code: number;
   name: string;
   school: string;
-  is_daejeon: boolean;
+  region: string;
   apply_type: string;
   receipt_code: number;
   photo: string;
@@ -26,7 +26,7 @@ class PrintOrder extends React.Component<{}, State> {
           exam_code: 0,
           name: "",
           school: "",
-          is_daejeon: false,
+          region: "",
           apply_type: "",
           receipt_code: 0,
           photo: ""
@@ -76,7 +76,7 @@ class PrintOrder extends React.Component<{}, State> {
                         <tr>
                           <td>지역</td>
                           <td className="n_br">
-                            {data.is_daejeon ? "대전" : "전국"}
+                            {data.region === "daejeon" ? "대전" : "전국"}
                           </td>
                         </tr>
                         <tr>
